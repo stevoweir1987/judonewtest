@@ -86,7 +86,7 @@ tailwind.config = {
   .hide-scroll { -ms-overflow-style:none; scrollbar-width:none; }
   .active-scale:active { transform: scale(0.97); transition: transform 0.1s ease; }
   /* Screens */
-  .screen { display:none; position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; -ms-overflow-style:none; }
+  .screen { display:none; position:absolute; inset:0; overflow-y:auto; overflow-x:clip; scrollbar-width:none; -ms-overflow-style:none; }
   .screen::-webkit-scrollbar { display:none; }
   #app-shell { scrollbar-width:none; }
   #app-shell::-webkit-scrollbar { display:none; }
@@ -113,12 +113,26 @@ tailwind.config = {
   .hub-card { background: #1c1b1b; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; overflow:hidden; cursor:pointer; transition: all 0.15s; }
   .hub-card:active { transform: scale(0.96); background: #242424; }
   /* Onboarding */
-  #screen-onboarding { background: linear-gradient(180deg, #0e0e0e 0%, #1a1500 100%); }
+  #screen-onboarding { background: #131313; overflow:hidden; }
   /* Search */
-  .search-input { background: #1c1b1b; border: 1px solid rgba(255,255,255,0.08); color: #e5e2e1; border-radius: 12px; padding: 12px 16px 12px 44px; width:100%; font-size:14px; outline:none; }
-  .search-input::placeholder { color: rgba(229,226,225,0.35); }
+  .search-input { background: #242323 !important; border: 1px solid rgba(255,255,255,0.15) !important; color: #e5e2e1 !important; border-radius: 12px !important; padding: 12px 16px 12px 44px !important; width:100% !important; font-size:14px !important; outline:none !important; box-shadow:none !important; }
+  .search-input::placeholder { color: rgba(229,226,225,0.6) !important; }
   .h-scroll { overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling:touch; touch-action:pan-x; }
+  .h-scroll { cursor:grab; user-select:none; }
+  .h-scroll.dragging { cursor:grabbing; }
   .search-input:focus { border-color: rgba(242,202,80,0.4); }
+  /* Horizontal scroll rows */
+  #browse-filters, #grade-belt-picker { overflow-x: scroll !important; -webkit-overflow-scrolling: touch; touch-action: pan-x; overscroll-behavior-x: contain; scrollbar-width: none; }
+  #browse-filters::-webkit-scrollbar, #grade-belt-picker::-webkit-scrollbar { display: none; }
+
+  /* Hub screen flex layout for sticky bottom bar */
+  #screen-hub { overflow:hidden; }
+  #screen-hub.active { display:flex; flex-direction:column; }
+  #hub-scroll { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  #hub-scroll::-webkit-scrollbar { display:none; }
+  /* Tab underline */
+  .hub-tab { padding:12px 14px; background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:13px; color:rgba(229,226,225,0.4); margin-bottom:-1px; transition:color 0.15s,border-color 0.15s; }
+  .hub-tab.active { color:#f2ca50; border-bottom-color:#f2ca50; }
 </style>
 </head>
 <body>
@@ -146,29 +160,91 @@ tailwind.config = {
 ════════════════════════════════════════════════ -->
 
 <!-- ONBOARDING -->
-<div id="screen-onboarding" class="screen active">
-  <div class="min-h-screen flex flex-col px-6 pt-16 pb-12">
-    <div class="flex-1 flex flex-col justify-center items-center text-center gap-8">
-      <div>
-        <p class="font-jakarta font-extrabold tracking-widest mb-2" style="font-size:11px;color:#f2ca50;letter-spacing:0.2em">WELCOME TO</p>
-        <h1 class="font-jakarta font-extrabold tracking-tight mb-3" style="font-size:42px;color:#f2ca50;letter-spacing:-0.02em">JUDOHUB</h1>
-        <p style="color:rgba(229,226,225,0.6);font-size:15px;line-height:1.6">Train. Understand. Progress.<br/>Your pocket judo companion.</p>
-      </div>
-      <div class="w-full max-w-xs space-y-4">
-        <div>
-          <label class="block text-left mb-2 font-jakarta font-bold" style="font-size:11px;color:rgba(229,226,225,0.5);letter-spacing:0.1em;text-transform:uppercase">Your name</label>
-          <input id="ob-name" type="text" placeholder="e.g. Steve" class="w-full px-4 py-3 rounded-xl font-inter" style="background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);color:#e5e2e1;font-size:15px;outline:none"/>
-        </div>
-        <div>
-          <label class="block text-left mb-2 font-jakarta font-bold" style="font-size:11px;color:rgba(229,226,225,0.5);letter-spacing:0.1em;text-transform:uppercase">Current belt</label>
-          <div id="ob-belts" class="grid grid-cols-3 gap-2"></div>
-        </div>
-      </div>
+<div id="screen-onboarding" class="screen active" style="background:#131313;overflow:hidden">
+
+  <!-- ══ STEP 1: SPLASH ══════════════════════════════════════════════════ -->
+  <div id="ob-step-1" style="position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.35s ease,transform 0.35s ease">
+
+    <!-- Hero photo -->
+    <div style="position:absolute;inset:0">
+      <img src="images/judo-hero.jpg" alt=""
+        style="width:100%;height:100%;object-fit:cover;object-position:center 25%;opacity:0.45;filter:grayscale(10%)"
+        onerror="this.style.display='none'"/>
+      <!-- gradient: dark top, clear mid, very dark bottom -->
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.72) 0%,rgba(0,0,0,0.18) 40%,rgba(0,0,0,0.65) 70%,rgba(0,0,0,0.92) 100%)"></div>
     </div>
-    <button onclick="JHOnboarding.save()" class="w-full py-4 rounded-2xl font-jakarta font-extrabold active-scale" style="background:#f2ca50;color:#1a1000;font-size:15px;letter-spacing:0.04em;margin-top:32px">
-      Enter the Dojo →
-    </button>
+
+    <!-- Top: kanji + JUDO branding -->
+    <div style="position:relative;z-index:1;padding:env(safe-area-inset-top,28px) 28px 0;margin-top:28px">
+      <p style="font-size:13px;color:rgba(229,226,225,0.55);font-family:serif;letter-spacing:0.08em;margin-bottom:4px">柔道</p>
+      <h1 class="font-jakarta font-extrabold" style="font-size:52px;color:#fff;letter-spacing:-0.03em;line-height:1">JUDO</h1>
+    </div>
+
+    <!-- Bottom: tagline + buttons -->
+    <div style="position:relative;z-index:1;margin-top:auto;padding:0 24px calc(env(safe-area-inset-bottom,0px) + 32px)">
+      <h2 class="font-jakarta font-bold" style="font-size:26px;color:#fff;line-height:1.2;margin-bottom:10px">Your path to<br/>grading success</h2>
+      <p style="font-size:13px;color:rgba(229,226,225,0.55);margin-bottom:32px;line-height:1.6">BJA Syllabus &bull; Techniques &bull; Terminology</p>
+
+      <!-- Get Started -->
+      <button onclick="JHOnboarding.nextStep()"
+        class="active-scale font-jakarta font-extrabold"
+        style="width:100%;padding:17px;border-radius:14px;background:#f2ca50;color:#1a1000;font-size:16px;letter-spacing:0.03em;border:none;cursor:pointer;margin-bottom:16px">
+        Get Started
+      </button>
+
+      <!-- Google login placeholder -->
+      <button onclick="JHOnboarding.googleLogin()"
+        class="active-scale font-jakarta font-bold"
+        style="width:100%;padding:15px;border-radius:14px;background:rgba(255,255,255,0.08);color:#e5e2e1;font-size:14px;border:1px solid rgba(255,255,255,0.12);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+          <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <p style="text-align:center;font-size:12px;color:rgba(229,226,225,0.3)">By continuing you agree to our Terms &amp; Privacy Policy</p>
+    </div>
   </div>
+
+  <!-- ══ STEP 2: GRADE SELECTION ════════════════════════════════════════ -->
+  <div id="ob-step-2" style="position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transform:translateX(100%);transition:opacity 0.35s ease,transform 0.35s ease;background:#131313;pointer-events:none">
+
+    <!-- Header -->
+    <div style="padding:env(safe-area-inset-top,0) 20px 0;margin-top:20px">
+      <button onclick="JHOnboarding.prevStep()" style="background:none;border:none;cursor:pointer;padding:8px 0;display:flex;align-items:center;gap:6px;margin-bottom:20px">
+        <span class="ms" style="font-size:20px;color:rgba(229,226,225,0.5)">arrow_back</span>
+      </button>
+      <!-- Step badge -->
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#f2ca5018;border:1px solid #f2ca5030;border-radius:99px;padding:4px 12px 4px 4px;margin-bottom:16px">
+        <div style="width:22px;height:22px;border-radius:50%;background:#f2ca50;display:flex;align-items:center;justify-content:center">
+          <span class="font-jakarta font-extrabold" style="font-size:11px;color:#1a1000">2</span>
+        </div>
+        <span class="font-jakarta font-bold" style="font-size:11px;color:#f2ca50;letter-spacing:0.06em">SELECT YOUR GRADE</span>
+      </div>
+      <h2 class="font-jakarta font-bold" style="font-size:24px;margin-bottom:6px">What is your<br/>current grade?</h2>
+      <p style="font-size:13px;color:rgba(229,226,225,0.5);margin-bottom:20px">This helps us build your personal study plan.</p>
+
+      <!-- Name input (compact) -->
+      <input id="ob-name" type="text" placeholder="Your first name (e.g. Steve)"
+        style="width:100%;padding:13px 16px;border-radius:12px;font-family:Inter,sans-serif;background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);color:#e5e2e1;font-size:14px;outline:none;margin-bottom:16px;box-sizing:border-box"/>
+    </div>
+
+    <!-- Belt list -->
+    <div id="ob-belts" style="flex:1;overflow-y:auto;padding:0 20px"></div>
+
+    <!-- Continue button -->
+    <div style="padding:16px 20px calc(env(safe-area-inset-bottom,0px) + 16px);background:linear-gradient(to top,#131313 70%,transparent)">
+      <button onclick="JHOnboarding.save()"
+        class="active-scale font-jakarta font-extrabold"
+        style="width:100%;padding:17px;border-radius:14px;background:#f2ca50;color:#1a1000;font-size:16px;letter-spacing:0.03em;border:none;cursor:pointer">
+        Continue
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <!-- HOME -->
@@ -176,8 +252,8 @@ tailwind.config = {
   <main class="pt-16 pb-24 px-5 space-y-6 max-w-md mx-auto">
     <div id="home-welcome" class="pt-4"></div>
     <div id="home-hero"></div>
-    <div id="home-quick-actions"></div>
     <div id="home-focus"></div>
+    <div id="home-techofday"></div>
     <div id="home-recent"></div>
   </main>
 </div>
@@ -191,7 +267,7 @@ tailwind.config = {
         <span class="ms absolute left-3 top-1/2 -translate-y-1/2" style="font-size:20px;color:rgba(229,226,225,0.35)">search</span>
         <input id="browse-search" type="search" placeholder="Search techniques..." class="search-input" oninput="JHBrowse.search(this.value)"/>
       </div>
-      <div id="browse-filters" class="flex gap-2 overflow-x-auto hide-scroll pb-1"></div>
+      <div id="browse-filters" style="display:flex;gap:8px;overflow-x:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-x;padding:0 20px 8px 20px;width:calc(100% + 40px);margin:0 -20px;box-sizing:border-box;-webkit-mask-image:linear-gradient(to right,transparent,black 20px,black calc(100% - 44px),transparent 100%);mask-image:linear-gradient(to right,transparent,black 20px,black calc(100% - 44px),transparent 100%)"></div>
     </div>
     <div id="browse-content" class="px-5 space-y-8 pb-4"></div>
   </main>
@@ -199,17 +275,8 @@ tailwind.config = {
 
 <!-- TECHNIQUE HUB -->
 <div id="screen-hub" class="screen">
-  <div id="hub-hero" class="relative" style="aspect-ratio:4/5;max-height:60vh"></div>
-  <main class="pb-24 max-w-md mx-auto -mt-4 relative z-10">
-    <div class="px-5">
-      <div id="hub-action-bar" class="glass rounded-2xl p-4 mb-5 flex justify-around items-center"></div>
-      <h2 class="font-jakarta font-bold mb-3 flex items-center gap-2" style="font-size:16px">
-        <span style="width:3px;height:18px;background:#f2ca50;border-radius:2px;display:inline-block"></span>
-        Explore Technique
-      </h2>
-      <div id="hub-cards" class="grid grid-cols-2 gap-3"></div>
-    </div>
-  </main>
+  <div id="hub-scroll"></div>
+  <div id="hub-bottom"></div>
 </div>
 
 <!-- CARD DETAIL (dynamic — What Is It / Execution / Grips / etc.) -->
@@ -226,18 +293,10 @@ tailwind.config = {
       <p class="font-jakarta font-extrabold mb-1" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">BJA SYLLABUS</p>
       <h2 class="font-jakarta font-bold" style="font-size:18px">Grading Progress</h2>
     </div>
-    <div id="grade-belt-picker" class="flex gap-2 overflow-x-auto hide-scroll pb-3 mb-5"></div>
+    <div id="grade-belt-picker" style="margin-bottom:4px"></div>
     <div id="grade-content" class="space-y-3"></div>
   </main>
 </div>
-
-<!-- DRILLS -->
-<div id="screen-drills" class="screen">
-  <main class="pt-16 pb-24 px-5 max-w-md mx-auto">
-    <div class="pt-4 mb-6">
-      <p class="font-jakarta font-extrabold tracking-widest mb-1" style="font-size:10px;color:#f2ca50;letter-spacing:0.15em">DRILL LIBRARY</p>
-      <h2 class="font-jakarta font-bold" style="font-size:22px">Train Anywhere</h2>
-    </div>
     <div id="drills-filter" class="flex gap-2 mb-5"></div>
     <div id="drills-content" class="space-y-3"></div>
   </main>
@@ -262,9 +321,6 @@ tailwind.config = {
   <button class="nav-btn" data-screen="grade" onclick="JHRouter.go('grade')">
     <span class="ms">military_tech</span>GRADE
   </button>
-  <button class="nav-btn" data-screen="drills" onclick="JHRouter.go('drills')">
-    <span class="ms">fitness_center</span>DRILLS
-  </button>
   <button class="nav-btn" data-screen="profile" onclick="JHRouter.go('profile')">
     <span class="ms">person</span>ME
   </button>
@@ -277,26 +333,25 @@ tailwind.config = {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="js/firebase_sync.js?v=2"></script>
+<script src="js/firebase_sync.js?v=3"></script>
 
 <!-- DATA + MODULES -->
 <script src="js/data.js?v=5"></script>
-<script src="js/jh_state.js?v=1"></script>
-<script src="js/jh_home.js?v=1"></script>
-<script src="js/jh_browse.js?v=1"></script>
-<script src="js/jh_hub.js?v=1"></script>
-<script src="js/jh_grade.js?v=1"></script>
-<script src="js/jh_drills.js?v=1"></script>
-<script src="js/jh_profile.js?v=1"></script>
+<script src="js/jh_state.js?v=2"></script>
+<script src="js/jh_home.js?v=7"></script>
+<script src="js/jh_browse.js?v=5"></script>
+<script src="js/jh_hub.js?v=3"></script>
+<script src="js/jh_grade.js?v=6"></script>
+<script src="js/jh_profile.js?v=5"></script>
 
 <script>
 // ══════════════════════════════════════════════
 //  Router
 // ══════════════════════════════════════════════
-const SCREENS   = ['onboarding','home','browse','hub','card','grade','drills','profile'];
-const NAV_TABS  = ['home','browse','grade','drills','profile'];
+const SCREENS   = ['onboarding','home','browse','hub','card','grade','profile'];
+const NAV_TABS  = ['home','browse','grade','profile'];
 const FOCUS     = ['hub','card'];           // hide nav/header back btn
-const BACK_MAP  = { hub:'browse', card:'hub' };
+const BACK_MAP  = { card:'hub' };   // hub uses _previous dynamically
 
 const JHRouter = (() => {
   let _current  = 'onboarding';
@@ -354,11 +409,14 @@ const JHRouter = (() => {
     if (name === 'hub' && opts.technique) JHHub.open(opts.technique);
     if (name === 'card' && opts.card)     JHHub.openCard(opts.card);
     if (name === 'grade')   JHGrade.render();
-    if (name === 'drills')  JHDrills.render();
     if (name === 'profile') JHProfile.render();
   }
 
-  function back() { go(BACK_MAP[_current] || 'home'); }
+  function back() {
+    // 'card' always goes back to hub; hub goes back to wherever you came from
+    if (_current === 'card') { go('hub'); return; }
+    go(_previous || 'home');
+  }
   function current() { return _current; }
   function previous() { return _previous; }
 
@@ -369,48 +427,120 @@ const JHRouter = (() => {
 //  Onboarding
 // ══════════════════════════════════════════════
 const JHOnboarding = (() => {
+  // id = current belt user holds; save() maps to next beltId (what they're working toward)
   const BELTS = [
-    { id:'red',    label:'Red',    color:'#dc2626' },
-    { id:'yellow', label:'Yellow', color:'#eab308' },
-    { id:'orange', label:'Orange', color:'#f97316' },
-    { id:'green',  label:'Green',  color:'#16a34a' },
-    { id:'blue',   label:'Blue',   color:'#2563eb' },
-    { id:'brown',  label:'Brown',  color:'#92400e' },
+    { id:'novice', label:'No Belt / Novice', img:'white',  kyu:'Just starting',  color:'#9ca3af' },
+    { id:'red',    label:'Red Belt',         img:'red',    kyu:'6th Kyu',        color:'#dc2626' },
+    { id:'yellow', label:'Yellow Belt',      img:'yellow', kyu:'5th Kyu',        color:'#eab308' },
+    { id:'orange', label:'Orange Belt',      img:'orange', kyu:'4th Kyu',        color:'#f97316' },
+    { id:'green',  label:'Green Belt',       img:'green',  kyu:'3rd Kyu',        color:'#16a34a' },
+    { id:'blue',   label:'Blue Belt',        img:'blue',   kyu:'2nd Kyu',        color:'#2563eb' },
+    { id:'brown',  label:'Brown Belt',       img:'brown',  kyu:'1st Kyu',        color:'#92400e' },
   ];
-  let _belt = 'red';
+  // Map "current belt held" → beltId (next syllabus to work on)
+  var NEXT_BELT = {
+    novice:'toRed', red:'toYellow', yellow:'toOrange',
+    orange:'toGreen', green:'toBlue', blue:'toBrown', brown:'toBrown'
+  };
+  let _belt = 'novice';
 
   function init() {
-    const container = document.getElementById('ob-belts');
-    if (!container) return;
-    container.innerHTML = BELTS.map(b => `
-      <button onclick="JHOnboarding.selectBelt('${b.id}')"
-        id="ob-belt-${b.id}"
-        class="py-2 rounded-xl font-jakarta font-bold active-scale"
-        style="font-size:11px;background:${b.color}22;border:1.5px solid ${b.color}55;color:${b.color}">
-        ${b.label}
-      </button>`).join('');
-    _highlight('red');
+    _renderBelts();
   }
 
-  function selectBelt(id) { _belt = id; _highlight(id); }
+  function _renderBelts() {
+    var container = document.getElementById('ob-belts');
+    if (!container) return;
+    container.innerHTML = BELTS.map(function(b) {
+      var active = b.id === _belt;
+      return '<button onclick="JHOnboarding.selectBelt(\'' + b.id + '\')" id="ob-belt-' + b.id + '"' +
+        ' style="width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1.5px solid ' +
+        (active ? b.color + '60' : 'rgba(255,255,255,0.07)') +
+        ';background:' + (active ? b.color + '18' : '#1c1b1b') +
+        ';cursor:pointer;margin-bottom:8px;text-align:left;transition:background 0.15s,border-color 0.15s">' +
+        '<img src="images/belt-' + b.img + '.png" style="height:22px;width:auto;object-fit:contain;flex-shrink:0" alt="" onerror="this.style.opacity=0.3"/>' +
+        '<div style="flex:1">' +
+          '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:14px;color:#e5e2e1;margin:0">' + b.label + '</p>' +
+          '<p style="font-size:11px;color:' + (active ? b.color : 'rgba(229,226,225,0.4)') + ';margin:2px 0 0;font-weight:600">' + b.kyu + '</p>' +
+        '</div>' +
+        (active
+          ? '<span class="ms ms-fill" style="font-size:20px;color:#f2ca50;flex-shrink:0">check_circle</span>'
+          : '<span style="width:20px;flex-shrink:0"></span>'
+        ) +
+        '</button>';
+    }).join('');
+  }
 
-  function _highlight(id) {
-    BELTS.forEach(b => {
-      const btn = document.getElementById('ob-belt-' + b.id);
-      if (!btn) return;
-      btn.style.border = `1.5px solid ${b.id === id ? b.color : b.color + '44'}`;
-      btn.style.background = b.id === id ? b.color + '33' : b.color + '11';
-    });
+  function selectBelt(id) {
+    _belt = id;
+    _renderBelts();
+  }
+
+  function nextStep() {
+    var s1 = document.getElementById('ob-step-1');
+    var s2 = document.getElementById('ob-step-2');
+    if (!s1 || !s2) return;
+    // Slide step 1 out to the left
+    s1.style.opacity   = '0';
+    s1.style.transform = 'translateX(-100%)';
+    s1.style.pointerEvents = 'none';
+    // Slide step 2 in from the right
+    s2.style.opacity   = '1';
+    s2.style.transform = 'translateX(0)';
+    s2.style.pointerEvents = '';
+    // Focus name field
+    setTimeout(function() {
+      var inp = document.getElementById('ob-name');
+      if (inp) inp.focus();
+    }, 380);
+  }
+
+  function prevStep() {
+    var s1 = document.getElementById('ob-step-1');
+    var s2 = document.getElementById('ob-step-2');
+    if (!s1 || !s2) return;
+    s1.style.opacity   = '1';
+    s1.style.transform = 'translateX(0)';
+    s1.style.pointerEvents = '';
+    s2.style.opacity   = '0';
+    s2.style.transform = 'translateX(100%)';
+    s2.style.pointerEvents = 'none';
+  }
+
+  async function googleLogin() {
+    var btn = document.querySelector('#ob-step-1 button[onclick*="googleLogin"]');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+    try {
+      var result = await FirebaseSync.signInWithGoogle();
+      if (result && result.ok) {
+        // Pre-fill name from Google account if we have it
+        var gName = result.name ? result.name.split(' ')[0] : '';
+        if (gName) {
+          var inp = document.getElementById('ob-name');
+          if (inp && !inp.value) inp.value = gName;
+        }
+      }
+    } catch(e) { /* silently continue */ }
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    nextStep();
   }
 
   function save() {
-    const name = (document.getElementById('ob-name') || {}).value.trim();
-    if (!name) { document.getElementById('ob-name').focus(); return; }
-    JHState.saveProfile({ name, belt: _belt });
+    var nameEl = document.getElementById('ob-name');
+    var name = nameEl ? nameEl.value.trim() : '';
+    if (!name) {
+      if (nameEl) {
+        nameEl.focus();
+        nameEl.style.borderColor = '#dc2626';
+        setTimeout(function() { nameEl.style.borderColor = 'rgba(255,255,255,0.1)'; }, 1200);
+      }
+      return;
+    }
+    JHState.saveProfile({ name: name, belt: NEXT_BELT[_belt] || 'toRed' });
     JHRouter.go('home');
   }
 
-  return { init, selectBelt, save };
+  return { init, selectBelt, nextStep, prevStep, googleLogin, save };
 })();
 
 // ══════════════════════════════════════════════
@@ -447,18 +577,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ── Drag-to-scroll for horizontal lists (desktop) ──
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
   function enableDragScroll(el) {
-    let isDown = false, startX, scrollLeft;
-    el.addEventListener('mousedown', e => { isDown = true; el.classList.add('dragging'); startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
+    if (el._dragReady) return;
+    el._dragReady = true;
+    let isDown = false, startX, scrollLeft, moved = false;
+    el.addEventListener('mousedown', e => {
+      isDown = true; moved = false;
+      el.classList.add('dragging');
+      startX = e.pageX - el.getBoundingClientRect().left;
+      scrollLeft = el.scrollLeft;
+    });
     el.addEventListener('mouseleave', () => { isDown = false; el.classList.remove('dragging'); });
-    el.addEventListener('mouseup', () => { isDown = false; el.classList.remove('dragging'); });
-    el.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = scrollLeft - (x - startX); });
+    el.addEventListener('mouseup',    () => { isDown = false; el.classList.remove('dragging'); });
+    el.addEventListener('mousemove',  e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x  = e.pageX - el.getBoundingClientRect().left;
+      const dx = x - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      el.scrollLeft = scrollLeft - dx;
+    });
+    // Prevent clicks firing after a drag
+    el.addEventListener('click', e => { if (moved) { e.stopPropagation(); moved = false; } }, true);
   }
-  document.querySelectorAll('.h-scroll').forEach(enableDragScroll);
-  // Re-apply after renders (MutationObserver on app-shell)
-  new MutationObserver(() => document.querySelectorAll('.h-scroll:not(.drag-ready)').forEach(el => { el.classList.add('drag-ready'); enableDragScroll(el); })).observe(document.getElementById('app-shell'), { childList:true, subtree:true });
-});
+
+  function applyAll() {
+    document.querySelectorAll('.h-scroll').forEach(enableDragScroll);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyAll();
+    new MutationObserver(applyAll)
+      .observe(document.getElementById('app-shell') || document.body,
+               { childList:true, subtree:true });
+  });
+})();
 </script>
 
 <!-- ── Swipe Card Overlay ──────────────────────── -->
@@ -474,7 +628,4 @@ document.addEventListener('DOMContentLoaded', () => {
   <!-- Card track -->
   <div id="swipe-track" style="position:absolute;inset:0;display:flex;align-items:stretch;will-change:transform;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);height:100%"></div>
   <!-- Nav arrows (desktop) -->
-  <button id="swipe-prev" onclick="JHHub.prevCard()" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10">
-    <span class="ms" style="color:#e5e2e1">chevron_left</span>
-  </button>
-  <button id="swipe-next" onclick="JHHub.nextCard()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:none;align-items:center;j
+  <button id="swipe-prev" onclick="JHHub.prevCard()"

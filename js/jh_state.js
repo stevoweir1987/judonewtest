@@ -24,7 +24,14 @@ const JHState = (() => {
   // ── Profile ───────────────────────────────────
   function hasProfile() { return !!localStorage.getItem(K.PROFILE); }
   function saveProfile(p) { _set(K.PROFILE, p); }
-  function getProfile() { return _get(K.PROFILE, { name:'Judoka', belt:'red' }); }
+  function getProfile() {
+    const p = _get(K.PROFILE, { name:'Judoka', belt:'toRed' });
+    // Normalise belt ID to BELT_DATA format ('red' → 'toRed', 'toRed' stays)
+    if (p.belt && !p.belt.startsWith('to')) {
+      p.belt = 'to' + p.belt.charAt(0).toUpperCase() + p.belt.slice(1);
+    }
+    return p;
+  }
 
   // ── Recently Viewed ───────────────────────────
   // Stored as array of { id, beltId } max 20

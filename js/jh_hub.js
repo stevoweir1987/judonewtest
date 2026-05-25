@@ -2,36 +2,21 @@ const JHHub = (() => {
   let _tech   = null;
   let _beltId = null;
   let _group  = null;
+  let _tab    = 0;   // 0=Details  1=Key Points  2=Common Mistakes
+  // Swipe card system (kept for potential future use)
   let _cards  = [];
   let _idx    = 0;
 
-  // ── Image resolution ─────────────────────────
-  // Priority: public/techniques/slug.jpg → maxresdefault → hqdefault → gradient
+  // ── Image / slug helpers ──────────────────────────────────────────────────
   function _slug(id) { return id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
   function _imgSrc(id) {
-    const vid = JHState.getVideoId(id);
+    var vid = JHState.getVideoId(id);
     if (vid) return 'https://img.youtube.com/vi/' + vid + '/maxresdefault.jpg';
     return null;
   }
 
-  function _imgEl(id, cls, style) {
-    const photo = 'public/techniques/' + _slug(id) + '.jpg';
-    const yt    = _imgSrc(id);
-    const col   = JHState.getBeltColor(_beltId || 'red');
-    // Try photo first via onerror fallback chain
-    if (yt) {
-      return '<img src="' + photo + '" alt="' + id + '"' +
-        (cls ? ' class="' + cls + '"' : '') +
-        (style ? ' style="' + style + '"' : '') +
-        ' onerror="this.onerror=null;this.src=\'' + yt + '\'"' +
-        '/>';
-    }
-    return '<div style="width:100%;height:100%;background:linear-gradient(135deg,' + col + '18,' + col + '06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:64px;color:' + col + '30">sports_martial_arts</span></div>';
-  }
-
-  // ── Content engine ────────────────────────────
-  // Hard-coded content for core techniques; AI-pattern for the rest
+  // ── Technique content database ────────────────────────────────────────────
   const CONTENT = {
     'Tai-otoshi': {
       principle: 'Break uke\'s balance diagonally forward to their right front corner. Your leg acts as a barrier, not a sweeping action.',
@@ -96,9 +81,9 @@ const JHHub = (() => {
     'Juji-gatame': {
       principle: 'Hyperextend uke\'s elbow by applying lever force across your hips while the arm is isolated and straight.',
       steps: [
-        { label: 'Control', text: 'Secure uke\'s arm with both hands, thumb pointing up. The arm must be straight.' },
+        { label: 'Control',  text: 'Secure uke\'s arm with both hands, thumb pointing up. The arm must be straight.' },
         { label: 'Position', text: 'Hips pressed tight across uke\'s upper arm. Knees pinching to prevent arm escape. Feet on the floor.' },
-        { label: 'Apply', text: 'Bridge your hips upward slowly and smoothly. Do not jerk. Uke taps — release immediately.' }
+        { label: 'Apply',    text: 'Bridge your hips upward slowly and smoothly. Do not jerk. Uke taps — release immediately.' }
       ],
       errors: ['Gap between your hips and their arm — no lever effect', 'Pulling the arm instead of bridging — risk of injury', 'Knees apart — uke can pull arm free'],
       drill: { label: 'Sit-back entry reps', text: 'Partner kneels. Practice the sit-back entry from standing — grip sleeve, sit to the side, swing legs over. 10 slow reps each side.', time: '6 min' }
@@ -106,394 +91,289 @@ const JHHub = (() => {
   };
 
   function _getContent(id, groupTitle) {
-    // Use hard-coded if available
     if (CONTENT[id]) return CONTENT[id];
-
-    // Pattern-generate based on group type
-    const en   = JHState.getEnglish(id);
-    const col  = JHState.getBeltColor(_beltId);
-    const isThrow   = /waza|nage|gari|goshi|gake|barai|guruma|gaeshi|otoshi|nage|harai|mata|ashi/i.test(groupTitle + ' ' + id);
-    const isHold    = /osaekomi|gatame/i.test(groupTitle);
-    const isStrangle= /shime/i.test(groupTitle);
-    const isLock    = /kansetsu/i.test(groupTitle);
-
+    var gt = groupTitle || '';
+    var isHold     = /osaekomi|gatame/i.test(gt);
+    var isStrangle = /shime/i.test(gt);
+    var isLock     = /kansetsu/i.test(gt);
     if (isHold) return {
       principle: 'Control uke\'s upper body by distributing your weight across their chest and hips. Stability comes from low posture and active adjustments.',
       steps: [
-        { label: 'Entry',     text: 'Transition smoothly from the throw or from ne-waza into the hold position without losing contact.' },
-        { label: 'Position',  text: 'Stabilise your weight distribution — head down, hips low, legs spread for a wide base.' },
-        { label: 'Maintain',  text: 'Constantly micro-adjust as uke attempts escapes. Move with them, do not fight them statically.' }
+        { label: 'Entry',    text: 'Transition smoothly from the throw or from ne-waza into the hold position without losing contact.' },
+        { label: 'Position', text: 'Stabilise your weight distribution — head down, hips low, legs spread for a wide base.' },
+        { label: 'Maintain', text: 'Constantly micro-adjust as uke attempts escapes. Move with them, do not fight them statically.' }
       ],
       errors: ['Hips too high — easy to bridge and roll', 'Head up — raises your centre of gravity', 'Rigid response to escape attempts — stay fluid'],
       drill: { label: 'Hold maintenance drill', text: 'Partner attempts slow escapes for 30 seconds. You adjust to maintain. 3 rounds each role.', time: '6 min' }
     };
-
     if (isStrangle) return {
-      principle: 'Apply controlled pressure to the carotid arteries on both sides of the neck, not the windpipe. Clean technique is safe and fast.',
+      principle: 'Apply controlled pressure to the carotid arteries on both sides of the neck, not the windpipe.',
       steps: [
-        { label: 'Setup',  text: 'Achieve a secure position behind or beside uke before applying the strangle.' },
-        { label: 'Grip',   text: 'Establish your grip cleanly — forearm across one side, bicep against the other.' },
-        { label: 'Apply',  text: 'Compress smoothly and steadily. Uke signals with two taps — release immediately.' }
+        { label: 'Setup', text: 'Achieve a secure position behind or beside uke before applying the strangle.' },
+        { label: 'Grip',  text: 'Establish your grip cleanly — forearm across one side, bicep against the other.' },
+        { label: 'Apply', text: 'Compress smoothly and steadily. Uke signals with two taps — release immediately.' }
       ],
       errors: ['Windpipe pressure instead of carotid — ineffective and dangerous', 'Poor position — uke can escape before strangle takes effect', 'Jerking instead of smooth compression'],
-      drill: { label: 'Grip familiarisation', text: 'Practice establishing the grip from different positions — both sides. Partner is relaxed. Focus purely on clean grip placement.', time: '5 min' }
+      drill: { label: 'Grip familiarisation', text: 'Practice establishing the grip from different positions — both sides. Focus purely on clean grip placement.', time: '5 min' }
     };
-
     if (isLock) return {
-      principle: 'Isolate the target joint and apply a single direction of force against its natural range of motion. Slow and controlled is more effective than fast.',
+      principle: 'Isolate the target joint and apply a single direction of force against its natural range of motion.',
       steps: [
-        { label: 'Isolate', text: 'Secure the target limb firmly before applying any leverage. The joint must be isolated from escape.' },
+        { label: 'Isolate', text: 'Secure the target limb firmly before applying any leverage.' },
         { label: 'Lever',   text: 'Position your body as the fulcrum — your weight does the work, not your grip strength.' },
         { label: 'Apply',   text: 'Increase pressure slowly. Uke taps — release immediately and completely.' }
       ],
       errors: ['Applying too fast — uke cannot tap in time', 'Incomplete isolation — uke rotates out of the lock', 'Wrong angle — force not aligned against joint limit'],
-      drill: { label: 'Slow application drill', text: 'Apply the lock at 20% speed. Hold at threshold for 3 seconds. Release. 10 reps each side. Speed kills precision.', time: '6 min' }
+      drill: { label: 'Slow application drill', text: 'Apply the lock at 20% speed. Hold at threshold for 3 seconds. Release. 10 reps each side.', time: '6 min' }
     };
-
-    // Default: throw
     return {
       principle: 'Break uke\'s balance (kuzushi) in the direction of the throw before entering. The throw should feel inevitable, not forced.',
       steps: [
         { label: 'Kuzushi', text: 'Disrupt uke\'s posture in the direction of the throw. They should feel unsteady before you enter.' },
-        { label: 'Tsukuri', text: 'Enter and position your body perfectly. Your feet, hips and arms must align with the throwing direction.' },
+        { label: 'Tsukuri', text: 'Enter and position your body perfectly. Feet, hips and arms must align with the throwing direction.' },
         { label: 'Kake',    text: 'Execute the throw as one flowing movement — do not pause between entry and throw.' }
       ],
       errors: ['Forcing the throw without kuzushi — strength over technique', 'Incomplete entry — body not fully positioned before throwing', 'Breaking the motion — entry and throw must be continuous'],
-      drill: { label: 'Uchi-komi sets', text: 'Solo or partner. 10 entries focusing purely on foot placement, then 10 on hip position, then 10 full speed. 3 sets total.', time: '6 min' }
+      drill: { label: 'Uchi-komi sets', text: '10 entries focusing purely on foot placement, then 10 on hip position, then 10 full speed. 3 sets total.', time: '6 min' }
     };
   }
 
-  // ── Build 6 swipe cards ───────────────────────
-  function _buildCards(id, beltId, groupTitle) {
-    const en      = JHState.getEnglish(id);
-    const col     = JHState.getBeltColor(beltId);
-    const vid     = JHState.getVideoId(id);
-    const content = _getContent(id, groupTitle || '');
-    const photo   = 'public/techniques/' + _slug(id) + '.jpg';
-    const ytImg   = vid ? 'https://img.youtube.com/vi/' + vid + '/maxresdefault.jpg' : null;
-
-    const imgBg = (src, fallback) => {
-      if (src) return 'url(' + src + ')' + (fallback ? ',url(' + fallback + ')' : '');
-      return 'none';
-    };
-
-    return [
-      // ── Card 1: WHAT IS IT ──
-      {
-        bg: col + '12',
-        content: `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 28px 100px">
-            <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
-              <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:${col};letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px">WHAT IS IT?</p>
-              <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:clamp(32px,8vw,52px);color:#fff;line-height:1;margin-bottom:8px;letter-spacing:-0.02em">${id}</h1>
-              <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;color:rgba(255,255,255,0.5);font-style:italic;margin-bottom:28px">${en}</p>
-              <p style="font-family:Inter,sans-serif;font-size:15px;color:rgba(229,226,225,0.75);line-height:1.65;max-width:360px">${content.principle || 'A fundamental judo technique requiring precise timing, balance and co-ordination between kuzushi, tsukuri and kake.'}</p>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span style="padding:6px 14px;border-radius:99px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;background:${col}25;color:${col};text-transform:capitalize">${beltId} Belt</span>
-              ${groupTitle ? '<span style="padding:6px 14px;border-radius:99px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;background:rgba(255,255,255,0.08);color:rgba(229,226,225,0.6)">' + groupTitle + '</span>' : ''}
-            </div>
-          </div>`
-      },
-
-      // ── Card 2: THE PRINCIPLE ──
-      {
-        bg: '#0e1a0e',
-        content: `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 28px 100px">
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:#4ade80;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px">THE PRINCIPLE</p>
-            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px">
-              <div style="width:56px;height:56px;border-radius:16px;background:#4ade8015;border:1px solid #4ade8030;display:flex;align-items:center;justify-content:center">
-                <span class="ms" style="font-size:28px;color:#4ade80">lightbulb</span>
-              </div>
-              <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(20px,5vw,28px);color:#fff;line-height:1.3;letter-spacing:-0.01em">${content.principle}</p>
-            </div>
-            <p style="font-family:Inter,sans-serif;font-size:12px;color:rgba(229,226,225,0.25);letter-spacing:0.06em">KEY CONCEPT · ${id.toUpperCase()}</p>
-          </div>`
-      },
-
-      // ── Card 3: HOW TO DO IT ──
-      {
-        bg: '#0a0a1a',
-        content: `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 28px 100px;overflow-y:auto">
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:#818cf8;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px">HOW TO DO IT</p>
-            <div style="flex:1;display:flex;flex-direction:column;gap:20px;justify-content:center">
-              ${(content.steps || []).map((s, i) => `
-                <div style="display:flex;gap:16px;align-items:flex-start">
-                  <div style="width:36px;height:36px;border-radius:50%;background:#818cf815;border:1px solid #818cf830;display:flex;align-items:center;justify-content:center;shrink:0;flex-shrink:0">
-                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:14px;color:#818cf8">${i + 1}</span>
-                  </div>
-                  <div>
-                    <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;color:#818cf8;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em">${s.label}</p>
-                    <p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(229,226,225,0.8);line-height:1.55">${s.text}</p>
-                  </div>
-                </div>`).join('')}
-            </div>
-          </div>`
-      },
-
-      // ── Card 4: WATCH OUT ──
-      {
-        bg: '#1a0808',
-        content: `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 28px 100px">
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:#f87171;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px">WATCH OUT</p>
-            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px">
-              <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:22px;color:#fff;margin-bottom:8px">Common errors</p>
-              ${(content.errors || []).map(e => `
-                <div style="display:flex;gap-14px;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:14px;background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.15)">
-                  <span class="ms ms-fill" style="font-size:18px;color:#f87171;flex-shrink:0;margin-top:1px">cancel</span>
-                  <p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(229,226,225,0.85);line-height:1.5">${e}</p>
-                </div>`).join('')}
-            </div>
-          </div>`
-      },
-
-      // ── Card 5: QUICK DRILL ──
-      {
-        bg: '#0e1018',
-        content: `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 28px 100px">
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:#f2ca50;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px">QUICK DRILL</p>
-            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px">
-              <div style="display:flex;align-items:center;gap:12px">
-                <div style="width:52px;height:52px;border-radius:16px;background:#f2ca5015;border:1px solid #f2ca5030;display:flex;align-items:center;justify-content:center">
-                  <span class="ms" style="font-size:26px;color:#f2ca50">fitness_center</span>
-                </div>
-                <div>
-                  <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:#fff">${(content.drill || {}).label || 'Uchi-komi sets'}</p>
-                  <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;color:#f2ca50;background:#f2ca5015;padding:3px 10px;border-radius:99px">${(content.drill || {}).time || '5 min'}</span>
-                </div>
-              </div>
-              <p style="font-family:Inter,sans-serif;font-size:15px;color:rgba(229,226,225,0.75);line-height:1.65;padding:18px;background:rgba(255,255,255,0.04);border-radius:16px;border:1px solid rgba(255,255,255,0.06)">${(content.drill || {}).text || '10 entries on each side focusing on foot placement. 3 sets.'}</p>
-            </div>
-          </div>`
-      },
-
-      // ── Card 6: WATCH ──
-      {
-        bg: '#0e0e0e',
-        content: vid ? `
-          <div style="display:flex;flex-direction:column;height:100%;padding:72px 0 0">
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:10px;color:rgba(229,226,225,0.4);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;padding:0 28px">WATCH IT</p>
-            <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 0 80px">
-              <div style="position:relative;width:100%;padding-bottom:56.25%">
-                <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
-                  src="https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1"
-                  allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-              </div>
-              <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;color:rgba(229,226,225,0.5);margin:16px 28px 0">${id} — Technique demonstration</p>
-            </div>
-          </div>` : `
-          <div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;padding:28px">
-            <span class="ms" style="font-size:56px;color:rgba(229,226,225,0.15);margin-bottom:16px">videocam_off</span>
-            <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:rgba(229,226,225,0.4);text-align:center">No video available yet for ${id}</p>
-          </div>`
-      }
-    ];
-  }
-
-  // ── Open Hub (main entry point) ───────────────
+  // ── Main entry point ──────────────────────────────────────────────────────
   function open(techId, beltId) {
-    _tech = techId;
+    _tech  = techId;
+    _tab   = 0;
     if (beltId) {
       _beltId = beltId;
     } else {
-      const info = JHState.findTechnique(techId);
-      _beltId = info ? info.beltId : (JHState.getProfile().belt || 'red');
-      if (info) _group = info.groupTitle;
+      var info = JHState.findTechnique(techId);
+      _beltId = info ? info.beltId : (JHState.getProfile().belt || 'toRed');
     }
+    // Always look up the group title
+    var info2 = JHState.findTechnique(techId);
+    _group = info2 ? info2.groupTitle : null;
+
     JHState.addRecent(techId, _beltId);
     _renderHub();
     JHRouter.go('hub', { technique: techId });
   }
 
+  // ── Render hub ────────────────────────────────────────────────────────────
   function _renderHub() {
-    _renderHero();
-    _renderActionBar();
-    _renderGrid();
+    _renderScroll();
+    _renderBottom();
   }
 
-  function _renderHero() {
-    const el = document.getElementById('hub-hero');
+  function _renderScroll() {
+    var el = document.getElementById('hub-scroll');
     if (!el) return;
-    const en    = JHState.getEnglish(_tech);
-    const col   = JHState.getBeltColor(_beltId);
-    const photo = 'public/techniques/' + _slug(_tech) + '.jpg';
-    const yt    = _imgSrc(_tech);
 
-    el.innerHTML = `
-      <div style="position:absolute;inset:0;background:#111">
-        ${yt ? '<img id="hub-bg-img" src="' + photo + '" alt="' + _tech + '" onerror="this.onerror=null;this.src=\'' + yt + '\'" style="width:100%;height:100%;object-fit:cover;opacity:0.55"/>' : '<div style="width:100%;height:100%;background:linear-gradient(135deg,' + col + '20,' + col + '06)"></div>'}
-        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(14,14,14,0.2) 0%,rgba(14,14,14,0.6) 50%,rgba(14,14,14,1) 100%)"></div>
-      </div>
-      <button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 60px);left:16px;width:36px;height:36px;border-radius:50%;background:rgba(14,14,14,0.7);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">
-        <span class="ms" style="font-size:18px;color:#f2ca50">arrow_back</span>
-      </button>
-      <div style="position:absolute;bottom:32px;left:20px;right:20px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <img src="${JHState.getBeltIcon(_beltId)}" style="height:20px;width:auto;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))" alt="belt"/>
-          ${_group ? '<span style="padding:4px 12px;border-radius:99px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:10px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7)">' + _group + '</span>' : ''}
-        </div>
-        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:clamp(20px,5vw,28px);color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">${_tech}</h1>
-        <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:rgba(255,255,255,0.5);font-style:italic">${en}</p>
-      </div>`;
+    var vid     = JHState.getVideoId(_tech);
+    var en      = JHState.getEnglish(_tech);
+    var col     = JHState.getBeltColor(_beltId);
+    var content = _getContent(_tech, _group || '');
+    var showEn  = en && en.toLowerCase() !== _tech.toLowerCase();
+
+    // ── Video / hero area ──
+    var videoHTML;
+    if (vid) {
+      videoHTML =
+        '<div style="width:100%;background:#000;position:relative">' +
+          '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
+            '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
+          '</button>' +
+          '<iframe style="display:block;width:100%;aspect-ratio:16/9;border:0"' +
+            ' src="https://www.youtube.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1"' +
+            ' allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>' +
+        '</div>';
+    } else {
+      var yt = _imgSrc(_tech);
+      var photo = 'public/techniques/' + _slug(_tech) + '.jpg';
+      var bgContent = yt
+        ? '<img src="' + photo + '" onerror="this.onerror=null;this.src=\'' + yt + '\'" style="width:100%;height:100%;object-fit:cover;opacity:0.65" alt=""/>'
+        : '<div style="width:100%;height:100%;background:linear-gradient(135deg,' + col + '25,' + col + '06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:72px;color:' + col + '30">sports_martial_arts</span></div>';
+      videoHTML =
+        '<div style="width:100%;aspect-ratio:16/9;background:#111;position:relative;overflow:hidden">' +
+          '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
+            '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
+          '</button>' +
+          bgContent +
+        '</div>';
+    }
+
+    // ── Name block ──
+    var catBadge = _group
+      ? '<span style="display:inline-block;margin-top:8px;padding:4px 12px;border-radius:99px;background:' + col + '18;border:1px solid ' + col + '28;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;color:' + col + '">' + _group + '</span>'
+      : '';
+
+    var nameBlock =
+      '<div style="padding:18px 20px 0">' +
+        '<h1 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:900;font-size:clamp(22px,5vw,28px);color:#fff;line-height:1.1;letter-spacing:-0.02em">' + _tech + '</h1>' +
+        (showEn ? '<p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(255,255,255,0.42);margin-top:4px">' + en + '</p>' : '') +
+        catBadge +
+      '</div>';
+
+    // ── Action icons row (fav, pin, share) ──
+    var fav  = JHState.isFav(_tech);
+    var pinned = JHState.isPinned(_tech);
+    var actionRow =
+      '<div style="display:flex;align-items:center;gap:8px;padding:14px 20px 0">' +
+        '<button onclick="JHHub.toggleFav()" id="hub-fav-btn" style="display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:' + (fav ? '#f8717120' : '#1c1b1b') + ';border:1px solid ' + (fav ? '#f8717140' : 'rgba(255,255,255,0.08)') + ';cursor:pointer">' +
+          '<span class="ms' + (fav ? ' ms-fill' : '') + '" style="font-size:16px;color:' + (fav ? '#f87171' : 'rgba(229,226,225,0.5)') + '">' + (fav ? 'favorite' : 'favorite_border') + '</span>' +
+          '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;color:' + (fav ? '#f87171' : 'rgba(229,226,225,0.45)') + '">' + (fav ? 'Saved' : 'Save') + '</span>' +
+        '</button>' +
+        '<button onclick="JHHub.togglePin()" id="hub-pin-btn" style="display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:' + (pinned ? '#f2ca5020' : '#1c1b1b') + ';border:1px solid ' + (pinned ? '#f2ca5040' : 'rgba(255,255,255,0.08)') + ';cursor:pointer">' +
+          '<span class="ms' + (pinned ? ' ms-fill' : '') + '" style="font-size:16px;color:' + (pinned ? '#f2ca50' : 'rgba(229,226,225,0.5)') + '">push_pin</span>' +
+          '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;color:' + (pinned ? '#f2ca50' : 'rgba(229,226,225,0.45)') + '">' + (pinned ? 'Pinned' : 'Pin') + '</span>' +
+        '</button>' +
+        '<button onclick="JHHub.share()" style="display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.08);cursor:pointer;margin-left:auto">' +
+          '<span class="ms" style="font-size:16px;color:rgba(229,226,225,0.5)">share</span>' +
+          '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;color:rgba(229,226,225,0.45)">Share</span>' +
+        '</button>' +
+      '</div>';
+
+    // ── Tab bar ──
+    var tabs = ['Details', 'Key Points', 'Common Mistakes'];
+    var tabBar =
+      '<div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.08);padding:0 20px;margin-top:16px">' +
+        tabs.map(function(t, i) {
+          var active = i === _tab;
+          return '<button onclick="JHHub.setTab(' + i + ')" class="hub-tab' + (active ? ' active' : '') + '">' + t + '</button>';
+        }).join('') +
+      '</div>';
+
+    // ── Tab content ──
+    var tabContent = '<div style="padding:20px 20px 28px">' + _getTabContent(content, col) + '</div>';
+
+    el.innerHTML = videoHTML + nameBlock + actionRow + tabBar + tabContent;
   }
 
-  function _renderActionBar() {
-    const el = document.getElementById('hub-action-bar');
+  function _getTabContent(content, col) {
+    if (_tab === 0) {
+      // Details: principle + kuzushi/tsukuri/kake steps
+      var principleHTML = content.principle
+        ? '<p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(229,226,225,0.7);line-height:1.7;padding:14px 16px;background:rgba(255,255,255,0.04);border-radius:12px;border-left:3px solid ' + col + ';margin-bottom:20px">' + content.principle + '</p>'
+        : '';
+      var steps = (content.steps || []).map(function(s, i) {
+        return '<div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px">' +
+          '<div style="width:32px;height:32px;border-radius:50%;background:' + col + '1a;border:1px solid ' + col + '30;display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+            '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:900;font-size:13px;color:' + col + '">' + (i + 1) + '</span>' +
+          '</div>' +
+          '<div>' +
+            '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:12px;color:' + col + ';text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px">' + s.label + '</p>' +
+            '<p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(229,226,225,0.8);line-height:1.6">' + s.text + '</p>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+      return principleHTML + steps;
+    }
+
+    if (_tab === 1) {
+      // Key Points: checklist + drill
+      var points = (content.steps || []).map(function(s) {
+        return '<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.06);margin-bottom:8px">' +
+          '<span class="ms ms-fill" style="font-size:16px;color:' + col + ';flex-shrink:0;margin-top:1px">check_circle</span>' +
+          '<p style="font-family:Inter,sans-serif;font-size:13px;color:rgba(229,226,225,0.85);line-height:1.55"><strong style="color:rgba(229,226,225,0.95)">' + s.label + ':</strong> ' + s.text + '</p>' +
+          '</div>';
+      }).join('');
+      var drillHTML = content.drill
+        ? '<div style="margin-top:16px;padding:14px 16px;border-radius:12px;background:#f2ca5010;border:1px solid #f2ca5022">' +
+            '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:10px;color:#f2ca50;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">QUICK DRILL · ' + (content.drill.time || '5 min') + '</p>' +
+            '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:14px;color:#fff;margin-bottom:6px">' + content.drill.label + '</p>' +
+            '<p style="font-family:Inter,sans-serif;font-size:13px;color:rgba(229,226,225,0.65);line-height:1.55">' + content.drill.text + '</p>' +
+          '</div>'
+        : '';
+      return points + drillHTML;
+    }
+
+    // tab 2: Common Mistakes
+    return (content.errors || []).map(function(e) {
+      return '<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.12);margin-bottom:8px">' +
+        '<span class="ms ms-fill" style="font-size:18px;color:#f87171;flex-shrink:0;margin-top:1px">cancel</span>' +
+        '<p style="font-family:Inter,sans-serif;font-size:14px;color:rgba(229,226,225,0.85);line-height:1.55">' + e + '</p>' +
+        '</div>';
+    }).join('');
+  }
+
+  function _renderBottom() {
+    var el = document.getElementById('hub-bottom');
     if (!el) return;
-    const fav = JHState.isFav(_tech);
-    el.innerHTML = `
-      <button onclick="JHHub.toggleFav()" style="display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer">
-        <div style="width:44px;height:44px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center">
-          <span class="ms${fav ? ' ms-fill' : ''}" style="font-size:20px;color:${fav ? '#f87171' : '#f2ca50'}">${fav ? 'favorite' : 'favorite_border'}</span>
-        </div>
-        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:10px;color:rgba(229,226,225,0.45)">${fav ? 'Saved' : 'Save'}</span>
-      </button>
-      <button onclick="JHHub.togglePin()" style="display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer">
-        <div style="width:44px;height:44px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center">
-          <span class="ms" style="font-size:20px;color:#f2ca50">push_pin</span>
-        </div>
-        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:10px;color:rgba(229,226,225,0.45)">Pin</span>
-      </button>
-      <button onclick="JHHub.startCards()" style="display:flex;align-items:center;gap:8px;padding:0 24px;height:44px;border-radius:12px;background:#f2ca50;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:13px;color:#1a1000;letter-spacing:0.03em">
-        <span class="ms ms-fill" style="font-size:18px">play_arrow</span> Start Learning
-      </button>
-      <button onclick="JHHub.share()" style="display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer">
-        <div style="width:44px;height:44px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center">
-          <span class="ms" style="font-size:20px;color:#f2ca50">share</span>
-        </div>
-        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:10px;color:rgba(229,226,225,0.45)">Share</span>
-      </button>`;
+    var key  = _beltId + '::' + _tech;
+    var done = JHState.isDone(key);
+    var col  = JHState.getBeltColor(_beltId);
+    var vid  = JHState.getVideoId(_tech);
+
+    el.innerHTML =
+      '<div style="display:flex;gap:10px;padding:12px 20px calc(env(safe-area-inset-bottom,0px) + 12px);' +
+           'background:rgba(19,19,19,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06)">' +
+        (vid
+          ? '<button onclick="JHHub.watchVideo()" style="flex:1;padding:14px;border-radius:12px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);color:#e5e2e1;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><span class="ms" style="font-size:16px">play_circle</span>Watch</button>'
+          : '') +
+        (done
+          ? '<div style="flex:2;padding:14px;border-radius:12px;background:' + col + '1a;border:1px solid ' + col + '35;display:flex;align-items:center;justify-content:center;gap:8px">' +
+              '<span class="ms ms-fill" style="font-size:16px;color:' + col + '">check_circle</span>' +
+              '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;color:' + col + '">Mastered</span>' +
+            '</div>'
+          : '<button onclick="JHHub.markMastered()" style="flex:2;padding:14px;border-radius:12px;background:#f2ca50;border:none;color:#1a1000;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">' +
+              '<span class="ms ms-fill" style="font-size:16px">check_circle</span>Mark as Mastered' +
+            '</button>') +
+      '</div>';
   }
 
-  function _renderGrid() {
-    const el = document.getElementById('hub-cards');
-    if (!el) return;
-    const GRID = [
-      { id:'what',   icon:'help_outline',        label:'What Is It?',       sub:'Overview & Purpose',    col:'#818cf8' },
-      { id:'exec',   icon:'format_list_numbered', label:'Execution',         sub:'Step-by-step',          col:'#818cf8' },
-      { id:'errors', icon:'cancel',               label:'Common Errors',     sub:'Top mistakes',          col:'#f87171' },
-      { id:'drill',  icon:'fitness_center',       label:'Quick Drill',       sub:'Train it now',          col:'#f2ca50' },
-      { id:'watch',  icon:'play_circle',          label:'Watch',             sub:'Video examples',        col:'#4ade80' },
-    ];
-    el.innerHTML = GRID.map(c => `
-      <button onclick="JHHub.startCards(${GRID.indexOf(c)})"
-        style="background:#1c1b1b;border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;padding:0;display:flex;flex-direction:column;transition:all 0.15s">
-        <div style="height:3px;background:linear-gradient(90deg,${c.col}60,transparent)"></div>
-        <div style="padding:14px 14px 16px">
-          <span class="ms" style="font-size:20px;color:${c.col};display:block;margin-bottom:8px">${c.icon}</span>
-          <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;color:#e5e2e1;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.05em">${c.label}</p>
-          <p style="font-family:Inter,sans-serif;font-size:11px;color:rgba(229,226,225,0.4)">${c.sub}</p>
-        </div>
-      </button>`).join('');
+  // ── Tab switching ─────────────────────────────────────────────────────────
+  function setTab(i) {
+    _tab = i;
+    // Update tab button classes
+    document.querySelectorAll('.hub-tab').forEach(function(btn, idx) {
+      btn.classList.toggle('active', idx === i);
+    });
+    // Update tab content only
+    var content = _getContent(_tech, _group || '');
+    var col     = JHState.getBeltColor(_beltId);
+    var contentEl = document.querySelector('#hub-scroll > div:last-child');
+    if (contentEl) contentEl.innerHTML = _getTabContent(content, col);
   }
 
-  // ── Swipe card system ─────────────────────────
+  // ── Actions ───────────────────────────────────────────────────────────────
+  function markMastered() {
+    JHState.markDone(_beltId + '::' + _tech);
+    _renderBottom();
+  }
+
+  function watchVideo() {
+    var scrollEl = document.getElementById('hub-scroll');
+    if (scrollEl) scrollEl.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleFav() {
+    JHState.toggleFav(_tech);
+    // Refresh action row by re-rendering scroll (lightweight enough)
+    _renderScroll();
+  }
+
+  function togglePin() {
+    JHState.togglePin(_tech);
+    _renderScroll();
+  }
+
+  function share() {
+    if (navigator.share) {
+      navigator.share({ title: _tech + ' — JudoHub', text: JHState.getEnglish(_tech), url: window.location.href });
+    }
+  }
+
+  // ── Swipe card overlay (legacy — kept for swipe-overlay HTML in index) ───
   function startCards(startIndex) {
     _idx   = startIndex || 0;
-    _cards = _buildCards(_tech, _beltId, _group);
-    _showOverlay();
+    _cards = [];   // no-op in new design
   }
-
-  function _showOverlay() {
-    const overlay = document.getElementById('swipe-overlay');
-    if (!overlay) return;
-    overlay.style.display = 'block';
-    _renderTrack();
-    _updateDots();
-    _initSwipe();
-  }
-
   function closeCards() {
-    const overlay = document.getElementById('swipe-overlay');
+    var overlay = document.getElementById('swipe-overlay');
     if (overlay) overlay.style.display = 'none';
   }
+  function nextCard() {}
+  function prevCard() {}
+  function openCard() {}
 
-  function _renderTrack() {
-    const track = document.getElementById('swipe-track');
-    if (!track) return;
-    track.innerHTML = _cards.map((c, i) => `
-      <div style="min-width:100%;width:100%;height:100%;background:${c.bg};position:relative;overflow-y:auto;overflow-x:hidden;flex-shrink:0">
-        ${c.content}
-        <!-- Bottom nav hint -->
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 28px calc(env(safe-area-inset-bottom,0px) + 20px);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent)">
-          <button onclick="JHHub.prevCard()" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;color:rgba(255,255,255,${i > 0 ? '0.5' : '0'});background:none;border:none;cursor:pointer;padding:8px 0">← Prev</button>
-          <p style="font-family:Inter,sans-serif;font-size:11px;color:rgba(255,255,255,0.25)">Swipe to navigate</p>
-          <button onclick="JHHub.nextCard()" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;color:rgba(255,255,255,${i < _cards.length - 1 ? '0.5' : '0'});background:none;border:none;cursor:pointer;padding:8px 0">Next →</button>
-        </div>
-      </div>`).join('');
-    track.style.transition = 'none';
-    track.style.transform = 'translateX(-' + (_idx * 100) + '%)';
-  }
-
-  function _updateDots() {
-    const dots    = document.getElementById('swipe-dots');
-    const counter = document.getElementById('swipe-counter');
-    if (dots) {
-      dots.innerHTML = _cards.map((_, i) => `
-        <div style="width:${i === _idx ? 20 : 6}px;height:6px;border-radius:3px;background:${i === _idx ? '#f2ca50' : 'rgba(255,255,255,0.2)'};transition:all 0.25s"></div>`).join('');
-    }
-    if (counter) counter.textContent = (_idx + 1) + ' / ' + _cards.length;
-  }
-
-  function _goTo(i) {
-    if (i < 0 || i >= _cards.length) return;
-    _idx = i;
-    const track = document.getElementById('swipe-track');
-    if (track) {
-      track.style.transition = 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)';
-      track.style.transform  = 'translateX(-' + (_idx * 100) + '%)';
-    }
-    _updateDots();
-  }
-
-  function nextCard() { _goTo(_idx + 1); }
-  function prevCard() { _goTo(_idx - 1); }
-
-  function _initSwipe() {
-    const overlay = document.getElementById('swipe-overlay');
-    if (!overlay) return;
-    let startX = 0, startY = 0, isDragging = false, moved = false;
-
-    overlay.ontouchstart = (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      isDragging = true;
-      moved = false;
-    };
-
-    overlay.ontouchmove = (e) => {
-      if (!isDragging) return;
-      const dx = e.touches[0].clientX - startX;
-      const dy = e.touches[0].clientY - startY;
-      if (!moved && Math.abs(dy) > Math.abs(dx)) { isDragging = false; return; }
-      moved = true;
-      e.preventDefault();
-      const track = document.getElementById('swipe-track');
-      if (track) {
-        track.style.transition = 'none';
-        track.style.transform  = 'translateX(calc(-' + (_idx * 100) + 'vw + ' + dx + 'px))';
-      }
-    };
-
-    overlay.ontouchend = (e) => {
-      if (!isDragging || !moved) return;
-      isDragging = false;
-      const dx = e.changedTouches[0].clientX - startX;
-      if (dx < -60)  nextCard();
-      else if (dx > 60) prevCard();
-      else _goTo(_idx);
-    };
-  }
-
-  function toggleFav() { JHState.toggleFav(_tech); _renderActionBar(); }
-  function togglePin() { JHState.togglePin(_tech); _renderActionBar(); }
-  function share() {
-    if (navigator.share) navigator.share({ title: _tech + ' — JudoHub', text: JHState.getEnglish(_tech), url: window.location.href });
-  }
-
-  return { open, startCards, closeCards, nextCard, prevCard, toggleFav, togglePin, share };
+  return { open, setTab, markMastered, watchVideo, toggleFav, togglePin, share,
+           startCards, closeCards, nextCard, prevCard, openCard };
 })();

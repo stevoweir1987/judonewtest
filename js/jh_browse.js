@@ -1,28 +1,28 @@
 const JHBrowse = (() => {
-  let _filter  = 'all';
-  let _query   = '';
+  let _filter = 'mybelt';
+  let _query  = '';
 
   const FILTERS = [
-    { id:'all',       label:'All' },
-    { id:'nage-waza', label:'Nage-waza' },
-    { id:'katame-waza',label:'Katame-waza' },
-    { id:'az',        label:'A–Z' },
+    { id:'mybelt',   label:'My Belt'  },
+    { id:'throws',   label:'Throws'   },
+    { id:'ground',   label:'Ground'   },
+    { id:'combos',   label:'Combos'   },
+    { id:'counters', label:'Counters' },
+    { id:'all',      label:'All'      },
   ];
 
-  const CAT_ICONS = {
-    'Te-waza':          'front_hand',
-    'Koshi-waza':       'accessibility_new',
-    'Ashi-waza':        'directions_walk',
-    'Ma-sutemi-waza':   'airline_stops',
-    'Yoko-sutemi-waza': 'rotate_90_degrees_cw',
-    'Osaekomi-waza':    'lock',
-    'Shime-waza':       'do_not_touch',
-    'Kansetsu-waza':    'back_hand',
+  const LABEL_MAP = {
+    mybelt:   'My Belt',
+    throws:   'Throws',
+    ground:   'Groundwork',
+    combos:   'Combinations & Transitions',
+    counters: 'Counters',
+    all:      'All Techniques',
   };
 
   function render() {
     _renderFilters();
-    _renderContent();
+    _renderGrid();
   }
 
   function _renderFilters() {
@@ -30,208 +30,153 @@ const JHBrowse = (() => {
     if (!el) return;
     el.innerHTML = FILTERS.map(f => {
       const active = f.id === _filter;
-      return `<button onclick="JHBrowse.setFilter('${f.id}')"
-        class="px-4 py-1.5 rounded-full font-jakarta font-bold shrink-0 active-scale"
-        style="font-size:12px;background:${active ? '#f2ca50' : '#1c1b1b'};color:${active ? '#1a1000' : 'rgba(229,226,225,0.55)'};border:1px solid ${active ? '#f2ca50' : 'rgba(255,255,255,0.07)'};white-space:nowrap">
-        ${f.label}</button>`;
+      return '<button onclick="JHBrowse.setFilter(\'' + f.id + '\')"' +
+        ' class="px-3 py-1.5 rounded-full font-jakarta font-bold shrink-0 active-scale"' +
+        ' style="font-size:11px;white-space:nowrap;background:' + (active ? '#f2ca50' : '#1c1b1b') + ';color:' + (active ? '#1a1000' : 'rgba(229,226,225,0.5)') + ';border:1px solid ' + (active ? '#f2ca50' : 'rgba(255,255,255,0.07)') + '">' +
+        f.label + '</button>';
     }).join('');
+    _initDragScroll(el);
   }
 
-  function _renderContent() {
-    const el = document.getElementById('browse-content');
-    if (!el) return;
-    if (typeof BELT_DATA === 'undefined') { el.innerHTML = '<p style="color:rgba(229,226,225,0.3)">Loading…</p>'; return; }
-
-    let html = '';
-
-    // Search results mode
-    if (_query.length >= 2) {
-      html += _renderSearchResults();
-      el.innerHTML = html;
-      return;
-    }
-
-    // Pinned
-    const pinned = JHState.getPinned();
-    if (pinned.length) {
-      html += `<div>
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="font-jakarta font-bold" style="font-size:16px">Pinned</h3>
-          <span style="font-size:12px;color:#f2ca50;font-family:'Plus Jakarta Sans'">Edit</span>
-        </div>
-        <div class="grid grid-cols-2 gap-3">`;
-      html += pinned.slice(0,4).map(id => _bigCard(id)).join('');
-      html += `</div></div>`;
-    }
-
-    // Categories or filtered list
-    if (_filter === 'all' || _filter === 'nage-waza' || _filter === 'katame-waza') {
-      html += _renderCategories();
-    } else if (_filter === 'az') {
-      html += _renderAZ();
-    }
-
-    // Recently viewed
-    const recent = JHState.getRecent(5);
-    if (recent.length) {
-      html += `<div>
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="font-jakarta font-bold" style="font-size:16px">Recently Viewed</h3>
-          <span style="font-size:12px;color:rgba(229,226,225,0.35)">See all</span>
-        </div>
-        <div class="space-y-2">`;
-      html += recent.map(r => _listRow(r.id, r.beltId)).join('');
-      html += `</div></div>`;
-    }
-
-    el.innerHTML = html;
+  function _initDragScroll(el) {
+    if (el._dragBound) return;
+    el._dragBound = true;
+    let isDown = false, startX = 0, scrollLeft = 0;
+    el.addEventListener('mousedown', function(e) {
+      isDown = true; el.style.cursor = 'grabbing';
+      startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft;
+    });
+    el.addEventListener('mouseleave', function() { isDown = false; el.style.cursor = ''; });
+    el.addEventListener('mouseup',    function() { isDown = false; el.style.cursor = ''; });
+    el.addEventListener('mousemove',  function(e) {
+      if (!isDown) return;
+      e.preventDefault();
+      el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+    });
   }
 
-  function _renderCategories() {
-    if (typeof BELT_DATA === 'undefined') return '';
-    // Collect all unique sub-categories (groups)
-    const groupMap = {}; // groupTitle -> { items, beltId }
-    for (const belt of BELT_DATA) {
-      const show = _filter === 'all' ||
-        (_filter === 'nage-waza' && belt.id !== 'ne-waza') ||
-        (_filter === 'katame-waza');
-      if (!show) continue;
-      for (const g of belt.groups) {
-        if (!groupMap[g.title]) groupMap[g.title] = { items:[], belts:new Set() };
-        groupMap[g.title].items.push(...g.items);
-        groupMap[g.title].belts.add(belt.id);
-      }
-    }
-
-    let html = `<div>
-      <h3 class="font-jakarta font-bold mb-4" style="font-size:16px">Categories</h3>
-      <div class="grid grid-cols-2 gap-3">`;
-    for (const [title, data] of Object.entries(groupMap)) {
-      const icon = CAT_ICONS[title] || 'sports_martial_arts';
-      html += `
-        <button onclick="JHBrowse.openCategory('${title.replace(/'/g,"\\'")}') "
-          class="glass rounded-2xl p-4 flex flex-col items-center gap-3 text-center active-scale"
-          style="border:1px solid rgba(255,255,255,0.06)">
-          <div class="w-11 h-11 rounded-2xl flex items-center justify-center" style="background:#f2ca5014">
-            <span class="ms" style="font-size:22px;color:#f2ca50">${icon}</span>
-          </div>
-          <div>
-            <p class="font-jakarta font-bold" style="font-size:13px">${title}</p>
-            <p style="font-size:11px;color:rgba(229,226,225,0.4)">${data.items.length} techniques</p>
-          </div>
-        </button>`;
-    }
-    html += `</div></div>`;
-    return html;
+  function _classify(groupTitle) {
+    const t = groupTitle;
+    const isThrow   = /Tachi-waza|Ukemi/i.test(t) && !/Counter|Combo|Transition|Randori|Kumi/i.test(t);
+    const isGround  = /Osaekomi|Shime|Kansetsu|Ne-waza|Juji-gatame/i.test(t);
+    const isCombo   = /Combination|Transition|Nage-komi/i.test(t);
+    const isCounter = /Counter/i.test(t);
+    return { isThrow, isGround, isCombo, isCounter };
   }
 
-  function _renderAZ() {
-    if (typeof BELT_DATA === 'undefined') return '';
-    const all = [];
-    for (const belt of BELT_DATA) {
-      for (const g of belt.groups) {
-        for (const item of g.items) all.push({ id: item, beltId: belt.id });
-      }
-    }
-    all.sort((a,b) => a.id.localeCompare(b.id));
-
-    return `<div>
-      <h3 class="font-jakarta font-bold mb-4" style="font-size:16px">All Techniques</h3>
-      <div class="space-y-2">${all.map(t => _listRow(t.id, t.beltId)).join('')}</div>
-    </div>`;
-  }
-
-  function _renderSearchResults() {
-    if (typeof BELT_DATA === 'undefined') return '';
-    const q = _query.toLowerCase();
+  function _getTechniques() {
+    if (typeof BELT_DATA === 'undefined') return [];
+    const profile = JHState.getProfile();
     const results = [];
+
     for (const belt of BELT_DATA) {
       for (const g of belt.groups) {
+        if (/Knowledge|Moral Code|Personal Choice|Kumi-kata|^Performance — Randori$/i.test(g.title)) continue;
+
+        const { isThrow, isGround, isCombo, isCounter } = _classify(g.title);
+
         for (const item of g.items) {
           const en = JHState.getEnglish(item);
-          if (item.toLowerCase().includes(q) || en.toLowerCase().includes(q)) {
-            results.push({ id: item, beltId: belt.id });
-          }
+
+          if (_query.length >= 2) {
+            const q = _query.toLowerCase();
+            if (!item.toLowerCase().includes(q) && !en.toLowerCase().includes(q)) continue;
+          } else if (_filter === 'mybelt'   && belt.id !== profile.belt)  continue;
+          else if   (_filter === 'throws'   && !isThrow)                  continue;
+          else if   (_filter === 'ground'   && !isGround)                 continue;
+          else if   (_filter === 'combos'   && !isCombo)                  continue;
+          else if   (_filter === 'counters' && !isCounter)                continue;
+
+          results.push({ id: item, beltId: belt.id, group: g.title });
         }
       }
     }
-    if (!results.length) return `<p style="color:rgba(229,226,225,0.3);font-size:14px">No techniques found for "${_query}"</p>`;
-    return `<div>
-      <p class="mb-3" style="font-size:12px;color:rgba(229,226,225,0.4)">${results.length} results</p>
-      <div class="space-y-2">${results.map(r => _listRow(r.id, r.beltId)).join('')}</div>
-    </div>`;
+    return results;
   }
 
-  function _bigCard(id) {
-    const info  = JHState.findTechnique(id);
-    const beltId = info ? info.beltId : 'red';
-    const thumb = JHState.getThumbUrl(id);
-    const en    = JHState.getEnglish(id);
-    const col   = JHState.getBeltColor(beltId);
-    return `
-      <div class="relative rounded-2xl overflow-hidden active-scale" style="aspect-ratio:1;cursor:pointer;background:#1a1a1a" onclick="JHHub.open('${id}')">
-        ${thumb ? `<img src="${thumb}" alt="${id}" class="absolute inset-0 w-full h-full object-cover opacity-60"/>` : `<div class="absolute inset-0" style="background:${col}15"></div>`}
-        <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(19,19,19,0.95) 0%, rgba(19,19,19,0.2) 60%)"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-3">
-          <span class="inline-block px-2 py-0.5 rounded-full mb-1 font-jakarta font-bold" style="font-size:9px;background:rgba(0,0,0,0.6);color:${col};text-transform:uppercase">${beltId} belt</span>
-          <p class="font-jakarta font-bold" style="font-size:13px">${id}</p>
-          <p style="font-size:11px;color:rgba(229,226,225,0.5)">${en}</p>
-        </div>
-      </div>`;
-  }
-
-  function _listRow(id, beltId) {
-    const en  = JHState.getEnglish(id);
-    const col = JHState.getBeltColor(beltId);
-    const done = JHState.isDone(beltId + '::' + id);
-    return `
-      <div class="glass rounded-2xl p-3 flex items-center gap-4 active-scale" onclick="JHHub.open('${id}','${beltId}')" style="cursor:pointer">
-        <div class="w-14 h-14 rounded-xl overflow-hidden shrink-0" style="background:#1a1a1a">
-          ${(() => { const t = JHState.getThumbUrl(id); return t ? `<img src="${t}" alt="${id}" class="w-full h-full object-cover opacity-70"/>` : `<div class="w-full h-full flex items-center justify-center" style="background:${col}15"><span class="ms" style="font-size:20px;color:${col}40">sports_martial_arts</span></div>`; })()}
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="font-jakarta font-bold" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${id}</p>
-          <p style="font-size:12px;color:rgba(229,226,225,0.45)">${en}</p>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <span class="px-2 py-0.5 rounded-full font-jakarta font-bold" style="font-size:9px;background:${col}22;color:${col};text-transform:uppercase">${beltId}</span>
-          ${done ? '<span class="ms ms-fill" style="font-size:16px;color:#f2ca50">check_circle</span>' : '<span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2)">radio_button_unchecked</span>'}
-        </div>
-      </div>`;
-  }
-
-  function setFilter(id) { _filter = id; _renderFilters(); _renderContent(); }
-  function search(q) { _query = q; _renderContent(); }
-
-  function openCategory(title) {
-    // Render a category-filtered browse
-    _query = '';
+  function _renderGrid() {
     const el = document.getElementById('browse-content');
-    if (!el || typeof BELT_DATA === 'undefined') return;
-    const items = [];
-    for (const belt of BELT_DATA) {
-      for (const g of belt.groups) {
-        if (g.title === title) g.items.forEach(item => items.push({ id: item, beltId: belt.id }));
-      }
+    if (!el) return;
+
+    const items = _getTechniques();
+
+    if (!items.length) {
+      el.innerHTML = '<div style="text-align:center;padding:40px 20px">' +
+        '<span class="ms" style="font-size:40px;color:rgba(229,226,225,0.15)">search_off</span>' +
+        '<p style="font-size:14px;color:rgba(229,226,225,0.35);margin-top:12px">' +
+        (_query ? 'No results for "' + _query + '"' : 'No techniques in this category') + '</p></div>';
+      return;
     }
-    const icon = CAT_ICONS[title] || 'sports_martial_arts';
-    el.innerHTML = `
-      <div>
-        <button onclick="JHBrowse.render()" class="flex items-center gap-2 mb-4 active-scale" style="font-size:13px;color:#f2ca50">
-          <span class="ms" style="font-size:16px">arrow_back</span> Back
-        </button>
-        <div class="flex items-center gap-3 mb-5">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:#f2ca5014">
-            <span class="ms" style="font-size:20px;color:#f2ca50">${icon}</span>
-          </div>
-          <div>
-            <h3 class="font-jakarta font-bold" style="font-size:18px">${title}</h3>
-            <p style="font-size:12px;color:rgba(229,226,225,0.4)">${items.length} techniques</p>
-          </div>
-        </div>
-        <div class="space-y-2">${items.map(t => _listRow(t.id, t.beltId)).join('')}</div>
-      </div>`;
+
+    const label = _query ? (items.length + ' result' + (items.length !== 1 ? 's' : '')) : LABEL_MAP[_filter];
+
+    el.innerHTML =
+      '<p style="font-size:11px;color:rgba(229,226,225,0.35);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px">' +
+        label + ' · ' + items.length +
+      '</p>' +
+      '<div style="display:flex;flex-direction:column;gap:8px">' +
+        items.map(t => _tile(t)).join('') +
+      '</div>';
   }
 
-  return { render, setFilter, search, openCategory };
+  function _tile(t) {
+    const thumb  = JHState.getThumbUrl(t.id);
+    const col    = JHState.getBeltColor(t.beltId);
+    const done   = JHState.isDone(t.beltId + '::' + t.id);
+    const en     = JHState.getEnglish(t.id);
+    const showEn = en.toLowerCase() !== t.id.toLowerCase();
+    const safeName = t.id.replace(/'/g, "\\'");
+    const { isCombo, isCounter } = _classify(t.group);
+
+    // Left thumbnail
+    const thumbEl = thumb
+      ? '<img src="' + thumb + '" alt="' + t.id + '" style="width:72px;height:54px;object-fit:cover;border-radius:10px;flex-shrink:0"/>'
+      : '<div style="width:72px;height:54px;border-radius:10px;background:linear-gradient(135deg,' + col + '28,' + col + '06);display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+          '<span class="ms" style="font-size:24px;color:' + col + '50">' + (isCombo ? 'link' : isCounter ? 'swap_horiz' : 'sports_martial_arts') + '</span>' +
+        '</div>';
+
+    // Right badge
+    const badge = done
+      ? '<span class="ms ms-fill" style="font-size:22px;color:#f2ca50;flex-shrink:0">check_circle</span>'
+      : '<span class="ms" style="font-size:18px;color:rgba(229,226,225,0.18);flex-shrink:0">chevron_right</span>';
+
+    // Belt icon under name
+    const beltIcon = '<img src="' + JHState.getBeltIcon(t.beltId) + '" style="height:11px;width:auto;object-fit:contain;margin-top:5px;display:block" alt=""/>';
+
+    return '<div onclick="JHHub.open(\'' + safeName + '\',\'' + t.beltId + '\')"' +
+      ' style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;' +
+      'background:' + (done ? col + '0e' : '#1c1b1b') + ';' +
+      'border:1px solid ' + (done ? col + '35' : 'rgba(255,255,255,0.05)') + ';cursor:pointer"' +
+      ' class="active-scale">' +
+      thumbEl +
+      '<div style="flex:1;min-width:0">' +
+        '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:14px;color:#e5e2e1;' +
+           'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25">' + t.id + '</p>' +
+        (showEn
+          ? '<p style="font-family:Inter,sans-serif;font-size:11px;color:rgba(229,226,225,0.4);' +
+               'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">' + en + '</p>'
+          : '') +
+        beltIcon +
+      '</div>' +
+      badge +
+      '</div>';
+  }
+
+  function setFilter(id) {
+    _filter = id;
+    _query  = '';
+    const inp = document.getElementById('browse-search');
+    if (inp) inp.value = '';
+    _renderFilters();
+    _renderGrid();
+  }
+
+  function search(q) {
+    _query = q;
+    if (q.length >= 2) _filter = 'all';
+    _renderFilters();
+    _renderGrid();
+  }
+
+  return { render, setFilter, search };
 })();
