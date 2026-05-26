@@ -155,8 +155,8 @@ tailwind.config = {
     <span class="ms" style="font-size:22px;color:#f2ca50">arrow_back</span>
   </button>
   <h1 id="header-title" class="font-jakarta font-extrabold tracking-tight" style="font-size:18px;color:#f2ca50;letter-spacing:-0.01em">JUDOHUB</h1>
-  <button id="header-action" class="w-10 h-10 flex items-center justify-center">
-    <span class="ms" style="font-size:22px;color:rgba(229,226,225,0.5)">notifications</span>
+  <button id="header-action" class="w-10 h-10 flex items-center justify-center" onclick="JHFeedback.open()">
+    <span class="ms" style="font-size:22px;color:rgba(229,226,225,0.5)">chat_bubble_outline</span>
   </button>
 </header>
 
@@ -698,5 +698,51 @@ window.addEventListener("appinstalled", function() {
   var b = document.getElementById("pwa-banner"); if (b) b.style.display = "none";
 });
 </script>
+
+<!-- ── EmailJS ─────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- ── Feedback Modal ─────────────────────────── -->
+<div id="feedback-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px)" onclick="JHFeedback.close(event)">
+  <div id="feedback-sheet" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#1a1918;border-radius:24px 24px 0 0;padding:0 0 calc(env(safe-area-inset-bottom,0px) + 24px)">
+    <!-- Handle -->
+    <div style="display:flex;justify-content:center;padding:12px 0 4px">
+      <div style="width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,0.15)"></div>
+    </div>
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 16px">
+      <div>
+        <p class="font-jakarta font-extrabold" style="font-size:18px;color:#e5e2e1">Send Feedback</p>
+        <p style="font-size:12px;color:rgba(229,226,225,0.4);margin-top:2px">Help us improve JudoHub</p>
+      </div>
+      <button onclick="JHFeedback.close()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <span class="ms" style="font-size:18px;color:rgba(229,226,225,0.6)">close</span>
+      </button>
+    </div>
+    <!-- Category chips -->
+    <div style="display:flex;gap:8px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none">
+      <button class="fb-chip active-scale font-jakarta font-bold" data-cat="Bug" onclick="JHFeedback.setCategory(this)" style="padding:6px 14px;border-radius:20px;border:1px solid rgba(229,72,72,0.5);background:rgba(229,72,72,0.1);color:#e54848;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0">🐛 Bug</button>
+      <button class="fb-chip active-scale font-jakarta font-bold" data-cat="Suggestion" onclick="JHFeedback.setCategory(this)" style="padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(229,226,225,0.5);font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0">💡 Suggestion</button>
+      <button class="fb-chip active-scale font-jakarta font-bold" data-cat="Content" onclick="JHFeedback.setCategory(this)" style="padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(229,226,225,0.5);font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0">📚 Content</button>
+      <button class="fb-chip active-scale font-jakarta font-bold" data-cat="Other" onclick="JHFeedback.setCategory(this)" style="padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(229,226,225,0.5);font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0">💬 Other</button>
+    </div>
+    <!-- Text area -->
+    <div style="padding:0 20px 16px">
+      <textarea id="feedback-text" placeholder="What's on your mind?" rows="4"
+        style="width:100%;background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;color:#e5e2e1;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;resize:none;outline:none;box-sizing:border-box;line-height:1.5"
+        oninput="JHFeedback.onType()"></textarea>
+      <p id="feedback-char" style="font-size:11px;color:rgba(229,226,225,0.25);text-align:right;margin-top:4px">0 / 500</p>
+    </div>
+    <!-- Submit -->
+    <div style="padding:0 20px">
+      <button id="feedback-submit" onclick="JHFeedback.submit()" class="font-jakarta font-extrabold active-scale"
+        style="width:100%;padding:14px;border-radius:14px;background:#f2ca50;color:#0e0c0b;border:none;cursor:pointer;font-size:15px;letter-spacing:0.01em">
+        Send Feedback
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/jh_feedback.js?v=1"></script>
 </body>
 </html>

@@ -47,8 +47,19 @@ const JHHome = (() => {
     var pct    = JHState.beltProgress(beltId);
     var col    = JHState.getBeltColor(beltId);
     var info   = BELT_INFO[beltId] || BELT_INFO.toRed;
+    var streak = JHState.getStreak ? JHState.getStreak() : 0;
+
+    // Streak chip — only show if streak > 0
+    var streakChip = streak > 0
+      ? '<div style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;background:rgba(251,146,60,0.15);border:1px solid rgba(251,146,60,0.3);margin-bottom:8px">' +
+          '<span style="font-size:14px">🔥</span>' +
+          '<span class="font-jakarta font-extrabold" style="font-size:12px;color:#fb923c">' + streak + ' day streak</span>' +
+        '</div>'
+      : '';
+
     el.innerHTML =
       '<div class="glass rounded-2xl overflow-hidden active-scale" onclick="JHRouter.go(\'grade\')" style="cursor:pointer;padding:16px 20px;border:1px solid ' + col + '30">' +
+        (streakChip ? '<div>' + streakChip + '</div>' : '') +
         '<div class="flex items-center justify-between">' +
           '<div class="flex items-center gap-3">' +
             '<div style="width:44px;height:44px;border-radius:50%;background:' + col + '20;border:2px solid ' + col + '50;display:flex;align-items:center;justify-content:center">' +
