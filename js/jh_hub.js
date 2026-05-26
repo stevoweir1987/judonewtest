@@ -355,7 +355,7 @@ const JHHub = (() => {
   function share() {
     var url  = window.location.href;
     var en   = JHState.getEnglish(_tech);
-    var text = _tech + (en ? ' (' + en + ')' : '') + ' — JudoHub';
+    var text = _tech + (en ? ' (' + en + ')' : '') + ' — ObiApp';
     if (navigator.share) {
       navigator.share({ title: text, url: url }).catch(function() {});
     } else {

@@ -1,5 +1,6 @@
 const JHGrade = (() => {
-  let _activeBelt = null;
+  let _activeBelt  = null;
+  let _savedScroll = 0;   // preserved when returning from hub/card
 
   function render() {
     if (typeof BELT_DATA === 'undefined') return;
@@ -7,6 +8,18 @@ const JHGrade = (() => {
     _activeBelt = JHState.getProfile().belt || BELT_DATA[0]?.id || 'toRed';
     _renderPicker();
     _renderContent();
+    // Restore scroll position if returning from a technique card
+    if (_savedScroll > 0) {
+      const sc = document.getElementById('screen-grade');
+      if (sc) { sc.scrollTop = _savedScroll; }
+      _savedScroll = 0;
+    }
+  }
+
+  // Called before navigating to hub so we can restore position on return
+  function saveScroll() {
+    const sc = document.getElementById('screen-grade');
+    if (sc) _savedScroll = sc.scrollTop;
   }
 
   function _renderPicker() {
@@ -137,9 +150,11 @@ const JHGrade = (() => {
               <div class="flex items-center gap-3 p-3 rounded-xl"
                 style="background:${done ? col + '10' : '#1c1b1b'};border:1px solid ${done ? col + '30' : 'rgba(255,255,255,0.05)'}">
                 <button onclick="JHGrade.toggleDone('${key}','${item}','${belt.id}')"
-                  class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center active-scale"
-                  style="background:${done ? col : 'rgba(255,255,255,0.08)'}">
-                  ${done ? '<span class="ms ms-fill" style="font-size:14px;color:#fff">check</span>' : ''}
+                  class="shrink-0 flex items-center justify-center active-scale"
+                  style="width:44px;height:44px;margin:-4px -4px -4px -8px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent">
+                  <div style="width:26px;height:26px;border-radius:50%;background:${done ? col : 'rgba(255,255,255,0.08)'};display:flex;align-items:center;justify-content:center">
+                    ${done ? '<span class="ms ms-fill" style="font-size:15px;color:#fff">check</span>' : ''}
+                  </div>
                 </button>
                 <div class="flex-1 min-w-0">
                   <p class="font-jakarta font-bold" style="font-size:12px;line-height:1.3">${item}</p>
@@ -160,20 +175,25 @@ const JHGrade = (() => {
                </div>`;
 
           return `
-            <div class="flex items-center gap-3 p-3 rounded-xl active-scale"
-              onclick="JHHub.open('${item}','${belt.id}')"
-              style="background:${done ? col + '10' : '#1c1b1b'};border:1px solid ${done ? col + '30' : 'rgba(255,255,255,0.05)'};cursor:pointer">
+            <div class="flex items-center gap-3 rounded-xl"
+              style="background:${done ? col + '10' : '#1c1b1b'};border:1px solid ${done ? col + '30' : 'rgba(255,255,255,0.05)'}">
               <button onclick="event.stopPropagation();JHGrade.toggleDone('${key}','${item}','${belt.id}')"
-                class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center"
-                style="background:${done ? col : 'rgba(255,255,255,0.08)'}">
-                ${done ? '<span class="ms ms-fill" style="font-size:14px;color:#fff">check</span>' : ''}
+                class="shrink-0 flex items-center justify-center active-scale"
+                style="width:52px;height:64px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent">
+                <div style="width:26px;height:26px;border-radius:50%;background:${done ? col : 'rgba(255,255,255,0.08)'};display:flex;align-items:center;justify-content:center">
+                  ${done ? '<span class="ms ms-fill" style="font-size:15px;color:#fff">check</span>' : ''}
+                </div>
               </button>
-              ${thumbEl}
-              <div class="flex-1 min-w-0">
-                <p class="font-jakarta font-bold" style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item}</p>
-                <p style="font-size:11px;color:rgba(229,226,225,0.4)">${en}</p>
+              <div class="flex items-center gap-3 flex-1 min-w-0 active-scale"
+                onclick="JHGrade.saveScroll();JHHub.open('${item}','${belt.id}')"
+                style="cursor:pointer;padding:12px 12px 12px 0">
+                ${thumbEl}
+                <div class="flex-1 min-w-0">
+                  <p class="font-jakarta font-bold" style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item}</p>
+                  <p style="font-size:11px;color:rgba(229,226,225,0.4)">${en}</p>
+                </div>
+                <span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2);flex-shrink:0">chevron_right</span>
               </div>
-              <span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2)">chevron_right</span>
             </div>`;
         }).join('') +
         `</div>
@@ -183,7 +203,7 @@ const JHGrade = (() => {
     el.innerHTML = html;
   }
 
-  function selectBelt(id) { _activeBelt = id; _renderPicker(); _renderContent(); }
+  function selectBelt(id) { _activeBelt = id; _savedScroll = 0; _renderPicker(); _renderContent(); }
 
   function toggleDone(key, techId, beltId) {
     if (!JHState.isDone(key)) JHState.markDone(key);
@@ -191,5 +211,5 @@ const JHGrade = (() => {
     _renderPicker();
   }
 
-  return { render, selectBelt, toggleDone };
+  return { render, selectBelt, toggleDone, saveScroll };
 })();

@@ -1,6 +1,6 @@
 {
-  "name": "JudoHub — BJA Training Companion",
-  "short_name": "JudoHub",
+  "name": "ObiApp — BJA Training Companion",
+  "short_name": "ObiApp",
   "description": "Guided judo training, BJA syllabus progress, and technique library for every grade.",
   "start_url": "/judonewtest/",
   "scope": "/judonewtest/",

@@ -1,12 +1,12 @@
 // ═══════════════════════════════════════════════════
-//  JudoHub Service Worker
+//  ObiApp Service Worker
 //  Strategy:
 //    JS/CSS/images → Cache-first (versioned cache)
 //    HTML          → Network-first with cache fallback
 //    YouTube/CDN   → Network only (no caching external)
 // ═══════════════════════════════════════════════════
 
-const CACHE  = 'judohub-v1';
+const CACHE  = 'obiapp-v1';
 const STATIC = [
   './',
   './index.html',

@@ -178,5 +178,54 @@ const JHSession = (() => {
     '</div>';
   }
 
-  return { start, markDone, skip };
+  // ── Exit confirmation (called by router back button) ─────────────────────
+  function confirmExit() {
+    // If we're on the summary screen, just go home — no confirmation needed
+    if (_idx >= _techs.length) {
+      JHRouter.go('home');
+      return;
+    }
+    // Mid-session — show confirmation overlay
+    var overlay = document.getElementById('session-exit-overlay');
+    if (overlay) { overlay.style.display = 'flex'; return; }
+
+    // Create it
+    var div = document.createElement('div');
+    div.id = 'session-exit-overlay';
+    div.style.cssText = 'position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,0.7);' +
+      'display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)';
+    div.innerHTML =
+      '<div style="width:100%;max-width:430px;background:#1a1918;border-radius:24px 24px 0 0;' +
+        'padding:28px 24px calc(env(safe-area-inset-bottom,0px) + 28px)">' +
+        '<div style="text-align:center;margin-bottom:20px">' +
+          '<p style="font-size:40px;margin-bottom:8px">🥋</p>' +
+          '<p class="font-jakarta font-extrabold" style="font-size:20px;color:#e5e2e1;margin-bottom:6px">Exit session?</p>' +
+          '<p style="font-size:14px;color:rgba(229,226,225,0.45)">Your progress so far won\'t be saved.</p>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:10px">' +
+          '<button onclick="JHSession.doExit()" class="active-scale font-jakarta font-extrabold"' +
+            ' style="width:100%;padding:14px;border-radius:14px;background:#e54848;color:#fff;border:none;cursor:pointer;font-size:15px">' +
+            'Yes, exit session' +
+          '</button>' +
+          '<button onclick="JHSession.cancelExit()" class="active-scale font-jakarta font-bold"' +
+            ' style="width:100%;padding:14px;border-radius:14px;background:rgba(255,255,255,0.08);color:#e5e2e1;border:1px solid rgba(255,255,255,0.1);cursor:pointer;font-size:15px">' +
+            'Keep going' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(div);
+  }
+
+  function doExit() {
+    var overlay = document.getElementById('session-exit-overlay');
+    if (overlay) overlay.remove();
+    JHRouter.go('home');
+  }
+
+  function cancelExit() {
+    var overlay = document.getElementById('session-exit-overlay');
+    if (overlay) overlay.remove();
+  }
+
+  return { start, markDone, skip, confirmExit, doExit, cancelExit };
 })();

@@ -1762,4 +1762,798 @@ const TECHNIQUE_DATA = {
     ],
     tip: 'The san-gaku-osae is a pin AND a threat — uke knows you can squeeze at any moment.'
   },
+
+  // ── RED BELT: TRANSITIONS ────────────────────────────────────────
+  'Osoto-otoshi into Kesa-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Throw','Execute Osoto-otoshi — drop uke straight back.'],
+      ['directions_run','Follow','Step forward immediately as uke hits — don\'t pause at kake.'],
+      ['lock','Settle','Drop into Kesa-gatame before uke can turn — hip glued to their ribs.']
+    ],
+    mistakes: [
+      ['Pausing after the throw','Any hesitation lets uke roll away — transition is one continuous motion.'],
+      ['Landing too far','Step in close — Kesa-gatame requires tight hip-to-ribs contact.']
+    ],
+    tip: 'The throw and the hold are one movement. As your foot drops them, your body is already moving in.'
+  },
+  'Deashi-barai into Mune-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Sweep','Execute Deashi-barai — sweep the foot as uke\'s weight transfers.'],
+      ['directions_run','Move','Slide forward along uke\'s side as they fall.'],
+      ['lock','Cross','Lie chest-to-chest across uke and grip behind both shoulders.']
+    ],
+    mistakes: [
+      ['Stopping at mat level','Keep moving forward as uke falls — meet them on the way down.'],
+      ['Getting the angle wrong','Mune-gatame is perpendicular to uke — slide along their side, not behind them.']
+    ],
+    tip: 'Aim to land perpendicular across uke\'s chest — the sweep direction naturally sets you up for this.'
+  },
+  'Uki-goshi into Kuzure-kesa-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Throw','Execute Uki-goshi — swing uke over the hip.'],
+      ['rotate_right','Turn','As uke lands, turn to face their head and drop beside them.'],
+      ['lock','Secure','Control their near arm under yours, wrap your arm around their head.']
+    ],
+    mistakes: [
+      ['Losing grip on landing','Maintain grip throughout — your sleeve arm transitions into the hold.'],
+      ['Settling too upright','Kuzure-kesa control comes from staying low and tight to uke.']
+    ],
+    tip: 'Kuzure-kesa is a scarf variant — uke\'s arm is trapped under your armpit, not just held.'
+  },
+
+  // ── RED BELT: ESCAPES ───────────────────────────────────────────
+  'Escape from Kesa-gatame by trapping Uke\'s leg': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Bridge','Bridge hard to shift tori\'s weight — create a small gap.'],
+      ['front_hand','Trap','Reach over and hook tori\'s near leg with your inside arm.'],
+      ['rotate_right','Roll','Pull the leg toward you and roll tori over — turn into them.']
+    ],
+    mistakes: [
+      ['Bridging without the hook','The bridge alone won\'t escape — you must capture the leg simultaneously.'],
+      ['Pulling the leg sideways','Pull the leg toward your own body to roll tori over — not sideways.']
+    ],
+    tip: 'Bridge to shift their weight off you, hook the leg in the same moment, then roll — it\'s one fluid action.'
+  },
+  'Escape from Mune-gatame using a bridge and roll action': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Frame','Place forearms against tori\'s hips to create space.'],
+      ['directions_run','Bridge','Drive your hips up explosively — force tori\'s weight to shift.'],
+      ['rotate_right','Roll','Shrimp and roll toward tori as their weight tips — turn in.']
+    ],
+    mistakes: [
+      ['Bridging straight up','Bridge diagonally toward tori — straight up just dumps you back down.'],
+      ['Not using the frame','Framing with your arms stops tori resetting — hold the frame throughout.']
+    ],
+    tip: 'Your bridge moves their centre of gravity — the instant it tips, commit to the roll before they recover.'
+  },
+  'Escape from Kuzure-kesa-gatame using sit up and push': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Free the arm','Work your trapped arm out — wriggle the elbow downward.'],
+      ['directions_run','Sit up','Curl up explosively — drive your elbow toward tori\'s face.'],
+      ['check_circle','Push off','Push tori away and come up to your knees.']
+    ],
+    mistakes: [
+      ['Pulling the arm back','Pull and wriggle the elbow down and out — pulling back traps it worse.'],
+      ['Slow sit-up','Explosive sit-up takes tori by surprise — slow and steady doesn\'t work here.']
+    ],
+    tip: 'Freeing your arm is the entire escape — once it\'s out, the sit-up has nothing to resist.'
+  },
+
+  // ── RED BELT: PERSONAL CHOICE ─────────────────────────────────
+  'One additional tachi-waza of choice': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose','Pick a throw from your belt syllabus that suits your body type.'],
+      ['repeat','Drill','Drill the entry (uchi-komi) at least 50 reps per session.'],
+      ['check_circle','Apply','Attempt it in light randori — refine based on what works.']
+    ],
+    mistakes: [
+      ['Choosing for style not fit','Pick a throw that uses your strengths — tall? hip throws. Quick? foot sweeps.'],
+      ['Skipping uchi-komi','Entry drilling is everything — a perfect throw comes from a perfect entry.']
+    ],
+    tip: 'Your personal choice throw becomes your tokui-waza (favourite technique) — make it yours.'
+  },
+  'One additional ne-waza of choice': {
+    cat: 'hold',
+    steps: [
+      ['sports_martial_arts','Choose','Select one ground technique you want to make reliable.'],
+      ['repeat','Drill','Practice entries and escapes for that technique repeatedly.'],
+      ['check_circle','Apply','Use it in ne-waza randori — see what adjustments you need.']
+    ],
+    mistakes: [
+      ['Changing too often','Stick with one technique until it works — don\'t keep switching.'],
+      ['Only practising the hold','Practise how you get there — entries are as important as the technique itself.']
+    ],
+    tip: 'A ne-waza technique you truly own is worth more than five you sort of know.'
+  },
+
+  // ── YELLOW BELT: TRANSITIONS ─────────────────────────────────
+  'Tai-otoshi → Yoko-shiho-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Throw','Execute Tai-otoshi — drive uke over your outstretched leg.'],
+      ['directions_run','Pivot','As uke hits the mat, pivot to face them and drop to your knees.'],
+      ['lock','Pin','Slide over uke\'s body into Yoko-shiho-gatame — chest on chest, control both sides.']
+    ],
+    mistakes: [
+      ['Releasing the grip','Maintain your sleeve grip — it guides you into position on the mat.'],
+      ['Sitting too high','Your chest must be flat on uke\'s — stay horizontal, not kneeling upright.']
+    ],
+    tip: 'Tai-otoshi throws uke away from you — you must move quickly to close the gap and pin.'
+  },
+  'Ippon-seoi-nage → Kami-shiho-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Throw','Execute Ippon-seoi-nage — roll uke over your shoulder.'],
+      ['directions_run','Circle','Step around to uke\'s head as they land.'],
+      ['lock','Pin','Lie chest-down over their head, reach under both armpits, grip belt or jacket.']
+    ],
+    mistakes: [
+      ['Walking too far around','Two steps maximum — move quickly before uke can roll to their side.'],
+      ['Hips too high','Drive your hips down toward uke\'s head — weight forward, not kneeling up.']
+    ],
+    tip: 'The throw sends uke away from you — circle around their head and come down heavy on top.'
+  },
+  'Ouchi-gari → Tate-shiho-gatame': {
+    cat: 'hold',
+    steps: [
+      ['trending_up','Reap','Execute Ouchi-gari — drive uke backward and down.'],
+      ['directions_run','Follow','Step forward and down as uke falls — don\'t stop at kake.'],
+      ['lock','Mount','Land chest-to-chest in Tate-shiho-gatame, knees squeezing uke\'s hips.']
+    ],
+    mistakes: [
+      ['Landing beside uke','Ouchi-gari drops uke under you — follow their fall direction and land on top.'],
+      ['Loose knees','Knee pressure on uke\'s hips prevents the bridge — squeeze throughout.']
+    ],
+    tip: 'Ouchi-gari naturally sets up a forward fall — ride it straight down into the mounted position.'
+  },
+
+  // ── YELLOW BELT: NE-WAZA ESCAPES & TURNOVERS ────────────────────
+  'Escape from Kami-shiho-gatame (action & reaction)': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Grip','Grip both of tori\'s sleeves at the elbow — control their arms.'],
+      ['directions_run','Bridge','Bridge hard to one side, pulling one of tori\'s arms across their body.'],
+      ['rotate_right','Roll','As tori reacts to resist, reverse the direction and roll the other way.']
+    ],
+    mistakes: [
+      ['Bridging without grips','Gripping the sleeves is essential — it turns their arm control against them.'],
+      ['Committing only one direction','Action-reaction means feinting one way — the escape is the reversal.']
+    ],
+    tip: 'Make tori move first. Bridge one way to force a reaction, then immediately exploit that reaction.'
+  },
+  'Escape from Tate-shiho-gatame (clamp & roll)': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Clamp','Trap one of tori\'s arms by clamping it to your body with both arms.'],
+      ['directions_run','Bridge','Explosively bridge to the side of the trapped arm.'],
+      ['rotate_right','Roll','Roll tori over the clamped arm — they cannot post that arm to stop the fall.']
+    ],
+    mistakes: [
+      ['Clamping loosely','The arm must be completely locked — any slack and tori will pull it free.'],
+      ['Rolling the wrong way','Always roll toward the trapped arm — it removes their main base.']
+    ],
+    tip: 'Remove one of tori\'s four posts (hands and knees) and the mount becomes unstable — one arm clamped equals one post gone.'
+  },
+  'Escape from Yoko-shiho-gatame (trap, bridge & roll)': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Trap','Hook the near leg of tori with your inside arm.'],
+      ['directions_run','Bridge','Bridge explosively, pulling the leg toward you.'],
+      ['rotate_right','Roll','Roll tori over your body using the leg hook — come up on top.']
+    ],
+    mistakes: [
+      ['Reaching over the top','Hook under tori\'s thigh, not over their hip — you need the knee, not the waist.'],
+      ['Slow bridge','Speed is critical — a slow bridge gives tori time to base out and reset.']
+    ],
+    tip: 'Think of it as pulling tori\'s base out from under them — the leg hook removes their anchor point.'
+  },
+  'Turnover into Kesa-gatame (uke all fours)': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Position','Approach uke from the side while they are on all fours.'],
+      ['front_hand','Drive','Drive your shoulder into their near shoulder, push them sideways.'],
+      ['lock','Settle','As uke tips over, drop into Kesa-gatame alongside them.']
+    ],
+    mistakes: [
+      ['Pushing from behind','Side pressure is more effective — pushing from behind just drives them forward.'],
+      ['Losing contact','Stay glued to uke throughout the turnover — gaps let them resist.']
+    ],
+    tip: 'Shoulder drives shoulder — align your shoulder with theirs and drive in the direction they\'re already moving.'
+  },
+  'Turnover into Mune-gatame (uke all fours)': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Position','Come to uke\'s side, reach under their far arm.'],
+      ['front_hand','Pull','Pull the far arm toward you and press down on their back.'],
+      ['lock','Cross','As uke rolls, cross over their body into Mune-gatame.']
+    ],
+    mistakes: [
+      ['Reaching over the body','Reach under the armpit, not over the top — under-the-arm gives you leverage.'],
+      ['Stopping mid-roll','Commit through the entire roll — pausing halfway lets uke recover base.']
+    ],
+    tip: 'Threading your arm under their armpit means wherever they go, you can follow — use it as a handle.'
+  },
+  'Turnover into Yoko-shiho-gatame (uke face-down)': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Position','Approach from the side — uke face down.'],
+      ['front_hand','Thread','Reach under uke\'s near arm and across to grip the far collar.'],
+      ['lock','Roll','Pull the collar toward you and roll uke over onto their back, following into Yoko-shiho.']
+    ],
+    mistakes: [
+      ['Pulling straight up','Pull diagonally across uke\'s body — straight up just lifts them.'],
+      ['Not completing the pin','Continue the roll all the way through — stop at their back, not on their side.']
+    ],
+    tip: 'The collar grip is your steering wheel — pull across their body toward your hip, not upward.'
+  },
+
+  // ── YELLOW BELT: KUMI-KATA & RANDORI ────────────────────────────
+  'Standard grips — right and left': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Right natural','Right hand grips uke\'s left lapel at chest height. Left hand grips the right sleeve at the elbow.'],
+      ['swap_horiz','Left natural','Mirror image — left hand on lapel, right hand on sleeve.'],
+      ['check_circle','Quality','Grip with the fingers, not the palm — tighter, less fatigue.']
+    ],
+    mistakes: [
+      ['Gripping with the palm','Palm grips tire quickly and have less control — use the fingers and base of the thumb.'],
+      ['High collar grip too early','High collar is an advanced grip — start with the standard lapel to build the habit.']
+    ],
+    tip: 'A good grip is the first half of every throw. If your kumi-kata is weak, your technique will always be limited.'
+  },
+  'Right vs left, double lapel, high collar grips': {
+    cat: 'throw',
+    steps: [
+      ['swap_horiz','Kenka-yotsu','When right vs left — expect more space and awkward angles. Adjust footwork.'],
+      ['front_hand','Double lapel','Both hands on lapels — good for controlling posture, limited for throwing.'],
+      ['trending_up','High collar','Same-side hand grips behind the collar — increases forward kuzushi but tires the grip.']
+    ],
+    mistakes: [
+      ['Not adjusting to left-handers','Right vs left changes the whole geometry — you need a different entry strategy.'],
+      ['Holding high collar too long','High collar drains grip strength fast — use it as a temporary weapon, not a default.']
+    ],
+    tip: 'Different grips change what attacks are available. Learn to feel which throws are open from each grip situation.'
+  },
+  'Nage-komi in light randori': {
+    cat: 'throw',
+    steps: [
+      ['repeat','Uchi-komi first','Drill the entry 10–15 times to warm up the movement pattern.'],
+      ['sports_martial_arts','Light randori','Move with a partner at 50% — create situations to attempt your techniques.'],
+      ['check_circle','Commit','When the opportunity appears, commit fully — no half-throws.']
+    ],
+    mistakes: [
+      ['Randori too hard','Light randori is for technique — competition pace makes you revert to muscle and forget timing.'],
+      ['Only defending','You must create and attempt attacks — passive randori builds no offensive skill.']
+    ],
+    tip: 'Think of light randori as moving uchi-komi — you\'re testing your setups, not trying to win.'
+  },
+  'One additional tachi-waza of choice': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose','Pick a throw from your belt syllabus that suits your body type.'],
+      ['repeat','Drill','Drill the entry (uchi-komi) at least 50 reps per session.'],
+      ['check_circle','Apply','Attempt it in light randori — refine based on what works.']
+    ],
+    mistakes: [
+      ['Choosing for style not fit','Pick a throw that uses your strengths — tall? hip throws. Quick? foot sweeps.'],
+      ['Skipping uchi-komi','Entry drilling is everything — a perfect throw comes from a perfect entry.']
+    ],
+    tip: 'Your personal choice throw becomes your tokui-waza (favourite technique) — make it yours.'
+  },
+  'One additional ne-waza of choice': {
+    cat: 'hold',
+    steps: [
+      ['sports_martial_arts','Choose','Select one ground technique you want to make reliable.'],
+      ['repeat','Drill','Practice entries and escapes for that technique repeatedly.'],
+      ['check_circle','Apply','Use it in ne-waza randori — see what adjustments you need.']
+    ],
+    mistakes: [
+      ['Changing too often','Stick with one technique until it works — don\'t keep switching.'],
+      ['Only practising the hold','Practise how you get there — entries are as important as the technique itself.']
+    ],
+    tip: 'A ne-waza technique you truly own is worth more than five you sort of know.'
+  },
+
+  // ── ORANGE BELT: COMBINATIONS ───────────────────────────────────
+  'Ouchi-gari → Ko-uchi-gari': {
+    cat: 'throw',
+    steps: [
+      ['trending_up','Attack right','Drive Ouchi-gari at uke\'s right leg — force them to step back left.'],
+      ['swap_horiz','Read reaction','As uke steps back with the left foot, their weight shifts forward over it.'],
+      ['directions_run','Attack left','Immediately Ko-uchi-gari that left foot — the weight transfer makes it easy.']
+    ],
+    mistakes: [
+      ['Same-direction combo','Both attacks go to different legs — the reaction to one creates the opportunity for the other.'],
+      ['Pausing between attacks','Combinations have no pause — the second attack starts as the first finishes.']
+    ],
+    tip: 'Ouchi-gari makes uke step. Ko-uchi-gari catches the step. Learn to feel the step before you see it.'
+  },
+  'Ko-uchi-gari → O-soto-gari or O-soto-gake': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Ko-uchi first','Attack Ko-uchi-gari to uke\'s front foot — drive them back.'],
+      ['directions_run','Read the step','Uke steps back with the rear leg to escape — that leg is now loaded.'],
+      ['trending_up','O-soto finish','Drive into O-soto-gari or O-soto-gake on that loaded back leg.']
+    ],
+    mistakes: [
+      ['Weak Ko-uchi','If Ko-uchi doesn\'t threaten, uke won\'t react — the first attack must be committed.'],
+      ['Wrong foot for O-soto','O-soto attacks the leg uke just stepped back with — make sure it\'s the right one.']
+    ],
+    tip: 'Ko-uchi makes uke go backward. O-soto punishes backward. They are made for each other.'
+  },
+  'Ko-uchi-gari → Morote-seoi-nage': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Ko-uchi feint','Attack Ko-uchi to uke\'s front foot — make them think about their feet.'],
+      ['directions_run','Uke stands tall','Uke pulls their foot back and stands upright to defend.'],
+      ['trending_up','Seoi entry','Their upright posture opens their centre — drive straight in for Morote-seoi-nage.']
+    ],
+    mistakes: [
+      ['Not committing the Ko-uchi','A half-hearted Ko-uchi won\'t make uke react — step in and make it real.'],
+      ['Late seoi entry','Uke\'s upright posture is brief — enter the moment they stand tall.']
+    ],
+    tip: 'Ko-uchi pulls uke\'s attention down to their feet. Seoi-nage attacks when their mind is on the floor.'
+  },
+  'Ippon-seoi-nage → Ko-uchi-gari': {
+    cat: 'throw',
+    steps: [
+      ['directions_run','Seoi entry','Begin Ippon-seoi-nage entry — drive in and load uke on your back.'],
+      ['swap_horiz','Uke defends','Uke steps forward to stuff the throw — their front foot is now loaded.'],
+      ['front_hand','Ko-uchi finish','Drop out of the entry and Ko-uchi-gari the loaded front foot.']
+    ],
+    mistakes: [
+      ['Abandoning the entry too early','Commit far enough to force a reaction — pull out too soon and uke doesn\'t move.'],
+      ['Forgetting to drop low','Ko-uchi after a failed seoi entry needs you to drop your level instantly.']
+    ],
+    tip: 'Failed throws create opportunities. When uke steps forward to block the seoi, that step is the Ko-uchi target.'
+  },
+  'Any technique combined with Seoi-otoshi or Ko-uchi-gari': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose your base','Pick your primary technique — the one you want uke to defend against.'],
+      ['swap_horiz','Identify the reaction','Decide in advance what Seoi-otoshi or Ko-uchi-gari will catch.'],
+      ['trending_up','Drill the combination','Repeat the pairing until the transition feels automatic.']
+    ],
+    mistakes: [
+      ['No clear plan','Know which reaction you\'re looking for — random combination attempts waste energy.'],
+      ['Both techniques at 50%','Each technique must be fully committed — a weak first attack creates no reaction.']
+    ],
+    tip: 'Seoi-otoshi and Ko-uchi-gari are ideal combination finishers because they attack the reaction — not the original position.'
+  },
+
+  // ── ORANGE BELT: COUNTERS ────────────────────────────────────────
+  'Ouchi-gari countered by Tsurikomi-goshi': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Read Ouchi','Feel uke driving their reaping leg in — their weight commits forward.'],
+      ['rotate_right','Step across','Step your outside foot across uke\'s centreline as their leg commits.'],
+      ['trending_up','Tsurikomi-goshi','Pull up on the collar (tsuri) and pull forward on the sleeve (komi) — load and throw.']
+    ],
+    mistakes: [
+      ['Stepping too late','The counter must start as uke\'s leg commits — too late and their weight has already shifted.'],
+      ['Forgetting the pull','Tsurikomi-goshi is a lifting-pulling throw — weak arm action kills the throw.']
+    ],
+    tip: 'Ouchi-gari drives uke\'s weight forward over the reaping leg — step into that forward momentum with the hip.'
+  },
+  'Tai-otoshi countered by Ko-soto-gari or Ko-soto-gake': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Feel the entry','Sense uke pivoting in for Tai-otoshi — their back is turning to you.'],
+      ['directions_run','Step outside','Step to uke\'s outside, past their extended blocking leg.'],
+      ['trending_up','Ko-soto finish','Reap or hook the back heel with Ko-soto-gari or Ko-soto-gake.']
+    ],
+    mistakes: [
+      ['Stepping into the throw','Moving away from uke\'s extended leg is the whole counter — step past it.'],
+      ['No upper body control','The arm pull must accompany the reap — body throw needs both.']
+    ],
+    tip: 'Tai-otoshi\'s blocking leg is its weakness — step outside it and you remove the entire mechanism of the throw.'
+  },
+
+  // ── ORANGE BELT: NE-WAZA ─────────────────────────────────────────
+  'Escape from Kesa-gatame (bridge & roll)': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Free the arm','Slide your trapped arm down and out — work the elbow out first.'],
+      ['directions_run','Bridge into tori','Bridge explosively toward tori — not straight up.'],
+      ['rotate_right','Roll','As tori tips, continue the roll — come up on top or to your knees.']
+    ],
+    mistakes: [
+      ['Bridging away from tori','You bridge toward tori to roll them — bridging away just lifts you.'],
+      ['Arm not free first','Freeing the arm is the priority — without it, you cannot complete the roll.']
+    ],
+    tip: 'Think "into them, over them" — the bridge is toward tori, never straight up.'
+  },
+  'Move into Kesa-gatame from between uke\'s legs': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Position','Start between uke\'s legs — uke face up.'],
+      ['front_hand','Thread','Slide to uke\'s side, driving your hip past their thigh.'],
+      ['lock','Settle','Control the head-and-arm as you clear their legs and settle into Kesa-gatame.']
+    ],
+    mistakes: [
+      ['Rushing the slide','Explosive lateral movement — if you go slowly, uke will trap your arm or leg.'],
+      ['Losing the head','Head control comes first — without it, uke can post and prevent the pin.']
+    ],
+    tip: 'Drive your hip through — it\'s a decisive lateral movement, not a gentle slide.'
+  },
+  'Move into Yoko-shiho-gatame from between uke\'s legs': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Position','Start between uke\'s legs, hands on their hips.'],
+      ['front_hand','Pass','Drive forward over one of uke\'s legs to the side.'],
+      ['lock','Pin','Settle into Yoko-shiho — chest flat, control both sides.']
+    ],
+    mistakes: [
+      ['Passing slowly','Any hesitation lets uke frame and prevent the pass — be explosive.'],
+      ['High hips','Keep hips low throughout the pass — high hips let uke replace the guard.']
+    ],
+    tip: 'The pass is like a plank falling to one side — drive your whole body over, committed and low.'
+  },
+  'Arm roll — uke approaching from front': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Control arm','As uke reaches across from the front, grip their near wrist.'],
+      ['rotate_right','Thread','Duck under their arm and thread your body underneath it.'],
+      ['lock','Roll','Continue rotating, rolling uke over your body onto their back.']
+    ],
+    mistakes: [
+      ['Losing the wrist','The wrist grip controls the whole movement — don\'t let go.'],
+      ['Rolling sideways','Roll under and through the arm — you\'re creating a spiral motion, not a lateral roll.']
+    ],
+    tip: 'The arm roll works with gravity — guide uke over you, don\'t force them.'
+  },
+  'Arm roll — uke approaching from behind': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Grip','Grip uke\'s wrist as their arm comes over your shoulder from behind.'],
+      ['rotate_right','Duck under','Drop your level and duck under the arm.'],
+      ['lock','Roll','Spiral uke over your shoulder onto their back.']
+    ],
+    mistakes: [
+      ['Standing tall','You must duck under the arm — staying upright means you can\'t thread through.'],
+      ['Losing the wrist grip','The wrist is your lever — losing it means losing the whole roll.']
+    ],
+    tip: 'Drop your level suddenly — uke\'s arm is the axle, your movement is the wheel turning around it.'
+  },
+  'Turnover from underneath into Tate-shiho-gatame': {
+    cat: 'hold',
+    steps: [
+      ['directions_run','Create space','From underneath uke, bump your hips to make space.'],
+      ['rotate_right','Half guard','Work to half-guard — one leg over uke\'s thigh to control them.'],
+      ['lock','Sweep','Bridge and roll uke over — follow them up into Tate-shiho-gatame.']
+    ],
+    mistakes: [
+      ['No hip bump','Without creating space first, the sweep has nothing to work with.'],
+      ['Not following the roll','As uke rolls over, follow them immediately — hesitation loses the position.']
+    ],
+    tip: 'Getting to half guard is the turning point — from there, you have leverage. Get there first, sweep second.'
+  },
+  'Randori demonstration': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Move','Keep moving — constant footwork, never static.'],
+      ['front_hand','Grip fight','Work to get your preferred grip while breaking uke\'s attacks.'],
+      ['trending_up','Attack','Commit to attempts — the examiner wants to see genuine throws, not caution.']
+    ],
+    mistakes: [
+      ['Being passive','Standing and waiting shows nothing — you must initiate attacks.'],
+      ['One-dimensional','Use tachi-waza and ne-waza — demonstrate range, not just one technique.']
+    ],
+    tip: 'Randori is not winning — it is performing. Show movement, grip work, attacks, and ne-waza transitions.'
+  },
+  'Two tachi-waza of choice': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose wisely','Pick techniques that complement each other — one forward, one sideways or backward.'],
+      ['repeat','Drill both','Minimum 30 uchi-komi reps per session for each chosen technique.'],
+      ['check_circle','Combine','Practise using them as a combination — first choice sets up the second.']
+    ],
+    mistakes: [
+      ['Both from the same direction','Two throws in the same direction don\'t help each other — diversify.'],
+      ['Never combing them','Two separate techniques are fine. Two that work together are a weapon.']
+    ],
+    tip: 'Think of your two choices as a question and an answer — one forces a reaction, the other scores from it.'
+  },
+  'One ne-waza of choice': {
+    cat: 'hold',
+    steps: [
+      ['sports_martial_arts','Choose','Pick the ground technique that most naturally follows your throws.'],
+      ['repeat','Entry drill','Practice the entry from a throw — not just the technique in isolation.'],
+      ['check_circle','Apply','Use it in live groundwork practice and refine what isn\'t working.']
+    ],
+    mistakes: [
+      ['Picking the hardest technique','Pick what\'s reliable, not impressive — you need it to work under pressure.'],
+      ['Skipping the entry','A technique you can only do when handed the position is only half a technique.']
+    ],
+    tip: 'Your ne-waza choice should extend your tachi-waza — the throw puts uke in a position, the ground technique finishes it.'
+  },
+
+  // ── GREEN BELT: JUJI-GATAME ENTRIES ─────────────────────────────
+  'Juji-gatame — sit-back entry': {
+    cat: 'lock',
+    steps: [
+      ['front_hand','Control arm','From tachi-waza or ne-waza, secure uke\'s arm with both hands — thumb up.'],
+      ['directions_run','Sit back','Step your far leg across uke\'s face and sit back rapidly, pulling the arm into your hips.'],
+      ['lock','Extend','Squeeze knees, extend hips, pull the arm toward your chest — controlled, sustained pressure.']
+    ],
+    mistakes: [
+      ['Arm not thumb-up','Elbow must face up — if it faces down, the lock works on the wrong joint.'],
+      ['Knees apart','Knees together on uke\'s arm control direction and prevent the arm being pulled free.']
+    ],
+    tip: 'The sit-back is explosive — you must be all the way down before uke can react. Half-committed means uke escapes.'
+  },
+  'Juji-gatame — rollover entry': {
+    cat: 'lock',
+    steps: [
+      ['front_hand','Grip arm','Control uke\'s arm in your armpit — both hands secure.'],
+      ['rotate_right','Roll over','Roll forward over uke, pulling the arm across your chest as you go.'],
+      ['lock','Finish','Land with uke\'s arm across your hips, knees squeezed, extend to apply the lock.']
+    ],
+    mistakes: [
+      ['Rolling without arm control','The arm must be clamped before the roll — if it slips, uke escapes.'],
+      ['Landing on the side','Roll to flat on your back — landing on your side weakens the armlock position.']
+    ],
+    tip: 'The roll momentum carries both of you — use uke\'s weight to help you rotate, don\'t fight against it.'
+  },
+  'Juji-gatame — over-the-shoulder entry': {
+    cat: 'lock',
+    steps: [
+      ['front_hand','Grip arm','Control uke\'s straight arm at the wrist — thumb up.'],
+      ['directions_run','Step over','Step your near leg over uke\'s head, sit to the mat.'],
+      ['lock','Apply','Squeeze knees, extend hips upward — steady increasing pressure on the elbow.']
+    ],
+    mistakes: [
+      ['Stepping onto the head','Step over the head, not onto it — contact must be thigh on neck, not foot on face.'],
+      ['Jerking the arm','Apply pressure gradually and steadily — jerking risks injury and uke may panic.']
+    ],
+    tip: 'Control the wrist throughout — the moment you lose the wrist, you lose the lock.'
+  },
+  'Juji-gatame — entry from beneath': {
+    cat: 'lock',
+    steps: [
+      ['front_hand','From guard','Uke is in your guard — grip their sleeve and pull their arm straight.'],
+      ['rotate_right','Hip out','Open guard, swing hips out to the arm side.'],
+      ['lock','Triangle the legs','Swing your top leg over uke\'s head and lock the triangle, extend hips.']
+    ],
+    mistakes: [
+      ['Arm not straight','A bent arm cannot be locked — straighten it before applying leg control.'],
+      ['Hips not moved out','Hip movement creates the angle — without it, you cannot get the leg over.']
+    ],
+    tip: 'Get the arm straight first, then move your hips — in that order. Skipping the first step means the lock won\'t work.'
+  },
+  'Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Combos','Choose two throw combinations — attacks where one reaction leads to the second technique.'],
+      ['swap_horiz','Counters','Choose two counter attacks — throws that catch a specific attack from uke.'],
+      ['lock','Ne-waza','Choose two transitions — throws that land uke in position for a ground technique.']
+    ],
+    mistakes: [
+      ['Not connecting them','Each pair must be logically linked — random techniques don\'t demonstrate understanding.'],
+      ['Only drilling standing','Practise each one from live situations, not just static demonstration.']
+    ],
+    tip: 'The examiner wants to see that you understand how judo connects — throw creates opening, opening becomes finish.'
+  },
+
+  // ── BLUE BELT: NE-WAZA / SHIME-WAZA SITUATIONS ──────────────────
+  'Ude-garami from Kuzure-kesa-gatame': {
+    cat: 'lock',
+    steps: [
+      ['lock','In kuzure-kesa','While holding Kuzure-kesa-gatame, feel uke push upward with their trapped arm.'],
+      ['front_hand','Figure four','Thread your arm under uke\'s elbow — form a figure-four grip on your own forearm.'],
+      ['trending_up','Rotate','Rotate uke\'s elbow upward and outward — controlled, steady rotation.']
+    ],
+    mistakes: [
+      ['Losing the pin','Maintain Kuzure-kesa pressure while applying the lock — uke gets 20 seconds of hold first.'],
+      ['Fast rotation','Ude-garami is a subtle lock — slow rotation with no jerk is safe and effective.']
+    ],
+    tip: 'The lock appears naturally from the hold — when uke pushes their arm up to escape, thread underneath it.'
+  },
+  'Koshi-jime — Uke attempts Seoi-otoshi': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Grip collar','As uke ducks for Seoi-otoshi, get your arm around their neck from behind.'],
+      ['lock','Hook the hip','Thread your forearm across uke\'s throat and grip their far hip or belt.'],
+      ['trending_up','Sit through','Sit through between uke\'s legs — your hip drives the choke as you descend.']
+    ],
+    mistakes: [
+      ['Missing the duck','You must anticipate the Seoi entry — a late reaction means uke already has the position.'],
+      ['Not sitting through','The hip action is what creates the choke — leaning forward doesn\'t produce pressure.']
+    ],
+    tip: 'Koshi-jime works because uke has compromised their neck by ducking — you are exploiting the bent-forward posture.'
+  },
+  'Kata-te-jime — Uke in all fours position': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Approach from above','Come over uke\'s back from behind — chest over their shoulders.'],
+      ['lock','Thread one hand','Thread one hand under the neck, gripping the far collar.'],
+      ['trending_up','Single hand choke','Apply pressure by pulling the collar toward you with one hand and pushing uke\'s head forward with the other.']
+    ],
+    mistakes: [
+      ['Grip too low','Grip at the side of the neck on the collar — low grips slide away without producing a choke.'],
+      ['Sitting up off uke','Keep your body weight on uke\'s back — if you rise, they can escape easily.']
+    ],
+    tip: 'The collar must press against the carotid artery — position it at the neck, not the chest.'
+  },
+  'Nami-juji-jime — Uke underneath (between Tori\'s legs)': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Mount position','Be in Tate-shiho-gatame (mount) — uke face up beneath you.'],
+      ['lock','Cross collar','Both hands grip uke\'s collar — palms down, thumbs inside the collar.'],
+      ['trending_up','Squeeze','Cross your wrists and squeeze your elbows toward each other — the cross-wrist action closes the collar.']
+    ],
+    mistakes: [
+      ['Palms up','Nami-juji-jime is palms down — palms up is Gyaku-juji. Wrong grip changes the whole mechanic.'],
+      ['Elbows out','Elbows must move inward and down — flaring them out releases the choke.']
+    ],
+    tip: 'Think scissors — your crossed wrists cut like scissor blades as the elbows drive toward the floor.'
+  },
+  'Gyaku-juji-jime — Uke on top (between Tori\'s legs)': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','From guard','Uke is in your closed guard — pull them down onto your chest.'],
+      ['lock','Reverse collar grip','Both hands grip uke\'s collar — palms up, thumbs outside.'],
+      ['trending_up','Squeeze','Drive elbows to the floor and pull the collar edges apart — this closes the collar on the carotids.']
+    ],
+    mistakes: [
+      ['Palms down','Gyaku-juji is palms up — reversed from Nami-juji. Check the grip before applying.'],
+      ['Uke too upright','Pull uke down flat onto your chest — the choke doesn\'t work from a distance.']
+    ],
+    tip: 'Pull uke\'s posture completely flat onto you before applying — if there\'s any space between you, the choke is empty.'
+  },
+  'Okuri-eri-jime — Uke makes Seoi-otoshi': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Read the Seoi','As uke ducks in for Seoi-otoshi, get your forearm across their throat from behind.'],
+      ['lock','Slide the collar','Slide your choking hand along uke\'s collar as their head drops — the collar tightens across their neck.'],
+      ['trending_up','Squeeze and extend','Squeeze both arms together and lean back slightly to apply the sliding collar choke.']
+    ],
+    mistakes: [
+      ['Static grip','The "okuri" means sliding — the hand must travel along the collar as uke drops, not grip and hold.'],
+      ['Choking too high','The forearm presses on the neck, not the jaw — aim for the carotid artery, not the chin.']
+    ],
+    tip: 'The beauty of Okuri-eri-jime is that uke\'s own throwing movement tightens the collar for you — let them do the work.'
+  },
+
+  // ── BROWN BELT: COMBINATIONS & COUNTERS ─────────────────────────
+  'Sumi-gaeshi — two variations': {
+    cat: 'throw',
+    steps: [
+      ['directions_run','Variation 1','From a close grip, sit back and sacrifice — hook one inner thigh with your foot and drive uke over.'],
+      ['rotate_right','Variation 2','From a bear-hug position, slide to guard and roll uke directly over your head.'],
+      ['check_circle','Key difference','Variation 1 uses a foot hook on the inner thigh. Variation 2 relies on momentum and head control.']
+    ],
+    mistakes: [
+      ['Weak sacrifice','Both versions require total commitment — half-sacrificing results in landing underneath uke.'],
+      ['Poor upper body pull','The arms direct where uke goes — drive them over your head, not to the side.']
+    ],
+    tip: 'Sumi-gaeshi succeeds because uke feels secure and doesn\'t expect you to go to the floor — use their confidence against them.'
+  },
+  'Ushiro-goshi as counter to Harai-goshi': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Feel Harai entry','Uke pivots in and drives their sweeping leg — feel the hip load.'],
+      ['directions_run','Squat and wrap','Immediately bend your knees and wrap both arms around uke\'s waist from behind.'],
+      ['trending_up','Lift and throw','Straighten your legs explosively — lift uke off the floor and throw them behind you.']
+    ],
+    mistakes: [
+      ['Standing when countering','Bend your knees immediately — if you stay upright, uke\'s hip throw succeeds.'],
+      ['Weak wrap','Get both arms all the way around the waist — a half-wrap has no lifting power.']
+    ],
+    tip: 'Uke commits their weight forward in Harai-goshi. Drop your level, wrap, and use their committed weight to throw them behind.'
+  },
+  'Sumi-gaeshi as combination with Uchi-mata': {
+    cat: 'throw',
+    steps: [
+      ['directions_run','Uchi-mata first','Drive Uchi-mata — uke blocks by spreading their stance wide.'],
+      ['front_hand','Enter Sumi-gaeshi','Step inside between uke\'s legs and hook their inner thigh.'],
+      ['trending_up','Sacrifice','Sit back and roll uke over — their wide base makes them vulnerable to sacrifice.']
+    ],
+    mistakes: [
+      ['Slow transition','The combination is fast — uke\'s wide base is a brief window, not a permanent opening.'],
+      ['Wrong entry for Sumi','You must step between the legs — entering from the outside won\'t get the inner thigh hook.']
+    ],
+    tip: 'Uchi-mata forces uke to spread their base. Sumi-gaeshi exploits that wide base — they\'re solving one problem and creating another.'
+  },
+  'Counter Koshi-guruma with Ura-nage': {
+    cat: 'throw',
+    steps: [
+      ['front_hand','Feel the entry','Uke loads their hip for Koshi-guruma — feel the hip making contact.'],
+      ['directions_run','Step around','Step your far foot outside and behind uke\'s planted foot.'],
+      ['trending_up','Arch and throw','Drive your hip forward and arch backward, scooping uke over and behind you.']
+    ],
+    mistakes: [
+      ['Countering too late','You must feel the hip entry and respond immediately — uke already loaded means it\'s too late.'],
+      ['Not arching fully','Ura-nage requires a committed backward arch — a partial arch drops both of you straight down.']
+    ],
+    tip: 'Uke\'s hip commit means their weight is forward. Step around them, get behind their centre of gravity, and arch — they have nowhere to go.'
+  },
+
+  // ── BROWN BELT: NE-WAZA / SHIME-WAZA ────────────────────────────
+
+  'San-gaku-jime — complex entry': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Arm and head','Trap one of uke\'s arms and their head in your guard — arm across your body.'],
+      ['rotate_right','Triangle legs','Swing one leg over uke\'s neck and lock — one arm inside, one outside.'],
+      ['lock','Squeeze','Squeeze knees together and extend hips upward — keep the trapped arm on the inside.']
+    ],
+    mistakes: [
+      ['Both arms inside','Exactly one arm trapped inside — two arms inside kills the choke.'],
+      ['Feet not locked','Crossed feet are weaker — foot of top leg hooks behind knee of bottom leg.']
+    ],
+    tip: 'The triangle is tighter than it feels from inside — small hip extension adjustments add significant pressure.'
+  },
+  'San-gaku-gatame — complex entry': {
+    cat: 'lock',
+    steps: [
+      ['front_hand','Set triangle','Establish the triangular leg lock around uke\'s arm and neck.'],
+      ['rotate_right','Turn 90 degrees','Turn 90 degrees to face away from uke\'s feet — this exposes the elbow.'],
+      ['lock','Armlock','Pull the trapped arm toward you while extending your hips — simultaneous strangle and armlock.']
+    ],
+    mistakes: [
+      ['Not turning','The turn is essential — without it you cannot access the elbow.'],
+      ['Releasing hip tension','Maintain triangle tension throughout the turn — releasing lets uke escape.']
+    ],
+    tip: 'San-gaku-gatame combines two submissions simultaneously — uke cannot defend both. The turn activates the armlock.'
+  },
+  'San-gaku-osae-gatame — turnover and hold': {
+    cat: 'hold',
+    steps: [
+      ['front_hand','Triangle locked','Establish the full triangle from guard with uke in your legs.'],
+      ['rotate_right','Roll uke','While maintaining the triangle, roll uke onto their back.'],
+      ['lock','Hold down','Use the triangle as a pin — uke cannot escape without tapping.']
+    ],
+    mistakes: [
+      ['Rolling with loose triangle','Triangle must be tight before the roll — loose means uke escapes during rotation.'],
+      ['Not using body weight','After the roll, lie into the triangle — your weight keeps uke pinned.']
+    ],
+    tip: 'The san-gaku-osae is a pin with a built-in threat. Even if not tight, uke stays still because they do not know how tight it is.'
+  },
+  'Hadaka-jime — Uke prone position': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','Over the shoulder','Come from above — chest on uke\'s back, get your arm under their chin.'],
+      ['lock','Bare choke','One forearm presses across the throat. Other hand grips the choking forearm.'],
+      ['trending_up','Squeeze back','Pull your choking arm back toward your own chest — forearm and bicep together.']
+    ],
+    mistakes: [
+      ['Arm on the chin','The forearm must be below the chin on the throat — on the chin produces pain, not a choke.'],
+      ['Pulling sideways','Pull the arm directly backward toward your chest — sideways loses the line.']
+    ],
+    tip: 'Hadaka-jime is called "naked" because there is no gi grip — clean arm mechanics are everything.'
+  },
+  'Kata-ha-jime — Uke all fours position': {
+    cat: 'strangle',
+    steps: [
+      ['front_hand','One arm under','From behind uke on all fours, thread one arm under their armpit from below.'],
+      ['lock','Hand behind head','Bring that hand up and place it flat behind uke\'s head.'],
+      ['trending_up','Other arm choke','Thread your other arm across the throat — the armpit arm forces the shoulder forward, tightening the choke.']
+    ],
+    mistakes: [
+      ['Hand on top of head','Hand behind the neck, not on top — on top creates a headlock, not a choke.'],
+      ['Shoulder not driven forward','The mechanism relies on forcing the shoulder forward — without it there is no closing force.']
+    ],
+    tip: 'The arm under the armpit is your lever — it pries the shoulder forward, which tightens the choking arm automatically.'
+  },
+  'OR: One set of Nage-no-kata or Katame-no-kata': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose kata','Nage-no-kata: 5 groups of 3 throws with a partner. Katame-no-kata: 5 holds, 5 strangles, 5 armlocks.'],
+      ['repeat','Learn the sequence','Kata has a fixed order — tori and uke have defined movements. Precision matters as much as technique.'],
+      ['check_circle','Perform','Both partners bow, move to positions, execute each technique with full form, bow at the end.']
+    ],
+    mistakes: [
+      ['Rushing the sequence','Kata is deliberate — each technique has a rhythm. Hurrying looks wrong.'],
+      ['Uke being passive','Uke has an active role — they attack first, their movement sets up the response.']
+    ],
+    tip: 'Kata is judo as art. The examiner looks at precision, form, and the relationship between tori and uke.'
+  },
 };
