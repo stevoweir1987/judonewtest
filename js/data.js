@@ -290,6 +290,62 @@ const BELT_DATA = [
       {title:"Knowledge — Terminology",items:["Hadaka-jime — Naked Strangle","Kata — Forms","Kata-ha-jime — Single Collar Strangle","Katame-no-kata — Grappling Forms","Koshi-guruma — Hip Wheel Throw","Ko-uchi-gake-maki-komi — Minor Inner Hook Thigh Winding","Nage-no-kata — Throwing Forms","San-gaku-gatame — Triangular Hold Down","San-gaku-jime — Triangular Strangle","San-gaku-osae-gatame — Triangular Strangle and Hold Down","Sode-tsuri-komi-goshi — Sleeve Lift Pull Hip Throw","Sumi-gaeshi — Corner Throw","Uki-otoshi — Floating Drop","Ura-nage — Rear Throw","Ushiro-goshi — Rear Hip Throw","Yoko-gake — Side Hook Throw"]},
       {title:"Knowledge — Contest Rules",items:["Give three examples of penalties in competition rules"]}
     ]
+  },
+  {
+    id:"toBlack",label:"1st Kyu → Shodan (1st Dan)",from:"Brown",to:"Black",
+    fromColor:"belt-color-brown",toColor:"belt-color-black",duration:"Typically 1+ year as 1st Kyu",
+    groups:[
+      {title:"Contest Requirements",items:[
+        "Accumulate 100 contest points (Ippon = 10 pts, Waza-ari = 5 pts)",
+        "Minimum 1 year as 1st Kyu (Brown Belt)",
+        "Minimum age 15 years",
+        "Win first 2 individual contest entries by Ippon",
+        "Complete a 3-person line-up — all wins by Ippon"
+      ]},
+      {title:"Theory — Section 1: Tachi-waza",items:[
+        "O-goshi — mandatory throw demonstration",
+        "O-soto-gari — mandatory throw demonstration",
+        "Ko-uchi-gari — mandatory throw demonstration",
+        "De-ashi-harai — mandatory throw demonstration",
+        "Two personal choice throws — demonstrate with Uke"
+      ]},
+      {title:"Theory — Section 2: Ne-waza",items:[
+        "Transition from tachi-waza into osaekomi-waza",
+        "Transition from osaekomi-waza into shime-waza",
+        "Transition from osaekomi-waza into kansetsu-waza",
+        "Ne-waza randori demonstration"
+      ]},
+      {title:"Theory — Sections 3 & 4: Combination & Counter",items:[
+        "Two attack combinations — demonstrate with Uke",
+        "Two counter techniques — demonstrate with Uke",
+        "Uchi-komi demonstration — chosen throw × 10 reps"
+      ]},
+      {title:"Theory — Section 5: Contest Knowledge",items:[
+        "Explain contest scoring: Ippon and Waza-ari",
+        "State three prohibited acts in contest",
+        "Explain the Judo moral code (eight values)"
+      ]},
+      {title:"Kata — Nage-no-kata (BJA Level 1)",items:[
+        "Te-waza: Uki-otoshi, Seoi-nage, Kata-guruma",
+        "Koshi-waza: Uki-goshi, Harai-goshi, Tsuri-komi-goshi",
+        "Ashi-waza: Okuri-ashi-harai, Sasae-tsuri-komi-ashi, Uchi-mata",
+        "Ma-sutemi-waza: Tomoe-nage, Ura-nage, Sumi-gaeshi",
+        "Yoko-sutemi-waza: Yoko-gake, Yoko-guruma, Uki-waza"
+      ]},
+      {title:"Knowledge — Dan Grade Terminology",items:[
+        "Shodan — 1st Degree Black Belt",
+        "Nidan — 2nd Degree Black Belt",
+        "Dan — Grade (black belt level)",
+        "Nage-no-kata — Forms of Throwing",
+        "Uke — The person being thrown in kata",
+        "Tori — The person throwing in kata",
+        "Ippon — Full point (10 pts in Dan grading)",
+        "Waza-ari — Near full point (5 pts in Dan grading)",
+        "Shiai — Contest",
+        "Rei — Bow",
+        "Judo moral code — eight values of judo character"
+      ]}
+    ]
   }
 ];
 
@@ -3040,4 +3096,485 @@ const TECHNIQUE_DATA = {
     tip: 'Yoko-tomoe-nage.'
   },
 
+  // ── TO BLACK — Contest Requirements ──────────────────────────────────────
+  "Accumulate 100 contest points (Ippon = 10 pts, Waza-ari = 5 pts)": {
+    cat:'knowledge',
+    steps:[
+      ['🏆','Points system','To grade to Shodan you need 100 contest points. An Ippon scores 10 points, a Waza-ari scores 5 points. Points are earned from BJA-recognised contests.'],
+      ['📊','Tracking your points','Keep a record of all contest results. You need your club or county association to verify points. Start competing at open events early.'],
+      ['🎯','Strategy','10 Ippons = 100 points. But a mix of Ippons and Waza-aris counts too. Focus on attacking judo — passive fighting earns no points.']
+    ],
+    mistakes:[
+      ['Only counting wins','Waza-ari scores 5 pts even in a loss. Track every score you land, not just match results.'],
+      ['Leaving it too late','Points must be earned over time — you cannot rush 100 points in one weekend. Start competing as a Brown Belt from day one.']
+    ],
+    tip:'Log every competition result immediately — club secretaries can forget. Your points record is your responsibility.'
+  },
+  "Minimum 1 year as 1st Kyu (Brown Belt)": {
+    cat:'knowledge',
+    steps:[
+      ['📅','Time-in-grade rule','You must hold your Brown Belt (1st Kyu) for a minimum of one year before being eligible to attempt Shodan.'],
+      ['🗓️','Use the time well','This year is your preparation period. Enter contests, study kata, train ne-waza. One year goes fast when you\'re building points.'],
+      ['✅','Eligibility check','Your grading examiner will check your Brown Belt date. Make sure your club has an accurate record of when you were graded.']
+    ],
+    mistakes:[
+      ['Rushing the year','The 1-year minimum is strict — no exceptions. Plan your contests so you hit 100 points within your first year if possible.'],
+      ['Losing your certificate','Keep your Brown Belt grading certificate safe. It is the official proof of your grade date.']
+    ],
+    tip:'Set a calendar reminder the day you get your Brown Belt — count forward exactly one year to your earliest Shodan eligibility date.'
+  },
+  "Minimum age 15 years": {
+    cat:'knowledge',
+    steps:[
+      ['👤','Age requirement','The BJA Dan Grade system requires a minimum age of 15 for Shodan (competitive route). This is a firm requirement.'],
+      ['🌟','Junior pathway','Under-15s can continue to develop and accumulate contest points. The points count — you just cannot grade until you turn 15.'],
+      ['📋','Check the rules','Specific age rules may vary slightly by region. Always confirm with your club coach or county association.']
+    ],
+    mistakes:[
+      ['Assuming exceptions exist','There are no age exceptions for Shodan. Focus on quality of judo during your development years.'],
+      ['Ignoring junior contests','Junior competitions are ideal for accumulating points early. Get competing as soon as you can.']
+    ],
+    tip:'Being ready at 15 means starting to train seriously from your Red Belt. Every year of quality training counts.'
+  },
+  "Win first 2 individual contest entries by Ippon": {
+    cat:'knowledge',
+    steps:[
+      ['⚡','First two contests rule','Your first two individual contest entries for Dan grading purposes must both be won by Ippon. Waza-ari wins do not count for this requirement.'],
+      ['🥋','What counts as Ippon','A full score (Ippon) — a clean throw with force, speed and control, landing Uke on their back. Also: Osaekomi held 20s, submission, or disqualification.'],
+      ['🎯','Build attacking habits','Train to throw for Ippon every time. Cautious, grip-fighting judo makes this requirement much harder to meet.']
+    ],
+    mistakes:[
+      ['Counting Waza-ari wins','Only Ippon wins satisfy this requirement. A 2×Waza-ari win counts as Ippon for scoring but check current BJA rules carefully.'],
+      ['Avoiding difficult draws','Some players avoid entering when the draw looks hard. But you must win two — just pick events where you can attack freely.']
+    ],
+    tip:'Enter smaller open events or under-18 categories where you can attack freely and throw cleanly. Big pressure events are not ideal for requirement 1 and 2.'
+  },
+  "Complete a 3-person line-up — all wins by Ippon": {
+    cat:'knowledge',
+    steps:[
+      ['👥','The line-up requirement','You must complete a 3-person consecutive line-up, winning all three contests by Ippon. This is a separate requirement from points accumulation.'],
+      ['🔄','How line-ups work','Three opponents fight you consecutively. No rest between bouts. You must throw, hold, strangle or armlock all three for Ippon each time.'],
+      ['💪','Fitness is key','You must be fit enough to throw three people in a row. Your conditioning and technique must both be high — there is no hiding in a line-up.']
+    ],
+    mistakes:[
+      ['Treating it like points','Points and the line-up are separate. You can have 100 points but still need to complete the line-up before grading.'],
+      ['Not practising line-ups in training','Ask your coach to run informal 3-person line-ups at your club. Get used to the format before the real thing.']
+    ],
+    tip:'Practise 3-person nagekomi and randori sequences in training. The mental side of the line-up is as important as the physical.'
+  },
+
+  // ── TO BLACK — Theory Section 1: Tachi-waza ──────────────────────────────
+  "O-goshi — mandatory throw demonstration": {
+    cat:'throw',
+    steps:[
+      ['🤝','Kuzushi','Grip the sleeve and wrap your arm deep around Uke\'s waist. Break their balance forward and to the side — pull the sleeve across your body.'],
+      ['🔄','Tsukuri — entry','Turn in fully. Your hip goes across and below Uke\'s centre of gravity. Feet together, knees bent. Your back should be flat against Uke\'s chest.'],
+      ['⬆️','Kake — throw','Drive your hip through, straighten your legs, and pull Uke over your hip in a circular motion. Uke lands cleanly on their back.']
+    ],
+    mistakes:[
+      ['Hip too high','If your hip is above Uke\'s centre of gravity, the throw collapses. Bend your knees deeply on entry — hip must be lower than Uke\'s hips.'],
+      ['Losing the sleeve pull','Releasing the sleeve arm during the throw kills your kuzushi. Pull sleeve across hard all the way through.']
+    ],
+    tip:'O-goshi is the foundation throw. For Dan grading, demonstrate it with clean kuzushi, full entry and committed kake. Examiner looks for control and intent.'
+  },
+  "O-soto-gari — mandatory throw demonstration": {
+    cat:'throw',
+    steps:[
+      ['🤝','Kuzushi','Pull sleeve forward and up. Push lapel grip backward. Drive Uke\'s weight onto their right heel — this is the foot you will reap.'],
+      ['🦵','Tsukuri — body contact','Step your right foot beside Uke\'s right foot. Your right shoulder should come in contact with Uke\'s chest. Lean your body into Uke.'],
+      ['⬇️','Kake — reap','Swing your right leg back in a large arc, reaping Uke\'s right leg from behind the knee. Push with your body weight simultaneously.']
+    ],
+    mistakes:[
+      ['Reaping before making body contact','Without body contact first, you push Uke away instead of throwing them. Body in first, then reap.'],
+      ['Small reap with no drive','A half-hearted leg swing produces a weak throw. Commit your whole bodyweight into the forward lean as you reap.']
+    ],
+    tip:'At Dan grading, your O-soto-gari should show clear kuzushi before entry. Take three attacking steps, not one — show rhythm and intent.'
+  },
+  "Ko-uchi-gari — mandatory throw demonstration": {
+    cat:'throw',
+    steps:[
+      ['🤝','Kuzushi','Apply a backward and sideways break — push Uke\'s body weight onto their right heel. The moment weight loads that foot, it becomes a target.'],
+      ['🦶','Tsukuri — position','Step slightly to the side. Insert your right foot between Uke\'s feet, toes pointing inward. Your body should be close to Uke\'s.'],
+      ['🔄','Kake — reap','Hook Uke\'s right ankle with the sole of your foot and drive it forward and across. Simultaneously push Uke\'s upper body backward.']
+    ],
+    mistakes:[
+      ['Reaping the ankle without pushing the upper body','Lower body and upper body must work together. The reap alone is weak — the body push creates the fall.'],
+      ['Reaping the wrong foot','Reap the weighted foot, not the free one. If you feel resistance when you try to reap, the weight isn\'t loaded — adjust your kuzushi first.']
+    ],
+    tip:'Ko-uchi-gari is excellent as a combination set-up. Show the examiner you understand its use in combination — Ko-uchi → Seoi-nage or Ko-uchi → O-soto-gari.'
+  },
+  "De-ashi-harai — mandatory throw demonstration": {
+    cat:'throw',
+    steps:[
+      ['🚶','Read the step','De-ashi-harai is thrown as Uke steps forward. You must read Uke\'s movement and time the throw as the stepping foot touches the ground with little weight on it.'],
+      ['🦶','The sweep','Use the sole of your foot (not your toe or heel) to sweep Uke\'s ankle in a wide arc — sweeping the foot in the same direction it is travelling.'],
+      ['↕️','Kuzushi with the hands','As you sweep, pull the sleeve upward and forward, and push the lapel down and forward. Upper and lower body work together in opposite arcs.']
+    ],
+    mistakes:[
+      ['Sweeping a weighted foot','If Uke\'s weight is on the foot, it will not sweep. You need to catch the foot just as it touches the ground, before weight loads.'],
+      ['Sweeping sideways instead of forward','Sweep the foot in the direction it is already going — forward-and-across. Sweeping backward against the movement creates resistance.']
+    ],
+    tip:'For grading, don\'t try to fake the movement — ask Uke to walk naturally and time a real sweep. Examiners can tell the difference between a genuine ashiwaza and a staged one.'
+  },
+  "Two personal choice throws — demonstrate with Uke": {
+    cat:'throw',
+    steps:[
+      ['🎯','Choose your best throws','Pick two throws you genuinely excel at — these should be your competition throws. The examiner wants to see throws you own, not throws you\'re showing off.'],
+      ['⚡','Demonstrate with intent','Each throw should be shown with full kuzushi, complete entry, and committed kake. A near-miss or weak attempt does not impress.'],
+      ['📢','Name and explain','Before each throw, name it clearly and briefly explain your kuzushi principle. Shows understanding, not just physical ability.']
+    ],
+    mistakes:[
+      ['Choosing impressive-sounding throws you can\'t land','A strong O-soto-gari beats a shaky Ura-nage. Play to your strengths.'],
+      ['Showing the same throw twice','They must be two different throws. Ideally from different categories — one tachi-waza, one ashi-waza, for example.']
+    ],
+    tip:'Tell your examiner your two choices before you start: "I\'ll demonstrate Uchi-mata and Harai-goshi." Confidence and preparation are part of the impression.'
+  },
+
+  // ── TO BLACK — Theory Section 2: Ne-waza ─────────────────────────────────
+  "Transition from tachi-waza into osaekomi-waza": {
+    cat:'hold',
+    steps:[
+      ['⬇️','Set up the throw','Perform a tachi-waza throw — it does not need to be a full Ippon. A partial throw or Uke going to ground gives you the opportunity.'],
+      ['🔄','Follow Uke down','As Uke breaks their fall, follow them immediately to the ground — don\'t stop upright. You must control the transition with no gap in pressure.'],
+      ['🔒','Apply the hold','Arrive into your hold down (Kesa-gatame, Yoko-shiho-gatame, etc.) with your weight immediately in the controlling position. Settle and secure.']
+    ],
+    mistakes:[
+      ['Stopping when Uke goes down','Hesitation breaks the momentum. Move as one fluid action — throw and follow equals hold.'],
+      ['Landing in a poor position','If you follow Uke down but land out of position, you lose control. Practice transitions until landing in hold feels automatic.']
+    ],
+    tip:'In the Dan exam, this transition is assessed on fluency and control. Show that going to ground is a natural extension of your throw, not an afterthought.'
+  },
+  "Transition from osaekomi-waza into shime-waza": {
+    cat:'strangle',
+    steps:[
+      ['🔒','Start in a hold','Begin in any valid osaekomi-waza. Maintain control and pressure — Uke will attempt to escape, creating the opening.'],
+      ['👀','Read Uke\'s escape','As Uke turns or creates space, immediately thread your arms into a strangle position. Common transitions: Kesa-gatame → Okuri-eri-jime.'],
+      ['✊','Secure the strangle','Apply the strangle with steady pressure — no jerking. Show controlled application, not force. Uke taps when pressure is felt.']
+    ],
+    mistakes:[
+      ['Forcing the transition from nowhere','Transitions only work when Uke gives you the opening. If they\'re flat and not escaping, apply the hold for Osaekomi — don\'t force a strangle attempt.'],
+      ['Losing body control during transition','As you shift grip for the strangle, your body weight must stay on Uke. Lifting off lets Uke escape entirely.']
+    ],
+    tip:'For the exam, ask Uke to provide a natural escape attempt so you can demonstrate the transition cleanly. Brief Uke on what escape to attempt beforehand.'
+  },
+  "Transition from osaekomi-waza into kansetsu-waza": {
+    cat:'lock',
+    steps:[
+      ['🔒','Start in a hold','Begin in Kesa-gatame, Yoko-shiho-gatame or similar. Maintain pressure and wait for Uke to attempt an escape.'],
+      ['💪','Isolate the arm','As Uke pushes or pulls, isolate their near arm. Thread your grip for an armlock — Ude-hishigi-juji-gatame or Ude-garami are natural from kesa.'],
+      ['⚖️','Apply steadily','Apply the armlock with measured, increasing pressure. Uke taps before any discomfort is severe. Control is everything.']
+    ],
+    mistakes:[
+      ['Jerky armlock application','Rapid, jerky pressure on armlocks causes injury. Always apply with slow steady increase.'],
+      ['Giving up the hold without securing the lock','Don\'t release the hold until you have the armlock secured. Two things to hold, not one in exchange for the other.']
+    ],
+    tip:'Ude-garami from Kesa-gatame is a classic transition — you already learned it for 2nd Kyu. Use it here to show progression and understanding.'
+  },
+  "Ne-waza randori demonstration": {
+    cat:'knowledge',
+    steps:[
+      ['🤼','Free ne-waza','You and Uke engage in genuine groundwork randori. Show attacking intent — pursue holds, strangles and armlocks. Don\'t just defend.'],
+      ['🔄','Show variety','Demonstrate that you can attack from different positions — top, underneath, side. Show transitions, not just one static technique.'],
+      ['🧠','Judo intelligence','The examiner is looking for judo thinking — reading Uke\'s movement, creating openings, applying appropriate technique at the right moment.']
+    ],
+    mistakes:[
+      ['Being passive','Standing or sitting in guard and doing nothing is not judo. Attack continuously — even if you don\'t land a finish.'],
+      ['Over-defending','If you only try to escape, you show no offensive ne-waza. Balance defence with attacking intent.']
+    ],
+    tip:'Ne-waza randori for grading is not a hard competition fight — keep it controlled, show technical variety, and attack purposefully for 60–90 seconds.'
+  },
+
+  // ── TO BLACK — Theory Sections 3 & 4 ─────────────────────────────────────
+  "Two attack combinations — demonstrate with Uke": {
+    cat:'throw',
+    steps:[
+      ['🔗','What makes a combination','A combination is two linked attacks where the first attack creates the reaction that enables the second. Attack 1 → Uke reacts → Attack 2 scores.'],
+      ['📋','Example combinations','Ko-uchi-gari → Seoi-nage (Uke steps back, you enter front). O-uchi-gari → O-soto-gari (Uke steps back to avoid inner, you reap outer). Choose what you use in randori.'],
+      ['🎬','Demonstrate both combinations','Show each combination twice — once at slow speed explaining the principle, once at contest speed. Name both throws clearly.']
+    ],
+    mistakes:[
+      ['Showing two unrelated attacks','A combination has a mechanical link. "I tried Ko-uchi then Uke fell over" is not a combination. Show the cause and effect clearly.'],
+      ['Over-complicating','Two-technique combinations are expected. Three or four techniques is ambitious and easy to botch under exam pressure. Keep it sharp and simple.']
+    ],
+    tip:'Use your actual competition combinations — the ones you\'ve landed in randori. Examiner wants to see techniques you own, not techniques you\'ve rehearsed for the exam.'
+  },
+  "Two counter techniques — demonstrate with Uke": {
+    cat:'throw',
+    steps:[
+      ['🔄','What makes a counter','A counter (Kaeshi-waza) is a technique you apply when Uke attacks you. You use Uke\'s attacking momentum to throw them.'],
+      ['📋','Example counters','Harai-goshi → Utsuri-goshi (catch and lift as they enter). O-soto-gari → Ko-uchi-gari (step around the reap and attack their other leg). O-uchi-gari → Tai-otoshi.'],
+      ['🎬','Demonstrate both counters','Uke attacks, you counter — show this twice each. Brief Uke on which attack to throw so the counter flows naturally.']
+    ],
+    mistakes:[
+      ['Countering a weak or slow attack','Counters work against real attacks — not slow, telegraphed ones. Ask Uke to attack with genuine intent so the counter looks natural.'],
+      ['Showing escapes instead of counters','Stepping out of an attack is not a counter. You must throw Uke as a result of their attack — their movement becomes your weapon.']
+    ],
+    tip:'At Dan grade, counters show judo maturity. Examiners are impressed by counters that feel inevitable — as if Uke\'s attack itself caused their fall.'
+  },
+  "Uchi-komi demonstration — chosen throw × 10 reps": {
+    cat:'throw',
+    steps:[
+      ['🎯','Choose one throw','Pick any throw you want to demonstrate. Announce it clearly: "I\'ll demonstrate Uchi-komi for Uchi-mata."'],
+      ['🔁','10 clean reps','Perform 10 consecutive entry repetitions — Tsurkuri only, no kake (no full throw). Each rep must show full kuzushi, complete entry position, and controlled return.'],
+      ['📐','Quality over speed','Each rep must look identical. Show consistency of form — same kuzushi angle, same foot placement, same body position every time.']
+    ],
+    mistakes:[
+      ['Rushing the reps','Fast, sloppy uchikomi shows poor training habits. Controlled, rhythmic reps at medium pace show mastery.'],
+      ['Changing the technique between reps','If your form varies significantly between reps, it shows the technique isn\'t fully internalised. Choose a throw you can do in your sleep.']
+    ],
+    tip:'Uchikomi is a window into how you train. If you\'ve done thousands of good reps, it shows. If you\'ve been sloppy in training, it also shows. Every rep in training matters.'
+  },
+
+  // ── TO BLACK — Theory Section 5: Contest Knowledge ────────────────────────
+  "Explain contest scoring: Ippon and Waza-ari": {
+    cat:'knowledge',
+    steps:[
+      ['🏆','Ippon — full point','Ippon is scored when: (1) A throw lands Uke largely on their back with speed and force; (2) Uke is held for 20 seconds (Osaekomi); (3) Uke submits to a strangle or armlock; (4) Uke receives two Waza-ari.'],
+      ['⚡','Waza-ari — near full point','Waza-ari is scored when a throw has most but not all of the elements of Ippon — the throw is real but lacks one element (speed, force, or landing on back). A hold of 10–19 seconds also scores Waza-ari.'],
+      ['🔢','Two Waza-ari = Ippon','Two Waza-ari scores in the same contest combine automatically to produce Ippon. The contest ends immediately.']
+    ],
+    mistakes:[
+      ['Confusing Osaekomi times','Waza-ari = 10–19 seconds hold. Ippon = 20+ seconds. Some players forget the exact thresholds under pressure.'],
+      ['Forgetting submission counts as Ippon','A tap, verbal submission, or clear surrender always counts as Ippon — regardless of time or position.']
+    ],
+    tip:'Practise explaining this out loud, clearly and concisely. Examiners often ask for a verbal explanation — "tell me the scoring system" — so have a clean 30-second answer ready.'
+  },
+  "State three prohibited acts in contest": {
+    cat:'knowledge',
+    steps:[
+      ['🚫','Common prohibited acts','Key examples: (1) False attack — entering without genuine attempt to throw; (2) Picking up Uke\'s leg when Uke is standing upright (direct leg grabs); (3) Applying a strangle or armlock in tachi-waza; (4) Going out of bounds intentionally.'],
+      ['⚠️','Shido — minor penalty','Most prohibited acts result in a Shido (minor infringement). Three Shidos = Hansoku-make (disqualification). A single serious infraction can also result in direct Hansoku-make.'],
+      ['📋','For the exam','You need to name and briefly explain three. Common good answers: false attack, direct leg grab, going out deliberately.']
+    ],
+    mistakes:[
+      ['Confusing Shido with Hansoku-make','Shido is the penalty given; Hansoku-make is the disqualification. A competitor receives Shido; three Shidos leads to Hansoku-make.'],
+      ['Listing techniques as "prohibited"','Techniques are not prohibited — it\'s actions that are penalised. False attacks, passivity, dangerous techniques, out-of-bounds are behaviours.']
+    ],
+    tip:'Know three well and explain them clearly. Don\'t try to list ten vaguely — three precise answers are far more impressive than ten muddled ones.'
+  },
+  "Explain the Judo moral code (eight values)": {
+    cat:'knowledge',
+    steps:[
+      ['🌟','The eight values','The IJF/BJA Judo Moral Code: (1) Courtesy — Rei; (2) Courage — Yuki; (3) Honesty — Seikyo; (4) Honour — Meiyo; (5) Modesty — Kenso; (6) Respect — Sonkei; (7) Self-control — Jiko Seigyo; (8) Friendship — Yujyo.'],
+      ['🥋','Why it matters','The moral code is not just words — it defines how a judoka behaves inside and outside the dojo. Jigoro Kano created judo as a way of improving oneself and contributing to society.'],
+      ['📢','For the exam','Be able to list all eight values and give a brief example of how each one applies in judo training or competition.']
+    ],
+    mistakes:[
+      ['Memorising words without meaning','If you recite the list robotically, an examiner may probe: "Give an example of self-control in contest." Have real answers ready.'],
+      ['Confusing the values','Some sound similar — Modesty vs Respect vs Courtesy. Know the distinction: Courtesy is greeting and manner; Respect is valuing others; Modesty is not boasting.']
+    ],
+    tip:'Write out the eight values and carry them with you for a week. Each day, focus on demonstrating one of them both in training and in daily life. They\'ll stick much faster this way.'
+  },
+
+  // ── TO BLACK — Kata: Nage-no-kata ─────────────────────────────────────────
+  "Te-waza: Uki-otoshi, Seoi-nage, Kata-guruma": {
+    cat:'throw',
+    steps:[
+      ['🌊','Uki-otoshi — Floating Drop','Tori breaks Uke\'s balance forward-right, steps back and drops to one knee, pulling Uke in a forward arc over the knee. The throw uses pure kuzushi with no body contact — Uke is guided, not pushed.'],
+      ['🏋️','Seoi-nage — Shoulder Throw','Tori grips lapel and sleeve, turns in fully with elbow across Uke\'s armpit, drops under Uke\'s centre and lifts-throws forward. Classic Te-waza: hands and arms do all the work.'],
+      ['⚙️','Kata-guruma — Shoulder Wheel','Tori ducks under Uke, loads Uke across both shoulders like a wheel axle, and rotates Uke to the ground. Both sides of Uke\'s body are supported, then rotated and dropped.']
+    ],
+    mistakes:[
+      ['Rushing the kata','Nage-no-kata is performed at a ceremonial pace with prescribed etiquette. Do not rush throws — each one should be demonstrated with full form.'],
+      ['Forgetting the etiquette','Kata begins and ends with a formal bow sequence. Tori and Uke move together with coordinated steps. Examiners assess etiquette as well as technique.']
+    ],
+    tip:'For BJA Level 1 Nage-no-kata, prioritise clean kuzushi and correct ukemi over speed. The kata is a demonstration of principle — quality over quantity.'
+  },
+  "Koshi-waza: Uki-goshi, Harai-goshi, Tsuri-komi-goshi": {
+    cat:'throw',
+    steps:[
+      ['🔵','Uki-goshi — Floating Hip','Tori wraps arm around Uke\'s waist, hip contacts Uke\'s hip, and Uke is rotated over the hip in a floating arc. Lighter contact than O-goshi — more rotation, less lift.'],
+      ['💥','Harai-goshi — Sweeping Hip','Tori loads Uke on the hip, then sweeps the inside leg in a large arc through both of Uke\'s legs. Hip contact is firm; the sweep timing is critical.'],
+      ['🔗','Tsuri-komi-goshi — Lift-Pull Hip','Tsuri (lift) the lapel grip up and forward; Komi (pull) the sleeve across. The combination of both grips loading Uke onto the hip before the hip throw.']
+    ],
+    mistakes:[
+      ['Hip not low enough','For all koshi-waza, hip must be below Uke\'s centre of gravity. If hip is too high, you push Uke rather than throw them.'],
+      ['Losing the hip contact','In Uki-goshi and Harai-goshi, the hip must stay in contact with Uke throughout the throw. Pulling away kills the rotation.']
+    ],
+    tip:'In kata, each throw is shown left and right. Practice switching sides — many judoka neglect their non-dominant side. The examiner will see both.'
+  },
+  "Ashi-waza: Okuri-ashi-harai, Sasae-tsuri-komi-ashi, Uchi-mata": {
+    cat:'throw',
+    steps:[
+      ['🦶','Okuri-ashi-harai — Sliding Foot Sweep','As Uke steps laterally, Tori sweeps both ankles simultaneously with the sole of the foot, the back foot landing on the front ankle. Timing with Uke\'s sideways step is everything.'],
+      ['⛔','Sasae-tsuri-komi-ashi — Propping Lift Pull Foot','Tori places foot against Uke\'s ankle as a prop/block, then lifts and pulls Uke forward over the blocked foot. A block, not a sweep — the hands do the work.'],
+      ['🔄','Uchi-mata — Inner Thigh Throw','Tori enters and sweeps the inner thigh of Uke\'s supporting leg upward with their own thigh/hamstring. Deep hip entry, upward sweep — a powerful combination.']
+    ],
+    mistakes:[
+      ['Sweeping Sasae like a reap','Sasae is a prop with the foot — not a sweep backward. Prop first, hands lift and pull Uke over the prop.'],
+      ['Uchi-mata with no entry','Without turning in and loading Uke on the hip, Uchi-mata becomes just a kick. Entry (tsukuri) is essential before the sweep.']
+    ],
+    tip:'Ashi-waza in kata looks simple but the timing requirement is high. Practice the throws in natural movement — walking into Uke\'s step — not from a static position.'
+  },
+  "Ma-sutemi-waza: Tomoe-nage, Ura-nage, Sumi-gaeshi": {
+    cat:'throw',
+    steps:[
+      ['⭕','Tomoe-nage — Circle Throw','Tori breaks Uke\'s balance forward, plants foot in Uke\'s stomach while falling backward, and uses the foot as a fulcrum to circle Uke overhead. A full sacrifice — Tori lands on their back.'],
+      ['🔙','Ura-nage — Rear Throw','Tori wraps arms around Uke from behind and falls backward, arching to throw Uke over their own head. Tori goes down, Uke goes up and over.'],
+      ['🌀','Sumi-gaeshi — Corner Throw','Tori falls diagonally backward while thrusting inner leg between Uke\'s legs and across their thigh, rotating Uke to the corner. A circular sacrifice throw.']
+    ],
+    mistakes:[
+      ['Planting the foot in the wrong place for Tomoe-nage','Foot should contact the lower abdomen/stomach area. Knee or thigh contact significantly reduces the rotation.'],
+      ['Not committing on Ura-nage','A half-commit on Ura-nage is both ineffective and potentially dangerous. Full commitment with the arch is required.']
+    ],
+    tip:'Ma-sutemi means front sacrifice. Tori lands on their back in all three throws. Uke must have excellent ukemi for this kata section. Practice slowly before speed.'
+  },
+  "Yoko-sutemi-waza: Yoko-gake, Yoko-guruma, Uki-waza": {
+    cat:'throw',
+    steps:[
+      ['↕️','Yoko-gake — Side Hook','Tori hooks Uke\'s heel with their own heel while falling to the side, pulling Uke over in a sideways arc. A small, precise movement — not a big sweep.'],
+      ['🌐','Yoko-guruma — Side Wheel','Tori twists under Uke while gripping behind their thigh, rotates sideways and throws Uke in a wheel motion to the side. Tori and Uke rotate together.'],
+      ['🌊','Uki-waza — Floating Throw','Tori breaks Uke\'s balance forward and falls diagonally to the side-rear, using minimal foot contact. Uke is pulled and guided — the throw appears almost effortless.']
+    ],
+    mistakes:[
+      ['Yoko-gake: too much leg','It\'s a hook with the heel, not a leg sweep. The hook is small and precise — the pull of the hands does most of the work.'],
+      ['Uki-waza: rushing the fall','The fall must be controlled and timed with Uke\'s kuzushi. Falling too early means you go down alone; falling too late means you can\'t guide Uke.']
+    ],
+    tip:'Yoko-sutemi means side sacrifice. All three throws end with Tori on their side. Your ukemi from these throws must also be clean — you\'re demonstrating reciprocal technique.'
+  },
+
+  // ── TO BLACK — Knowledge: Dan Grade Terminology ──────────────────────────
+  "Shodan — 1st Degree Black Belt": {
+    cat:'knowledge',
+    steps:[
+      ['🥋','What is Shodan','Shodan (初段) is the 1st Dan rank — the first black belt grade in judo. It represents transition from student (mudansha — below Dan) to practitioner (yudansha — Dan grade).'],
+      ['🌟','What it means','Shodan is not a destination — it is the beginning of deeper study. Jigoro Kano said the black belt represents that you have learned the fundamentals and are ready to truly learn judo.'],
+      ['🏆','BJA Dan grading','In the BJA system, Shodan is awarded on meeting contest points, time-in-grade, age, line-up, and theory skills requirements — or via the technical pathway for older practitioners.']
+    ],
+    mistakes:[
+      ['Thinking Shodan is the goal','Many judoka work for years to get a black belt, then stop. The serious study of judo — kata, ne-waza depth, coaching — actually begins at Shodan.'],
+      ['Confusing Dan with skill level','A 1st Dan brown belt who has just graded may be technically weaker than a 3rd Kyu who has trained for 10 years. Grade and skill are related but not the same.']
+    ],
+    tip:'On the day you receive Shodan, your first question should be: "What am I going to work on now?" That attitude is what separates those who stop at Shodan from those who reach Nidan and beyond.'
+  },
+  "Nidan — 2nd Degree Black Belt": {
+    cat:'knowledge',
+    steps:[
+      ['🥋','Nidan — 2nd Dan','Nidan (二段) is the 2nd Dan rank. After Shodan, the path continues. Nidan requires significantly more time, points (200+), deeper kata knowledge and greater all-round judo ability.'],
+      ['📅','Time requirement','Minimum 2 years as Shodan before grading to Nidan. The gap between Dan grades increases at each step — reinforcing that grade requires genuine development.'],
+      ['📈','Raising the standard','At Nidan level, the theory skills exam goes deeper, personal choice throws must show greater variety, and kata must be performed to BJA Level 2 standard.']
+    ],
+    mistakes:[
+      ['Assuming Nidan just means more of the same','Each Dan grade requires development, not repetition. You must show judo that has grown — not the same judo you had at Shodan.'],
+      []
+    ],
+    tip:'Use your time as a Shodan well. Coach beginners — teaching others is one of the fastest ways to deepen your own understanding.'
+  },
+  "Dan — Grade (black belt level)": {
+    cat:'knowledge',
+    steps:[
+      ['📊','Dan system overview','Dan (段) grades run from 1st to 10th. 1st–5th Dan wear black belts. 6th–8th Dan may wear red-and-white block belts. 9th–10th Dan wear red belts. Only a handful of people globally hold 10th Dan.'],
+      ['🌍','Kyu and Dan together','The full grade system goes: 6th Kyu (lowest) → 1st Kyu → 1st Dan → ... → 10th Dan. Kyu = student grades (coloured belts). Dan = master grades (black belt+).'],
+      ['🏛️','Judo history','The Dan system was created by Jigoro Kano in 1883 — the first black belts were awarded in 1886. It is now used across martial arts worldwide, but judo was the originator.']
+    ],
+    mistakes:[
+      ['Thinking higher Dan = better fighter','Senior Dan grades are awarded for contribution to judo — coaching, refereeing, administration — as much as for fighting ability. A 7th Dan coach may not throw the same as a 2nd Dan competitor.'],
+      ['Confusing grade with age','Dan grades can be awarded for technical pathway to older practitioners — grade reflects more than just contest record.']
+    ],
+    tip:'Understand the history of your grade system. Knowing that Kano created it in the late 1800s gives context to why judo values are baked into the grading criteria.'
+  },
+  "Nage-no-kata — Forms of Throwing": {
+    cat:'knowledge',
+    steps:[
+      ['📜','What is Nage-no-kata','Nage-no-kata (投の形) is a formal kata consisting of 15 throws in 5 groups of 3: Te-waza, Koshi-waza, Ashi-waza, Ma-sutemi-waza, Yoko-sutemi-waza. It is performed with a partner (Tori and Uke) in a prescribed sequence.'],
+      ['🎯','Purpose of the kata','Kata preserves the fundamental principles of judo throwing — kuzushi, tsukuri, kake — in their pure form. It develops precision, sensitivity, and the ability to throw from correct principle rather than strength.'],
+      ['📋','BJA Level 1','For Shodan (competitive route), you must demonstrate Nage-no-kata to BJA Level 1 standard — all 15 throws, both sides, with correct etiquette.']
+    ],
+    mistakes:[
+      ['Treating kata as just a routine to memorise','Kata is not a choreographed performance — each throw should work on a real, resistant Uke. If Uke could not actually be thrown, the kata is wrong.'],
+      ['Neglecting the etiquette','Kata begins with a bow, has prescribed stepping patterns, and ends formally. Missing the etiquette is a significant fault in examination.']
+    ],
+    tip:'Learn Nage-no-kata with a regular partner who can also receive the throws with good ukemi. Kata is a relationship between Tori and Uke — both must practice, not just the thrower.'
+  },
+  "Uke — The person being thrown in kata": {
+    cat:'knowledge',
+    steps:[
+      ['🤲','Uke\'s role','Uke (受け) in kata is not a passive crash dummy — Uke initiates attacks at prescribed moments, receives the throws, and provides the correct level of resistance to make each throw realistic.'],
+      ['🛡️','Ukemi in kata','Uke must take clean, confident ukemi — falling correctly and safely from each throw. Poor ukemi from Uke affects the quality of Tori\'s throws and can cause injury.'],
+      ['🔄','Uke also practices','Experienced Uke is a skill. In Japan, some high-grade judoka are particularly respected for their ability to be Uke — it requires sensitivity, timing and trust.']
+    ],
+    mistakes:[
+      ['Treating Uke as passive','Uke should make Tori work correctly. An Uke who falls over before being thrown, or offers no resistance, makes poor kata.'],
+      ['Ignoring ukemi practice','Good Uke must also train their ukemi. Falls from kata throws can be hard — poor ukemi causes injury, not the technique.']
+    ],
+    tip:'Spend time being Uke as well as Tori when practising kata. The experience of receiving throws teaches you the kuzushi and movement you need as Tori.'
+  },
+  "Tori — The person throwing in kata": {
+    cat:'knowledge',
+    steps:[
+      ['💪','Tori\'s role','Tori (取り) is the person who applies the technique in kata. Tori must demonstrate kuzushi (balance breaking), tsukuri (entry/positioning) and kake (execution) for each throw.'],
+      ['🎯','Leading the kata','In Nage-no-kata, Tori leads — initiating the prescribed movements and attacks that begin each sequence. Tori and Uke must be in harmony throughout.'],
+      ['📐','Quality of technique','Tori\'s throws must be technically correct — not just physically successful. The kata examiner assesses whether the principle of the throw is demonstrated correctly.']
+    ],
+    mistakes:[
+      ['Using strength to make throws work','Kata throws must work through correct principle — kuzushi and entry — not through Tori being stronger than Uke. Forced throws fail the kata assessment.'],
+      ['Neglecting the non-dominant side','Kata requires both left and right sides. Many judoka have a strong side but poor kata on the weak side. Train both from day one.']
+    ],
+    tip:'In kata practice, ask a senior judoka or coach to watch and give feedback on your Tori role. It is very difficult to self-assess kata quality without an outside eye.'
+  },
+  "Ippon — Full point (10 pts in Dan grading)": {
+    cat:'knowledge',
+    steps:[
+      ['🏆','Ippon in contest','In IJF/BJA competition: Ippon = 10 contest points (toward Dan grade). Ippon ends the contest immediately. Ippon is scored for: full-value throw, 20-second hold, submission, or 2× Waza-ari.'],
+      ['⚖️','Ippon criteria for throws','A throw must have: (1) Considerable force; (2) Considerable speed; (3) Uke lands largely on the back. Missing any one element typically results in Waza-ari instead.'],
+      ['🥋','Ippon in the line-up','For the Shodan line-up requirement, you must win all three bouts by Ippon specifically. Waza-ari wins do not satisfy the line-up requirement.']
+    ],
+    mistakes:[
+      ['Confusing contest Ippon with kata Ippon','In kata, Ippon refers to winning the kata competition (if entered). In Dan grading, Ippon specifically means contest points. These are different contexts.'],
+      ['Not knowing the hold time','Osaekomi for 20+ seconds = Ippon. If the referee calls Osaekomi and you hold for 20 seconds, it\'s Ippon even if the throw was only Waza-ari.']
+    ],
+    tip:'In training, always attack for Ippon. "Good enough for Waza-ari" judo will earn Waza-ari. Attack with force and speed — full commitment every time.'
+  },
+  "Waza-ari — Near full point (5 pts in Dan grading)": {
+    cat:'knowledge',
+    steps:[
+      ['⚡','Waza-ari in contest','Waza-ari = 5 contest points toward Dan grade. Waza-ari is scored for: a throw with most but not all Ippon elements, or an Osaekomi hold of 10–19 seconds. Two Waza-ari in one contest = Ippon.'],
+      ['📊','Points accumulation','For reaching 100 Dan points, Waza-ari scores are valuable — 20 Waza-ari scores = 100 points. Track both Ippons and Waza-aris in your contest record.'],
+      ['🎯','Attacking vs defensive','A defensive player who relies on penalties (Shido) earns no Dan points. Only genuine scoring attacks (throws, holds) earn points toward Shodan.']
+    ],
+    mistakes:[
+      ['Ignoring Waza-ari scores','Some players only count wins. Every Waza-ari score — even in a loss — counts toward your 100 points. Log every contest.'],
+      ['Thinking 2×Waza-ari is as good as Ippon for the line-up','Two Waza-ari = Ippon for points. But for the line-up requirement, you need actual Ippon — check current BJA rules on this distinction.']
+    ],
+    tip:'Keep a written contest log with each event, date, opponent, result, and scores. This is the evidence you present when claiming Dan grade — don\'t rely on memory.'
+  },
+  "Shiai — Contest": {
+    cat:'knowledge',
+    steps:[
+      ['⚔️','Shiai meaning','Shiai (試合) means contest or competition. It is the competitive element of judo — two players testing their technique against resistance and pressure.'],
+      ['🏟️','Role of shiai in judo','Kano designed judo so that randori (practice contest) and shiai (formal contest) would be safe enough to perform at full power, unlike older jujitsu which required either no contact or dangerous contact.'],
+      ['🎯','Shiai for Dan grading','Your Dan grade points come from shiai results at BJA-recognised events. Club randori does not count. Enter open competitions, county events, and national events.']
+    ],
+    mistakes:[
+      ['Only training in the dojo','Without shiai experience, randori habits don\'t always translate. Contest pressure is different — enter competitions regularly from Brown Belt onward.'],
+      []
+    ],
+    tip:'Treat every shiai as a learning opportunity regardless of result. Post-competition review (what worked, what didn\'t, what your opponent exploited) accelerates development faster than extra training sessions.'
+  },
+  "Rei — Bow": {
+    cat:'knowledge',
+    steps:[
+      ['🙏','Rei meaning','Rei (礼) means bow — the fundamental gesture of respect in Japanese martial arts. In judo, you bow before and after every practice, at the entrance to the dojo, to your partner, and in kata.'],
+      ['📐','Correct bowing','Standing bow: feet together, bow from the waist approximately 15–30 degrees. Hold for a brief moment. In kata, the bow is more formal with prescribed angles and timing.'],
+      ['🌟','Why it matters','Rei is not just formality — it is Kano\'s philosophy made physical. Each bow says: "I respect you, I respect judo, I am ready to learn and to teach."']
+    ],
+    mistakes:[
+      ['Bowing carelessly','A dismissive or rushed bow signals disrespect. The bow should be deliberate and sincere — a habit, not a formality.'],
+      ['Forgetting to bow at the dojo entrance','Traditional judo etiquette includes bowing when entering and leaving the training area, regardless of whether anyone is watching.']
+    ],
+    tip:'The bow before and after randori with a training partner is one of the most important moments in judo. It marks the transition in and out of the practice — a mental cue as much as a physical one.'
+  },
+  "Judo moral code — eight values of judo character": {
+    cat:'knowledge',
+    steps:[
+      ['🌟','The eight values','(1) Courtesy (Rei / Yuuki no bi); (2) Courage (Yuki); (3) Honesty (Seikyo); (4) Honour (Meiyo); (5) Modesty (Kenso); (6) Respect (Sonkei); (7) Self-control (Jiko Seigyo); (8) Friendship (Yujyo).'],
+      ['🥋','Where it came from','The IJF and BJA moral code is derived from Jigoro Kano\'s philosophy — that judo training should develop character as much as physical skill. "Judo is the way of the highest or most efficient use of both physical and mental energy."'],
+      ['📋','For the exam','Know all eight by name and be able to give a concrete example of each in judo context. The examiner may ask: "How do you show self-control in competition?" — have an answer.']
+    ],
+    mistakes:[
+      ['Listing values without understanding them','Eight words memorised is not the same as eight principles understood. Think of a real example for each one — from your own training experience.'],
+      ['Treating the moral code as separate from judo','The moral code is woven into every part of judo — the bow (courtesy), competing honestly (honour), training when you don\'t feel like it (self-control). It is not an add-on.']
+    ],
+    tip:'The best demonstration of the moral code is in how you train every day — not just in a grading exam. Examiners can often tell from how a candidate interacts with their Uke whether the values are genuine or performed.'
+  }
 };

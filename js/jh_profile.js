@@ -270,7 +270,9 @@ const JHProfile = (() => {
             { id:'toOrange', label:'Yellow Belt',         img:'yellow', kyu:'5th Kyu',       color:'#eab308' },
             { id:'toGreen',  label:'Orange Belt',         img:'orange', kyu:'4th Kyu',       color:'#f97316' },
             { id:'toBlue',   label:'Green Belt',          img:'green',  kyu:'3rd Kyu',       color:'#16a34a' },
-            { id:'toBrown',  label:'Blue / Brown Belt',   img:'blue',   kyu:'2nd-1st Kyu',   color:'#92400e' },
+            { id:'toBrown',  label:'Blue Belt',           img:'blue',   kyu:'2nd Kyu',       color:'#2563eb' },
+            { id:'toBrown',  label:'Brown Belt',          img:'brown',  kyu:'1st Kyu',       color:'#92400e' },
+            { id:'toBlack',  label:'Working toward Shodan', img:'black',  kyu:'1st Dan',       color:'#f2ca50' },
           ].map(b => {
             const active = (p.belt || 'toRed') === b.id;
             return `<button onclick="JHProfile.selectEditBelt('${b.id}')" id="editbelt-${b.id}"
