@@ -271,8 +271,7 @@ const JHProfile = (() => {
             { id:'toGreen',  label:'Orange Belt',         img:'orange', kyu:'4th Kyu',       color:'#f97316' },
             { id:'toBlue',   label:'Green Belt',          img:'green',  kyu:'3rd Kyu',       color:'#16a34a' },
             { id:'toBrown',  label:'Blue Belt',           img:'blue',   kyu:'2nd Kyu',       color:'#2563eb' },
-            { id:'toBrown',  label:'Brown Belt',          img:'brown',  kyu:'1st Kyu',       color:'#92400e' },
-            { id:'toBlack',  label:'Working toward Shodan', img:'black',  kyu:'1st Dan',       color:'#f2ca50' },
+            { id:'toBlack',  label:'Brown Belt',          img:'brown',  kyu:'1st Kyu',       color:'#92400e' },
           ].map(b => {
             const active = (p.belt || 'toRed') === b.id;
             return `<button onclick="JHProfile.selectEditBelt('${b.id}')" id="editbelt-${b.id}"
@@ -303,7 +302,7 @@ const JHProfile = (() => {
     _editBelt = id;
     // Update button highlights
     [{ id:'toRed', color:'#dc2626'}, {id:'toYellow',color:'#eab308'}, {id:'toOrange',color:'#f97316'},
-     {id:'toGreen',color:'#16a34a'}, {id:'toBlue',color:'#2563eb'}, {id:'toBrown',color:'#92400e'}]
+     {id:'toGreen',color:'#16a34a'}, {id:'toBlue',color:'#2563eb'}, {id:'toBrown',color:'#2563eb'}, {id:'toBlack',color:'#92400e'}]
     .forEach(b => {
       const btn = document.getElementById('editbelt-' + b.id);
       if (!btn) return;
