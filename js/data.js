@@ -2556,4 +2556,488 @@ const TECHNIQUE_DATA = {
     ],
     tip: 'Kata is judo as art. The examiner looks at precision, form, and the relationship between tori and uke.'
   },
+
+  // ── toBlue: Green → Blue Belt ──────────────────────────────────────────
+
+  'Soto-maki-komi': {
+    cat: 'throw',
+    steps: [
+      ['pan_tool','Wrap the arm','From a standard grip, drive your throwing arm over and around uke\'s near arm, winding it tightly against your body.'],
+      ['directions_run','Step across and fall','Step your leading leg across uke\'s body, then fall sideways — your body weight and the winding action pulls uke over.'],
+      ['rotate_right','Complete the rotation','As you land on your side, maintain the winding grip and continue rotating to drive uke onto their back.']
+    ],
+    mistakes: [
+      ['Arm not fully wound','A loose wrap lets uke escape — the arm must be pinned tightly to your body before you fall.'],
+      ['Falling too early','Commit to the step across first — falling before you have position means the throw has no direction.']
+    ],
+    tip: 'This is a sacrifice throw driven by winding, not by a hip turn. Think of screwing uke into the mat as you fall.'
+  },
+
+  'Tani-otoshi': {
+    cat: 'throw',
+    steps: [
+      ['directions_run','Step deep behind','Step your rear leg behind both of uke\'s legs, positioning your foot between their heels.'],
+      ['arrow_downward','Drop straight down','Sit your hips down to the mat directly behind uke — do not lean or pull sideways first.'],
+      ['open_with','Pull back and over','Simultaneously pull uke\'s upper body back over your dropping hips to complete the throw.']
+    ],
+    mistakes: [
+      ['Not dropping straight down','Leaning to the side before dropping kills the throw — the drop must be directly back between uke\'s legs.'],
+      ['Poor kuzushi','Uke must be off-balance backwards before you step — attacking a stable uke just bounces off.']
+    ],
+    tip: 'Tani-otoshi works best when uke is resisting forwards — use their backwards counter-pressure as the trigger to drop.'
+  },
+
+  'Yoko-guruma': {
+    cat: 'throw',
+    steps: [
+      ['360','Drive in low and sideways','Shoot your body in front of uke at hip height, wrapping one arm around their waist or hips.'],
+      ['rotate_right','Rotate and fall to the side','Pull uke forward over your body as you fall to your side — the motion is a side wheel rolling uke over.'],
+      ['sports_martial_arts','Follow through','Maintain your grip as uke goes over — rolling onto your knees puts you straight into ne-waza position.']
+    ],
+    mistakes: [
+      ['Too upright on entry','You need to drive low — going in too high means uke\'s weight pins you rather than goes over you.'],
+      ['Losing the waist grip','The throw is driven by your arm around the waist — releasing it mid-throw loses all control.']
+    ],
+    tip: 'Think of Yoko-guruma as a side version of Tomoe-nage. The wheel motion is everything — pull uke over, not just down.'
+  },
+
+  'Tomoe-nage': {
+    cat: 'throw',
+    steps: [
+      ['directions_run','Draw uke forward','Pull uke sharply forward and down to break their balance — they should be bending towards you.'],
+      ['sports_martial_arts','Place your foot and drop','As you draw them in, sit back and place your foot (tsugi-ashi) into uke\'s stomach or hip — not the groin.'],
+      ['open_with','Extend and throw','Roll back onto your shoulders, extend your leg powerfully upwards, and use your grip to direct uke overhead onto their back.']
+    ],
+    mistakes: [
+      ['Foot in wrong position','Foot too high or low loses the lift. Aim for the lower abdomen — this gives maximum leverage.'],
+      ['Not rolling back far enough','If you stay sitting you can\'t extend the leg fully. Roll back onto your shoulder blades.']
+    ],
+    tip: 'The throw is in the leg extension combined with the pull — one without the other just puts you on your back. Time them together.'
+  },
+
+  'Yoko-tomoe-nage': {
+    cat: 'throw',
+    steps: [
+      ['turn_slight_right','Draw uke to one side','Pull uke forward and slightly to your side — creating diagonal off-balance rather than straight forward.'],
+      ['sports_martial_arts','Place foot into the hip','Drop to the side and place your foot into uke\'s hip on the same side — not into the stomach as in standard Tomoe-nage.'],
+      ['rotate_right','Rotate and extend','Extend your leg to the side and upward as you roll, throwing uke over your body diagonally.']
+    ],
+    mistakes: [
+      ['Using the wrong foot','For Yoko-tomoe-nage the foot goes into the hip, not the stomach — the angle changes the throw completely.'],
+      ['Going straight back','The side angle is the key difference — dropping straight back turns it into standard Tomoe-nage.']
+    ],
+    tip: 'Yoko-tomoe-nage is useful when uke blocks your entry straight ahead — the diagonal entry goes around their resistance.'
+  },
+
+  'Uki-waza': {
+    cat: 'throw',
+    steps: [
+      ['arrow_forward','Move to uke\'s side','Step to the side of uke as they advance, drawing them forward and slightly past you.'],
+      ['arrow_downward','Fall to your side','Drop to your side onto the mat — your fall is the throwing action, not a hip turn.'],
+      ['pan_tool','Sweep the lead leg','As you fall, sweep uke\'s near leg forward with your lower leg while your hands direct their upper body down.']
+    ],
+    mistakes: [
+      ['Attacking without movement','Uki-waza only works when uke is already moving — attempting it on a static uke does nothing.'],
+      ['Falling forward instead of sideways','The fall must be directly sideways so your sweep meets uke\'s moving leg.']
+    ],
+    tip: 'Uki means "floating" — the throw happens because uke is mid-step. Catch them at the moment of least support.'
+  },
+
+  'Okuri-eri-jime': {
+    cat: 'strangle',
+    steps: [
+      ['back_hand','Get behind uke','Establish a position behind uke — from turtle, from the side, or by rolling behind during groundwork.'],
+      ['pan_tool','Reach both collar grips','One hand reaches across uke\'s collar (deep grip, thumb inside), the other grips the near collar.'],
+      ['fitness_center','Slide and squeeze','Pull the cross-collar hand back towards you and press the near-collar elbow down — the sliding action closes the strangle.']
+    ],
+    mistakes: [
+      ['Elbows too wide','Flaring elbows lets uke create space. Drive both elbows down and in as you apply the squeeze.'],
+      ['Not getting behind','This strangle only works from behind — attempting it from the front has no mechanism.']
+    ],
+    tip: 'The "okuri" (sliding) element means one collar slides across the throat. The nearer arm controls uke\'s posture while the cross arm closes the choke.'
+  },
+
+  'Nami-juji-jime': {
+    cat: 'strangle',
+    steps: [
+      ['pan_tool','Cross your hands — thumbs in','Reach both hands to uke\'s collar with your thumbs inside (normal cross grip). Right hand to uke\'s right collar, left to left.'],
+      ['fitness_center','Pull elbows to your hips','Drive both elbows down towards your own hips — this closes the collar across the carotids.'],
+      ['check_circle','Maintain until submission','Hold position with consistent pressure — do not release and re-apply.']
+    ],
+    mistakes: [
+      ['Pushing instead of pulling','The strangle is applied by pulling the elbows back towards your body — pushing with the wrists just bends the collar.'],
+      ['Shallow grip','Fingers need to be deep in the collar past the lapel edge — a shallow grip has nothing to close.']
+    ],
+    tip: 'Juji-jime strangles are most effective from Kesa-gatame or mounted position — uke\'s weight on their back opens the collar for entry.'
+  },
+
+  'Gyaku-juji-jime': {
+    cat: 'strangle',
+    steps: [
+      ['pan_tool','Cross your hands — fingers in','Reach both hands to uke\'s collar with fingers inside (reverse grip). Right hand to uke\'s left collar, left to right.'],
+      ['fitness_center','Drive elbows outward and back','Unlike Nami, this version tightens by rotating your wrists out and pulling back — the reverse grip creates a different closing mechanism.'],
+      ['check_circle','Control and hold','Stabilise your body weight over uke and maintain consistent pressure until submission.']
+    ],
+    mistakes: [
+      ['Confusing it with Nami-juji-jime','The grip is opposite — fingers in not thumbs in. Wrong grip reduces the strangle effect significantly.'],
+      ['Wrists not rotating','The mechanism of Gyaku requires wrist rotation as you pull — without rotation it feels like a weak grab.']
+    ],
+    tip: 'Gyaku-juji-jime tends to come on faster than Nami because the wrist rotation creates a tighter, more immediate closing action.'
+  },
+
+  'Kata-juji-jime': {
+    cat: 'strangle',
+    steps: [
+      ['pan_tool','Mixed grip — one thumb in, one out','One hand takes the collar with thumb inside (as Nami) and the other with fingers inside (as Gyaku) — one of each.'],
+      ['fitness_center','Apply asymmetric closing pressure','Pull both elbows back towards your body — the mixed grip creates a diagonal closure across the throat.'],
+      ['check_circle','Hold and control','Maintain position and pressure. The asymmetry means it can be effective when uke defends against standard juji-jime.']
+    ],
+    mistakes: [
+      ['Taking the same grip on both sides','Both grips the same makes it either Nami or Gyaku — the defining feature of Kata is the mixed grip.'],
+      ['Not accounting for the angle','The mixed grip closes at a slight angle — position your body weight to complement that direction.']
+    ],
+    tip: 'Kata-juji-jime is a useful variation when uke knows to defend Nami and Gyaku — the half-and-half grip comes from an unexpected angle.'
+  },
+
+  'Koshi-jime': {
+    cat: 'strangle',
+    steps: [
+      ['pan_tool','Get one collar grip and hook the hip','From behind or the side, take a deep collar grip and place your hip against the side of uke\'s neck.'],
+      ['fitness_center','Use your hip as the pressure point','Drive your hip into uke\'s neck/jaw area while pulling the collar tight — the hip provides the closing force against one carotid.'],
+      ['check_circle','Hold the position','Keep your body turned so the hip stays engaged. Combined with the collar grip, the dual pressure closes off blood flow.']
+    ],
+    mistakes: [
+      ['Hip too low','The hip must be against the neck, not the shoulder — too low and there\'s no pressure on the carotid.'],
+      ['Relying only on the collar grip','Koshi-jime is a combination of collar and hip pressure — the hip is what makes it different from standard juji-jime.']
+    ],
+    tip: 'This strangle is particularly effective from a modified Kesa-gatame where your hip is naturally positioned against uke\'s neck area.'
+  },
+
+  'Kata-te-jime': {
+    cat: 'strangle',
+    steps: [
+      ['pan_tool','One deep collar grip','From behind uke, reach one arm deep across the throat and grab the far collar with thumb inside.'],
+      ['fitness_center','Use forearm across the throat','The pressure comes from your forearm bone (radius) pressing across the carotids — the hand grips for control, not pressure.'],
+      ['check_circle','Pull back and hold','Pull your elbow back towards your own hip while keeping your forearm pressed across uke\'s throat.']
+    ],
+    mistakes: [
+      ['Squeezing with the hand','The strangle isn\'t applied by gripping hard — it\'s the forearm pressing across the throat. Gripping hand exhausts the arm.'],
+      ['Allowing uke to tuck their chin','If uke gets their chin down before the grip is set, the throat is protected. Apply quickly as their head is still exposed.']
+    ],
+    tip: 'Kata-te-jime is fastest from behind — get one arm across the throat before uke can defend, then the hold becomes very difficult to break.'
+  },
+
+  'Ude-garami': {
+    cat: 'lock',
+    steps: [
+      ['pan_tool','Control uke\'s wrist','From a hold-down position, take control of uke\'s near wrist — press it to the mat with their elbow bent at roughly 90°.'],
+      ['fitness_center','Figure-4 grip','Thread your near arm under uke\'s elbow and grip your own wrist (or uke\'s wrist) — forming a figure-4 with both arms.'],
+      ['arrow_upward','Drive the wrist down and out','Lever the figure-4 by driving uke\'s wrist towards the mat while lifting their elbow — this rotates the shoulder joint to submission.']
+    ],
+    mistakes: [
+      ['Elbow angle wrong','The elbow must be at 90° or less for the lock to work — a straight arm means Juji-gatame is more appropriate.'],
+      ['Lifting the elbow instead of driving the wrist','The mechanism is wrist down, elbow up — reversing this reduces leverage and allows uke to roll.']
+    ],
+    tip: 'Ude-garami is most commonly set up from Kesa-gatame or Kami-shiho-gatame when uke reaches up to try to push your head away.'
+  },
+
+  'Ude-garami from Kuzure-kesa-gatame': {
+    cat: 'lock',
+    steps: [
+      ['sports_martial_arts','Hold in Kuzure-kesa','Establish Kuzure-kesa-gatame — your arm under uke\'s arm, their near arm trapped.'],
+      ['pan_tool','Wait for uke\'s arm push','When uke reaches their free hand up to your head or face to escape, that arm is now available for the lock.'],
+      ['fitness_center','Apply Ude-garami','Figure-4 the reaching arm — thread your arm under their elbow, grip your wrist, drive their wrist down to apply the lock.']
+    ],
+    mistakes: [
+      ['Setting up too early','If you hunt for the arm before uke offers it, you lose the hold. Wait for their escape attempt.'],
+      ['Losing the Kesa hold','Transitioning to the lock without maintaining base can let uke escape before the lock is set.']
+    ],
+    tip: 'This is a reactive technique — the hold forces the escape, and the escape sets up the lock. Patience wins here.'
+  },
+
+  'Koshi-jime — Uke attempts Seoi-otoshi': {
+    cat: 'strangle',
+    steps: [
+      ['sports_martial_arts','Uke gets under you for Seoi-otoshi','Uke attempts to throw with Seoi-otoshi — they bend forward and drop under, putting you across their back.'],
+      ['pan_tool','Reach over and grab the collar','As uke bends forward, reach over their back with one arm and take a deep collar grip near the neck.'],
+      ['fitness_center','Apply Koshi-jime as they straighten','When uke tries to stand or complete the throw, use their body movement to tighten the hip strangle — their own effort closes the choke.']
+    ],
+    mistakes: [
+      ['Waiting too long','The window to apply the strangle is while uke is bent — too slow and uke completes the throw.'],
+      ['Not controlling their hips','Wrapping a leg around uke\'s hips stops them completing the throw and gives you time to set the choke.']
+    ],
+    tip: 'This is a counter-attack — uke\'s Seoi-otoshi drops them right into your strangle. It\'s one of judo\'s most satisfying transitions.'
+  },
+
+  'Kata-te-jime — Uke in all fours position': {
+    cat: 'strangle',
+    steps: [
+      ['sports_martial_arts','Uke is on all fours (turtle position)','Uke is defending in the turtle — head down, hands and knees on the mat.'],
+      ['pan_tool','Approach from the side or front','Come to uke\'s side or front, reach under or around their neck to access the collar.'],
+      ['fitness_center','Apply Kata-te-jime from the side','Thread one arm under uke\'s chin for the collar grip and apply the one-arm strangle — their turtle posture actually makes the throat accessible.']
+    ],
+    mistakes: [
+      ['Reaching over the top of the head','Going over the top telegraphs the attack and gives uke time to tuck their chin. Come from the front or side.'],
+      ['Not controlling their posture first','If uke can still move freely in turtle they will roll away. Control their hips before applying the strangle.']
+    ],
+    tip: 'Uke\'s turtle position keeps their head down but can expose the side of the neck — approach from the front and thread under the chin.'
+  },
+
+  'Nami-juji-jime — Uke underneath (between Tori\'s legs)': {
+    cat: 'strangle',
+    steps: [
+      ['sports_martial_arts','Mount uke (uke between your legs)','Achieve a mounted position — kneel over uke with your legs on either side of their body.'],
+      ['pan_tool','Take the cross-collar grips','With thumbs in, take Nami-juji-jime grips — reach deep to both collar points.'],
+      ['fitness_center','Lean forward and apply','Lean your upper body forward over uke\'s chest as you drive the elbows down — your body weight assists the strangle.']
+    ],
+    mistakes: [
+      ['Sitting up straight','Sitting upright while applying reduces the mechanical advantage. Leaning forward presses your weight through the grips.'],
+      ['Mount too high','Sitting too far up on uke\'s chest means they can bridge and roll. Stay low over the hips.']
+    ],
+    tip: 'From the mount, Nami-juji-jime is one of the highest-percentage submissions in judo ne-waza. Your body weight does most of the work.'
+  },
+
+  'Gyaku-juji-jime — Uke on top (between Tori\'s legs)': {
+    cat: 'strangle',
+    steps: [
+      ['sports_martial_arts','Uke is on top in your guard','You are on your back with uke between your legs — defensive guard position.'],
+      ['pan_tool','Take the Gyaku collar grips','Fingers inside both collars — reach deep before uke can posture up and break your grip.'],
+      ['fitness_center','Pull uke down and apply','Pull uke\'s posture down towards you using your legs and grips, then drive the elbows back to close the strangle.']
+    ],
+    mistakes: [
+      ['Letting uke posture up','If uke straightens their back your grips become ineffective. Use your legs to keep them pulled close.'],
+      ['Applying without pulling uke down first','The strangle from guard only works with uke close to your body — at distance there is no closing pressure.']
+    ],
+    tip: 'Guard strangles are a green/blue belt weapon — at this level opponents don\'t expect attacks from the bottom. Set the grips early.'
+  },
+
+  'Okuri-eri-jime — Uke makes Seoi-otoshi': {
+    cat: 'strangle',
+    steps: [
+      ['sports_martial_arts','Uke attempts Seoi-otoshi from ne-waza','From groundwork, uke tries a Seoi-style turnover — bending forward and going under you.'],
+      ['pan_tool','Follow uke over their back','Rather than resisting, go with uke\'s movement — roll over their back with them.'],
+      ['fitness_center','Apply Okuri-eri-jime from behind','As you roll, thread your arms to both collars and slide one arm across to complete the strangle as you land behind uke.']
+    ],
+    mistakes: [
+      ['Resisting the turnover','Fighting against uke\'s Seoi movement misses the opportunity — go with it and you end up in a perfect strangle position.'],
+      ['Losing back position on landing','The strangle only works from behind — if you land to the side, readjust before applying.']
+    ],
+    tip: 'This is a classic judo principle: use uke\'s attack against them. Their Seoi-otoshi attempt puts them in the ideal position for your Okuri-eri-jime.'
+  },
+
+  'Randori demonstration': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Show active judo','Randori is free practice. At grading level the examiner looks for genuine attacking intent — look for throws, not survival.'],
+      ['repeat','Apply your techniques','Use the throws and ne-waza from your syllabus under randori pressure. Techniques you\'ve drilled should emerge naturally.'],
+      ['check_circle','Demonstrate control','Show that you can attack, defend, and transition between tachi-waza and ne-waza smoothly.']
+    ],
+    mistakes: [
+      ['Stalling or defending only','Examiners fail candidates who only defend. You must show attacking judo even if attempts are unsuccessful.'],
+      ['Randori partner awareness','Your partner\'s grade matters — adapt your approach but keep attacking intent regardless.']
+    ],
+    tip: 'Randori at grading is about showing your judo, not winning. Attack confidently, accept being thrown, get up and attack again.'
+  },
+
+  'Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions': {
+    cat: 'throw',
+    steps: [
+      ['sports_martial_arts','Choose techniques that suit you','Select 2 combinations (A into B), 2 counters (respond to uke\'s attack with a throw), and 2 ne-waza transitions (throw into groundwork or ground-to-ground).'],
+      ['repeat','Drill them until they\'re automatic','Personal choice techniques should be your best work — practise them until they feel completely natural under pressure.'],
+      ['check_circle','Demonstrate with intent','Show each technique clearly at grading: set it up, execute with intent, and explain if asked why you chose it.']
+    ],
+    mistakes: [
+      ['Choosing techniques you can\'t reliably do','Pick the techniques that work for you in randori, not the most impressive-sounding ones.'],
+      ['Not practising the ne-waza transitions','Throw-to-groundwork transitions are often neglected. Practise going straight from the throw into a hold or lock.']
+    ],
+    tip: 'Your personal choice tells the examiner what kind of judoka you are. Choose techniques that reflect your game and show them at their best.'
+  },
+
+  'Gyaku-juji-jime — Reverse Cross Strangle': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Gyaku = Reverse, Juji = Cross/Figure-10, Jime = Strangle. A cross-collar strangle applied with fingers inside the collar (thumbs out).'],
+      ['sports_martial_arts','When used','Applied from mounted position or from guard. The fingers-inside grip closes differently from Nami-juji-jime.'],
+      ['check_circle','Remember','The difference between Nami and Gyaku is the direction the thumbs point — in (Nami) or out (Gyaku).']
+    ],
+    mistakes: [['Confusing with Nami','Nami = thumbs in. Gyaku = fingers in (thumbs out). Remember: Gyaku means reverse — the grip is reversed.'],['—','—']],
+    tip: 'Gyaku-juji-jime.'
+  },
+
+  'Kaeshi-waza — Counter Techniques': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Kaeshi = Counter/Return, Waza = Technique. Techniques performed in direct response to uke\'s attack.'],
+      ['sports_martial_arts','How it works','As uke initiates their throw, tori uses uke\'s movement and commitment against them — turning the attack into a counter-throw.'],
+      ['check_circle','Examples','Ushiro-goshi as a counter to Harai-goshi. Ura-nage as a counter to attempted throws from the front.']
+    ],
+    mistakes: [['Countering too early','A counter needs uke to be committed to their throw — too early means nothing to work with.'],['—','—']],
+    tip: 'Kaeshi-waza.'
+  },
+
+  'Kata-te-jime — Strangle with One Hand': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Kata = Single/One, Te = Hand, Jime = Strangle. A strangle applied primarily with one arm across the throat.'],
+      ['sports_martial_arts','Application','One arm reaches across uke\'s throat taking a collar grip — the forearm presses on the carotids rather than the hand squeezing.'],
+      ['check_circle','Position','Most effective from behind or from the side when uke is in turtle.']
+    ],
+    mistakes: [['Squeezing with the hand','The strangle is the forearm across the throat, not a hand-squeeze. Grip for control, press with the forearm.'],['—','—']],
+    tip: 'Kata-te-jime.'
+  },
+
+  'Kata-juji-jime — Half Cross Handed Strangle': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Kata = Single/Half, Juji = Cross, Jime = Strangle. A cross-collar strangle with mixed grip — one thumb in, one out.'],
+      ['sports_martial_arts','Compared to Nami and Gyaku','Half-way between the two standard cross strangles. Useful when uke defends against both pure versions.'],
+      ['check_circle','Remember','One hand Nami grip (thumb in) + one hand Gyaku grip (fingers in) = Kata-juji-jime.']
+    ],
+    mistakes: [['Both hands same grip','If both hands are the same grip it becomes Nami or Gyaku, not Kata-juji-jime.'],['—','—']],
+    tip: 'Kata-juji-jime.'
+  },
+
+  'Koshi-jime — Strangle using the hip': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Koshi = Hip, Jime = Strangle. A strangle that uses the hip as one of the pressure points against the throat/neck.'],
+      ['sports_martial_arts','Mechanism','Collar grip plus hip pressure against the side of the neck — the two points close off the carotid from both sides.'],
+      ['check_circle','Position','Applied from a modified Kesa-gatame or side control where the hip is naturally positioned near uke\'s neck.']
+    ],
+    mistakes: [['Hip too low on shoulder','The hip must press the neck, not the shoulder — the carotid is in the neck.'],['—','—']],
+    tip: 'Koshi-jime.'
+  },
+
+  'Kuzure-kesa-gatame — Broken scarf hold': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Kuzure = Broken/Modified, Kesa = Scarf (diagonal), Gatame = Hold. A modified version of Kesa-gatame.'],
+      ['sports_martial_arts','Difference from Kesa','In Kuzure the arm that normally goes under uke\'s head instead goes under their arm — giving better control and armlock setups.'],
+      ['check_circle','Why it\'s used','Kuzure-kesa-gatame is often more stable than standard Kesa because it controls uke\'s arm directly.']
+    ],
+    mistakes: [['Confusing with standard Kesa','Standard Kesa wraps the head, Kuzure wraps the arm. Different control points.'],['—','—']],
+    tip: 'Kuzure-kesa-gatame.'
+  },
+
+  'Nami-juji-jime — Normal Cross Strangle': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Nami = Normal/Regular, Juji = Cross, Jime = Strangle. The standard cross-collar strangle with thumbs inside both collars.'],
+      ['sports_martial_arts','Application','Both thumbs inserted into uke\'s collars — right hand to uke\'s right collar, left to left — then elbows driven to the hips.'],
+      ['check_circle','Remember','Nami = Normal = thumbs in. This is the most commonly taught juji-jime variation.']
+    ],
+    mistakes: [['Shallow collar grip','Thumbs need to be deep in the collar. A shallow grip has nothing to close against the neck.'],['—','—']],
+    tip: 'Nami-juji-jime.'
+  },
+
+  'Okuri-eri-jime — Sliding Collar Strangle': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Okuri = Sliding/Sending, Eri = Collar, Jime = Strangle. A rear collar strangle where one hand slides across the throat.'],
+      ['sports_martial_arts','Mechanism','From behind uke, one hand grips the near collar while the other slides across to the far collar — the sliding action creates the choking pressure.'],
+      ['check_circle','Key feature','The "sliding" is what makes it distinct — one collar moves across, rather than both hands pulling symmetrically.']
+    ],
+    mistakes: [['Not getting behind','Okuri-eri-jime requires a behind-uke position — it cannot be effectively applied from in front.'],['—','—']],
+    tip: 'Okuri-eri-jime.'
+  },
+
+  'Seoi-otoshi — Shoulder drop': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Seoi = Carrying on the back/shoulder, Otoshi = Drop. A shoulder throw variation where tori drops to their knees.'],
+      ['sports_martial_arts','Compared to Ippon-seoi-nage','Ippon-seoi-nage stays standing and lifts. Seoi-otoshi drops to one or both knees — the drop creates the throwing energy rather than a hip lift.'],
+      ['check_circle','When used','Effective when uke is taller or when tori can\'t get under for a standing version. The kneeling entry is lower risk in some situations.']
+    ],
+    mistakes: [['Dropping straight down','The drop should be forward-down at an angle — dropping straight down just puts tori on their knees.'],['—','—']],
+    tip: 'Seoi-otoshi.'
+  },
+
+  'Shime-waza — Strangle Techniques': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Shime = Strangle/Constrict, Waza = Techniques. The collective term for all strangling techniques in judo.'],
+      ['sports_martial_arts','How they work','Shime-waza techniques work by compressing the carotid arteries (cutting blood to the brain) or the trachea (cutting air) — carotid is safer and faster.'],
+      ['check_circle','Legal age','Shime-waza is not permitted in competition for judoka under 15 in BJA rules. In groundwork it is always legal for senior competitors.']
+    ],
+    mistakes: [['Targeting the trachea','A well-applied shime-waza targets the carotids, not the windpipe. Trachea pressure is dangerous and less effective.'],['—','—']],
+    tip: 'Shime-waza.'
+  },
+
+  'Soto-maki-komi — Outside Winding': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Soto = Outside, Maki = Winding, Komi = Tightening/Into. A sacrifice throw that winds the arm from the outside and falls.'],
+      ['sports_martial_arts','Entry','Tori winds their arm over and around uke\'s near arm from the outside — the winding secures uke\'s arm to tori\'s body before the fall.'],
+      ['check_circle','Category','Classified as a Yoko-sutemi-waza (side sacrifice technique) in the Gokyo.']
+    ],
+    mistakes: [['Loose winding','The arm must be tightly wound to uke\'s body — loose contact loses uke before tori hits the mat.'],['—','—']],
+    tip: 'Soto-maki-komi.'
+  },
+
+  'Tani-otoshi — Valley Drop Throw': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Tani = Valley, Otoshi = Drop. Tori drops into the "valley" behind uke\'s legs, toppling them backward.'],
+      ['sports_martial_arts','Mechanism','Tori steps behind uke and drops their hips to the mat between uke\'s feet — pulling uke\'s upper body back over the drop.'],
+      ['check_circle','Best use','Highly effective as a counter when uke is resisting with backwards pressure or when tori has pushed uke and they push back.']
+    ],
+    mistakes: [['No kuzushi before dropping','Dropping without first breaking uke\'s balance back means uke stands over tori — the backwards off-balance is essential.'],['—','—']],
+    tip: 'Tani-otoshi.'
+  },
+
+  'Tomoe-nage — Circle Throw': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Tomoe = Circle/Comma shape, Nage = Throw. Tori rolls back and uses a foot in uke\'s stomach to circle-throw them overhead.'],
+      ['sports_martial_arts','Mechanism','Tori draws uke forward, places a foot in the stomach, rolls back onto the shoulders and extends the leg to send uke in a circle overhead.'],
+      ['check_circle','Category','Ma-sutemi-waza (rear sacrifice technique) — tori sacrifices their standing position to throw.']
+    ],
+    mistakes: [['Foot too high or low','Foot in stomach, not groin or chest. The lower abdomen gives maximum lever length.'],['—','—']],
+    tip: 'Tomoe-nage.'
+  },
+
+  'Ude-garami — Entangled Armlock': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Ude = Arm, Garami = Entangled/Entwined. An armlock that bends the elbow and rotates the shoulder by threading the arms together.'],
+      ['sports_martial_arts','Mechanism','Uke\'s arm is bent to 90°, tori threads their arm under uke\'s elbow and grips their own wrist — levering the figure-4 drives the shoulder to submission.'],
+      ['check_circle','From holds','Most commonly applied from Kesa-gatame or Kami-shiho-gatame when uke reaches up with a free arm.']
+    ],
+    mistakes: [['Applying to a straight arm','Ude-garami requires a bent arm. A straight arm calls for Juji-gatame instead.'],['—','—']],
+    tip: 'Ude-garami.'
+  },
+
+  'Uki-waza — Floating Throw': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Uki = Floating, Waza = Technique. A side sacrifice throw where tori "floats" to the side, sweeping uke\'s lead leg.'],
+      ['sports_martial_arts','Mechanism','As uke steps forward, tori drops to the side and sweeps the advancing leg — uke\'s own momentum carries them over.'],
+      ['check_circle','Category','Yoko-sutemi-waza (side sacrifice technique). Timing with uke\'s step is the critical element.']
+    ],
+    mistakes: [['Attacking a static uke','Uki-waza needs uke in motion — the floating sweep catches a moving leg, not a planted one.'],['—','—']],
+    tip: 'Uki-waza.'
+  },
+
+  'Yoko-guruma — Side Wheel Throw': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Yoko = Side, Guruma = Wheel. A side sacrifice throw where tori drives in at hip height and rotates uke over like a wheel.'],
+      ['sports_martial_arts','Mechanism','Tori wraps an arm around uke\'s waist or hips, drives in low, falls to the side and wheels uke over their own body.'],
+      ['check_circle','Category','Yoko-sutemi-waza. Similar entry principle to Yoko-tomoe-nage but using a waist wrap rather than a foot placement.']
+    ],
+    mistakes: [['Entry too upright','Must drive in low — if entry is too high uke\'s weight pins tori rather than going over.'],['—','—']],
+    tip: 'Yoko-guruma.'
+  },
+
+  'Yoko-tomoe-nage — Side Circle Throw': {
+    cat: 'knowledge',
+    steps: [
+      ['translate','Meaning','Yoko = Side, Tomoe = Circle, Nage = Throw. A variant of Tomoe-nage where the throw is directed to the side rather than straight overhead.'],
+      ['sports_martial_arts','Difference from standard Tomoe-nage','Foot is placed in the hip (not the stomach) and the throw direction is diagonal — used when tori cannot enter straight ahead.'],
+      ['check_circle','When to use','Effective against opponents with a very strong straight defence, or when there is diagonal kuzushi available.']
+    ],
+    mistakes: [['Wrong foot placement','Standard Tomoe-nage uses the stomach; Yoko-tomoe-nage uses the hip. Wrong placement sends uke in the wrong direction.'],['—','—']],
+    tip: 'Yoko-tomoe-nage.'
+  },
+
 };
