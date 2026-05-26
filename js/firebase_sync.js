@@ -28,6 +28,19 @@ const FirebaseSync = (() => {
         if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
         _db = firebase.firestore();
 
+        // Handle return from Google redirect sign-in
+        firebase.auth().getRedirectResult().then(function(result) {
+          if (result && result.user && !result.user.isAnonymous) {
+            _uid = result.user.uid; _ready = true;
+            scheduleSave();
+          }
+        }).catch(function(e) {
+          if (e.code === 'auth/credential-already-in-use') {
+            firebase.auth().signInWithCredential(e.credential).catch(function() {});
+          }
+          console.warn('[JH Firebase] getRedirectResult error:', e.message);
+        });
+
         firebase.auth().onAuthStateChanged(async user => {
           if (user) {
             _uid = user.uid; _ready = true; resolve(_uid);
@@ -54,34 +67,20 @@ const FirebaseSync = (() => {
     return Promise.race([authPromise, timeout]);
   }
 
-  // ── Google Sign-In (links anonymous → Google) ──────────────────────────
+  // ── Google Sign-In — uses redirect (popup blocked on iOS Safari) ─────────
   async function signInWithGoogle() {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
       const currentUser = firebase.auth().currentUser;
       if (currentUser && currentUser.isAnonymous) {
-        // Preserve all local data by linking anonymous → Google
-        await currentUser.linkWithPopup(provider);
+        await currentUser.linkWithRedirect(provider);
       } else {
-        await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithRedirect(provider);
       }
-      _uid   = firebase.auth().currentUser.uid;
-      _ready = true;
-      scheduleSave(); // push local data to cloud immediately
-      return { ok: true, name: firebase.auth().currentUser.displayName };
+      // Page navigates away — result is handled in init() via getRedirectResult
+      return { ok: true, redirecting: true };
     } catch(e) {
-      // credential-already-in-use: sign in to existing account
-      if (e.code === 'auth/credential-already-in-use') {
-        try {
-          await firebase.auth().signInWithCredential(e.credential);
-          _uid   = firebase.auth().currentUser.uid;
-          _ready = true;
-          return { ok: true, name: firebase.auth().currentUser.displayName };
-        } catch(e2) {
-          console.warn('[JH Firebase] Google re-auth failed:', e2.message);
-        }
-      }
-      console.warn('[JH Firebase] Google sign-in failed:', e.message);
+      console.warn('[JH Firebase] Google redirect failed:', e.message);
       return { ok: false, error: e.message };
     }
   }

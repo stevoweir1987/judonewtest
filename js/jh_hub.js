@@ -177,7 +177,7 @@ const JHHub = (() => {
     var videoHTML;
     if (vid) {
       videoHTML =
-        '<div style="width:100%;background:#000;position:relative">' +
+        '<div style="width:100%;background:#000;position:relative;padding-top:env(safe-area-inset-top,0px)">' +
           '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
             '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
           '</button>' +
@@ -192,7 +192,7 @@ const JHHub = (() => {
         ? '<img src="' + photo + '" onerror="this.onerror=null;this.src=\'' + yt + '\'" style="width:100%;height:100%;object-fit:cover;opacity:0.65" alt=""/>'
         : '<div style="width:100%;height:100%;background:linear-gradient(135deg,' + col + '25,' + col + '06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:72px;color:' + col + '30">sports_martial_arts</span></div>';
       videoHTML =
-        '<div style="width:100%;aspect-ratio:16/9;background:#111;position:relative;overflow:hidden">' +
+        '<div style="width:100%;background:#111;position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)">' +
           '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
             '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
           '</button>' +
@@ -305,9 +305,6 @@ const JHHub = (() => {
     el.innerHTML =
       '<div style="display:flex;gap:10px;padding:12px 20px calc(env(safe-area-inset-bottom,0px) + 12px);' +
            'background:rgba(19,19,19,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06)">' +
-        (vid
-          ? '<button onclick="JHHub.watchVideo()" style="flex:1;padding:14px;border-radius:12px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);color:#e5e2e1;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><span class="ms" style="font-size:16px">play_circle</span>Watch</button>'
-          : '') +
         (done
           ? '<div style="flex:2;padding:14px;border-radius:12px;background:' + col + '1a;border:1px solid ' + col + '35;display:flex;align-items:center;justify-content:center;gap:8px">' +
               '<span class="ms ms-fill" style="font-size:16px;color:' + col + '">check_circle</span>' +
@@ -356,9 +353,27 @@ const JHHub = (() => {
   }
 
   function share() {
+    var url  = window.location.href;
+    var en   = JHState.getEnglish(_tech);
+    var text = _tech + (en ? ' (' + en + ')' : '') + ' — JudoHub';
     if (navigator.share) {
-      navigator.share({ title: _tech + ' — JudoHub', text: JHState.getEnglish(_tech), url: window.location.href });
+      navigator.share({ title: text, url: url }).catch(function() {});
+    } else {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() { _toast('Link copied!'); }).catch(function() { _toast(url); });
+      } else { _toast(url); }
     }
+  }
+
+  function _toast(msg) {
+    var existing = document.getElementById('jh-toast');
+    if (existing) existing.remove();
+    var t = document.createElement('div');
+    t.id = 'jh-toast';
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:110px;left:50%;transform:translateX(-50%);padding:10px 22px;background:#1c1b1b;color:#e5e2e1;border-radius:99px;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:13px;font-weight:700;z-index:9999;border:1px solid rgba(255,255,255,0.12);white-space:nowrap;pointer-events:none';
+    document.body.appendChild(t);
+    setTimeout(function() { if (t.parentNode) t.remove(); }, 2200);
   }
 
   // ── Swipe card overlay (legacy — kept for swipe-overlay HTML in index) ───

@@ -295,15 +295,11 @@ const JHProfile = (() => {
   // ── Google Sign-In ─────────────────────────────────────────────────────────
   async function signInGoogle() {
     const btn = document.getElementById('google-signin-btn');
-    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Connecting…'; }
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Redirecting to Google…'; }
     try {
       if (typeof FirebaseSync === 'undefined') throw new Error('Firebase not loaded');
-      const result = await FirebaseSync.signInWithGoogle();
-      if (result && result.ok) {
-        render();
-      } else {
-        if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.innerHTML = 'Try again'; }
-      }
+      await FirebaseSync.signInWithGoogle();
+      // Page will redirect to Google — no further action needed here
     } catch(e) {
       console.warn('[JHProfile] Google sign-in error:', e.message);
       if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = 'Try again'; }
