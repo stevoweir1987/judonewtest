@@ -340,7 +340,7 @@ tailwind.config = {
 <script src="js/jh_state.js?v=2"></script>
 <script src="js/jh_home.js?v=7"></script>
 <script src="js/jh_browse.js?v=5"></script>
-<script src="js/jh_hub.js?v=4"></script>
+<script src="js/jh_hub.js?v=5"></script>
 <script src="js/jh_grade.js?v=6"></script>
 <script src="js/jh_profile.js?v=6"></script>
 
@@ -381,21 +381,16 @@ const JHRouter = (() => {
     const nav  = document.getElementById('app-nav');
     const isFocus = FOCUS.includes(name);
 
-    if (name === 'onboarding') {
+    if (name === 'onboarding' || isFocus) {
+      // Focus screens (hub/card) use their own in-video back button — hide global header
       hdr.classList.add('hidden');
       nav.classList.add('hidden');
     } else {
       hdr.classList.remove('hidden');
-      nav.classList.toggle('hidden', isFocus);
-      // Back button
-      if (isFocus) {
-        back.style.display = 'flex'; back.classList.remove('hidden');
-        title.style.display = 'none';
-      } else {
-        back.style.display = 'none';
-        title.style.display = 'block';
-        title.textContent = 'JUDOHUB';
-      }
+      nav.classList.remove('hidden');
+      back.style.display = 'none';
+      title.style.display = 'block';
+      title.textContent = 'JUDOHUB';
     }
 
     // Nav highlight

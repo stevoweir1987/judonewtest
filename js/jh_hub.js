@@ -177,7 +177,7 @@ const JHHub = (() => {
     var videoHTML;
     if (vid) {
       videoHTML =
-        '<div style="width:100%;background:#000;position:relative;padding-top:env(safe-area-inset-top,0px)">' +
+        '<div style="width:100%;background:#000;position:relative">' +
           '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
             '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
           '</button>' +
@@ -192,7 +192,7 @@ const JHHub = (() => {
         ? '<img src="' + photo + '" onerror="this.onerror=null;this.src=\'' + yt + '\'" style="width:100%;height:100%;object-fit:cover;opacity:0.65" alt=""/>'
         : '<div style="width:100%;height:100%;background:linear-gradient(135deg,' + col + '25,' + col + '06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:72px;color:' + col + '30">sports_martial_arts</span></div>';
       videoHTML =
-        '<div style="width:100%;background:#111;position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)">' +
+        '<div style="width:100%;aspect-ratio:16/9;background:#111;position:relative;overflow:hidden">' +
           '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
             '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
           '</button>' +
