@@ -4,11 +4,11 @@ const JHBrowse = (() => {
 
   const FILTERS = [
     { id:'mybelt',   label:'My Belt'  },
+    { id:'all',      label:'All'      },
     { id:'throws',   label:'Throws'   },
     { id:'ground',   label:'Ground'   },
     { id:'combos',   label:'Combos'   },
     { id:'counters', label:'Counters' },
-    { id:'all',      label:'All'      },
   ];
 
   const LABEL_MAP = {

@@ -123,6 +123,34 @@ const JHState = (() => {
   function _incSessions() { _set(K.SESSIONS, _get(K.SESSIONS, 0) + 1); }
   function getSessions() { return _get(K.SESSIONS, 0); }
 
+  // ── Training Log (dated session records) ──────
+  function logSession(techCount, techIds) {
+    const today = new Date().toISOString().slice(0,10);
+    const log   = _get('jh_log', []);
+    // Merge into today's entry if already exists
+    const todayEntry = log.find(e => e.date === today);
+    if (todayEntry) {
+      todayEntry.count = (todayEntry.count || 0) + (techCount || 0);
+      if (techIds) todayEntry.techs = (todayEntry.techs || []).concat(techIds);
+    } else {
+      log.push({ date: today, count: techCount || 0, techs: techIds || [] });
+    }
+    // Keep rolling 30-day window
+    const cutoff = new Date(Date.now() - 30 * 864e5).toISOString().slice(0,10);
+    _set('jh_log', log.filter(e => e.date >= cutoff));
+  }
+  function getWeekLog() {
+    const log  = _get('jh_log', []);
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d   = new Date(Date.now() - i * 864e5).toISOString().slice(0,10);
+      const entry = log.find(e => e.date === d);
+      days.push({ date: d, count: entry ? entry.count : 0 });
+    }
+    return days; // [{date, count}] oldest→newest
+  }
+  function getWeekTotal() { return getWeekLog().reduce((s, d) => s + d.count, 0); }
+
   // ── Find technique across BELT_DATA ──────────
   function findTechnique(id) {
     if (typeof BELT_DATA === 'undefined') return null;
@@ -185,7 +213,7 @@ const JHState = (() => {
     isFav, toggleFav, getFavs,
     isPinned, togglePin, getPinned,
     getProgress, markSeen, markDone, isDone, getMastery, beltProgress,
-    getStreak, getSessions,
+    getStreak, getSessions, logSession, getWeekLog, getWeekTotal,
     findTechnique, getEnglish, getVideoId, getThumbUrl, getBeltColor, getBeltLabel, getBeltIcon,
   };
 })();

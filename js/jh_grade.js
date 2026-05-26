@@ -26,11 +26,16 @@ const JHGrade = (() => {
         const pct       = isPassed ? 100 : JHState.beltProgress(b.id);
 
         // Bottom indicator line instead of floating badge
+        // Count non-knowledge techniques for this belt
+        const techCount = b.groups
+          .filter(g => !/Knowledge|Moral Code|Terminology/i.test(g.title))
+          .reduce((sum, g) => sum + g.items.length, 0);
+
         const indicator = isCurrent
           ? `<span style="display:block;width:20px;height:2px;border-radius:2px;background:${col};margin:0 auto"></span>`
           : isPassed
           ? `<span style="font-size:8px;color:${col}99;font-weight:700">✓</span>`
-          : `<span style="font-size:8px;color:rgba(229,226,225,0.2)">${pct}%</span>`;
+          : `<span style="font-size:8px;color:rgba(229,226,225,0.2)">${techCount} tech</span>`;
 
         return `<button onclick="JHGrade.selectBelt('${b.id}')"
           style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;padding:8px 12px 6px;border-radius:14px;cursor:pointer;

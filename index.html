@@ -279,6 +279,15 @@ tailwind.config = {
   <div id="hub-bottom"></div>
 </div>
 
+<!-- SESSION -->
+<div id="screen-session" class="screen">
+  <div id="session-content" style="padding-top:16px;padding-bottom:20px"></div>
+  <div id="session-bottom" style="display:flex;gap:10px;padding:12px 20px calc(env(safe-area-inset-bottom,0px) + 12px);background:rgba(19,19,19,0.97);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.06);position:sticky;bottom:0">
+    <button onclick="JHSession.skip()" class="active-scale font-jakarta font-bold" style="flex:1;padding:14px;border-radius:12px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);color:rgba(229,226,225,0.55);cursor:pointer;font-size:13px">Skip →</button>
+    <button onclick="JHSession.markDone()" class="active-scale font-jakarta font-extrabold" id="session-done-btn" style="flex:2;padding:14px;border-radius:12px;background:#f2ca50;border:none;color:#1a1000;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px"><span class="ms ms-fill" style="font-size:16px">check_circle</span>Done ✓</button>
+  </div>
+</div>
+
 <!-- CARD DETAIL (dynamic — What Is It / Execution / Grips / etc.) -->
 <div id="screen-card" class="screen">
   <main class="pt-14 pb-24 max-w-md mx-auto">
@@ -333,24 +342,25 @@ tailwind.config = {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="js/firebase_sync.js?v=4"></script>
+<script src="js/firebase_sync.js?v=5"></script>
 
 <!-- DATA + MODULES -->
 <script src="js/data.js?v=5"></script>
-<script src="js/jh_state.js?v=2"></script>
-<script src="js/jh_home.js?v=7"></script>
-<script src="js/jh_browse.js?v=5"></script>
+<script src="js/jh_state.js?v=3"></script>
+<script src="js/jh_session.js?v=1"></script>
+<script src="js/jh_home.js?v=8"></script>
+<script src="js/jh_browse.js?v=6"></script>
 <script src="js/jh_hub.js?v=5"></script>
-<script src="js/jh_grade.js?v=6"></script>
-<script src="js/jh_profile.js?v=6"></script>
+<script src="js/jh_grade.js?v=7"></script>
+<script src="js/jh_profile.js?v=7"></script>
 
 <script>
 // ══════════════════════════════════════════════
 //  Router
 // ══════════════════════════════════════════════
-const SCREENS   = ['onboarding','home','browse','hub','card','grade','profile'];
+const SCREENS   = ['onboarding','home','browse','hub','card','session','grade','profile'];
 const NAV_TABS  = ['home','browse','grade','profile'];
-const FOCUS     = ['hub','card'];           // hide nav/header back btn
+const FOCUS     = ['hub','card','session']; // hide nav/header back btn
 const BACK_MAP  = { card:'hub' };   // hub uses _previous dynamically
 
 const JHRouter = (() => {
@@ -404,6 +414,7 @@ const JHRouter = (() => {
     if (name === 'hub' && opts.technique) JHHub.open(opts.technique);
     if (name === 'card' && opts.card)     JHHub.openCard(opts.card);
     if (name === 'grade')   JHGrade.render();
+    if (name === 'session') {} // JHSession.start() called directly
     if (name === 'profile') JHProfile.render();
   }
 

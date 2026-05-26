@@ -137,7 +137,7 @@ const JHHome = (() => {
             '<h3 class="font-jakarta font-extrabold mb-1" style="font-size:24px;color:#e5e2e1;line-height:1.15">' + (nextTech ? nextTech.id : '') + '</h3>' +
             (showEn ? '<p style="font-size:13px;color:rgba(229,226,225,0.55);margin-bottom:16px">' + en + '</p>' : '<div style="margin-bottom:16px"></div>') +
             '<div class="flex gap-3">' +
-              '<button onclick="JHHub.open(\'' + safe + '\',\'' + (nextTech ? nextTech.beltId : '') + '\')" class="active-scale font-jakarta font-extrabold flex items-center gap-2"' +
+              '<button onclick="JHHome.startSession()" class="active-scale font-jakarta font-extrabold flex items-center gap-2"' +
                 ' style="flex:1;padding:13px 16px;border-radius:12px;background:' + col + ';color:#0e0c0b;border:none;cursor:pointer;font-size:13px;letter-spacing:0.02em;justify-content:center">' +
                 '<span class="ms" style="font-size:16px">play_circle</span>Start Training' +
               '</button>' +
@@ -163,6 +163,11 @@ const JHHome = (() => {
           '</div>' +
           // Dynamic technique list
           '<div id="home-session-list"></div>' +
+          '<button onclick="JHBrowse.render && JHRouter.go(\'browse\')" class="active-scale font-jakarta font-bold"' +
+            ' style="width:100%;margin-top:14px;padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(229,226,225,0.4);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;gap:6px">' +
+            '<span class="ms" style="font-size:14px">auto_stories</span>' +
+            'Browse full technique library →' +
+          '</button>' +
         '</div>' +
       '</div>';
 
@@ -273,9 +278,18 @@ const JHHome = (() => {
     });
     if (!all.length) { el.innerHTML = ''; return; }
 
-    var d    = new Date();
-    var seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
-    var pick = all[seed % all.length];
+    // Use day-of-year as seed across the full library, cycling every N days
+    var d   = new Date();
+    var doy = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000); // day of year 1-365
+    // Spread picks across the entire library — guaranteed unique for N consecutive days
+    // Use a simple LCG-style shuffle seeded by year so list reorders year-to-year
+    var yearSeed = d.getFullYear() * 31337;
+    var shuffled = all.slice().sort(function(a, b) {
+      var ha = (a.id.charCodeAt(0) * 7919 + yearSeed) % all.length;
+      var hb = (b.id.charCodeAt(0) * 7919 + yearSeed) % all.length;
+      return ha - hb;
+    });
+    var pick = shuffled[doy % shuffled.length];
 
     var en     = JHState.getEnglish(pick.id);
     var showEn = en && en.toLowerCase() !== pick.id.toLowerCase();
@@ -366,5 +380,30 @@ const JHHome = (() => {
     if (el) el.scrollBy({ left: dir * 160, behavior: 'smooth' });
   }
 
-  return { render, openRandom, scrollRecent, setSessionMins };
+  // ── Public: launch guided session ─────────────────────────────────────────
+  function startSession() {
+    var beltId = JHState.getProfile().belt || 'toRed';
+    var count  = SESSION_COUNTS[_sessionMins] || 4;
+    var undone = [], done = [];
+    if (typeof BELT_DATA !== 'undefined') {
+      var bd = BELT_DATA.find(function(b) { return b.id === beltId; }) || BELT_DATA[0];
+      if (bd) {
+        bd.groups.forEach(function(g) {
+          if (/Knowledge|Moral Code|Terminology/i.test(g.title)) return;
+          g.items.forEach(function(item) {
+            var entry = { id: item, beltId: bd.id, group: g.title };
+            if (JHState.isDone(bd.id + '::' + item)) done.push(entry);
+            else undone.push(entry);
+          });
+        });
+      }
+    }
+    // Build session: undone first (hero included), pad with done if needed
+    var pool = undone.concat(done).slice(0, count);
+    if (typeof JHSession !== 'undefined' && pool.length) {
+      JHSession.start(pool, beltId);
+    }
+  }
+
+  return { render, openRandom, scrollRecent, setSessionMins, startSession };
 })();

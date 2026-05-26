@@ -60,6 +60,16 @@ const JHProfile = (() => {
           </div>`).join('')}
       </div>
 
+      <!-- ── Cold-start nudge (only when nothing mastered yet) ── -->
+      ${mastered === 0 && streak === 0 ? `
+      <div style="background:linear-gradient(135deg,${col}14,${col}06);border:1px solid ${col}25;border-radius:16px;padding:18px 18px 18px;display:flex;gap:14px;align-items:flex-start;cursor:pointer" onclick="JHHome.startSession ? JHRouter.go('home') : JHRouter.go('browse')">
+        <span class="ms ms-fill" style="font-size:28px;color:${col};flex-shrink:0;margin-top:2px">sports_martial_arts</span>
+        <div>
+          <p class="font-jakarta font-extrabold" style="font-size:14px;color:#e5e2e1;margin-bottom:4px">Ready to start training?</p>
+          <p style="font-size:13px;color:rgba(229,226,225,0.5);line-height:1.5">Mark your first technique as mastered to start your streak. Tap <strong style="color:${col}">HOME</strong> and hit Start Training.</p>
+        </div>
+      </div>` : ''}
+
       <!-- ── Belt progress ── -->
       <div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">
         <div class="flex items-center justify-between mb-2">
@@ -142,6 +152,36 @@ const JHProfile = (() => {
         `</div>
       </div>` : ''}
 
+
+      <!-- ── Training Log ── -->
+      ${(() => {
+        const weekLog   = typeof JHState !== 'undefined' ? JHState.getWeekLog() : [];
+        const weekTotal = weekLog.reduce((s, d) => s + d.count, 0);
+        const maxCount  = Math.max(1, ...weekLog.map(d => d.count));
+        const dayLabels = ['M','T','W','T','F','S','S'];
+        const bars = weekLog.map((d, i) => {
+          const h   = d.count > 0 ? Math.max(20, Math.round(d.count / maxCount * 48)) : 4;
+          const active = d.count > 0;
+          return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
+            <div style="width:100%;height:48px;display:flex;align-items:flex-end;justify-content:center">
+              <div style="width:100%;max-width:20px;height:${h}px;border-radius:4px 4px 2px 2px;background:${active ? col : 'rgba(255,255,255,0.07)'};"></div>
+            </div>
+            <span style="font-size:9px;font-weight:700;font-family:Plus Jakarta Sans,sans-serif;color:${active ? 'rgba(229,226,225,0.5)' : 'rgba(229,226,225,0.2)'}">${dayLabels[i]}</span>
+          </div>`;
+        }).join('');
+        return `
+        <div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="font-jakarta font-extrabold" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">THIS WEEK</p>
+              <p class="font-jakarta font-extrabold" style="font-size:20px;color:#e5e2e1;margin-top:2px">${weekTotal} technique${weekTotal !== 1 ? 's' : ''} drilled</p>
+            </div>
+            <span class="ms ms-fill" style="font-size:28px;color:${weekTotal > 0 ? col : 'rgba(229,226,225,0.15)'}">trending_up</span>
+          </div>
+          <div style="display:flex;gap:4px;align-items:flex-end">${bars}</div>
+          ${weekTotal === 0 ? '<p style="font-size:12px;color:rgba(229,226,225,0.3);margin-top:12px;text-align:center">Complete a session to start tracking</p>' : ''}
+        </div>`;
+      })()}
 
       <!-- ── Cloud Sync ── -->
       <div>
