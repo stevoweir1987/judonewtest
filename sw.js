@@ -6,7 +6,7 @@
 //    YouTube/CDN   → Network only (no caching external)
 // ═══════════════════════════════════════════════════
 
-const CACHE  = 'obiapp-v1';
+const CACHE  = 'obiapp-v2';
 const STATIC = [
   './',
   './index.html',

@@ -183,4 +183,4 @@ const JHFeedback = (() => {
   }
 
   return { open, close, setCategory, onType, submit };
-})();
+})()

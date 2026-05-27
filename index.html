@@ -379,6 +379,10 @@ const JHRouter = (() => {
     _previous = _current;
     _current  = name;
 
+    // Stop any playing videos when leaving a screen
+    const _leavingEl = document.getElementById('screen-' + _previous);
+    if (_leavingEl) _leavingEl.querySelectorAll('iframe').forEach(function(f) { f.src = ''; });
+
     // Show/hide screens
     SCREENS.forEach(id => {
       const el = document.getElementById('screen-' + id);
