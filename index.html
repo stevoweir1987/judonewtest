@@ -671,10 +671,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   </div>
   <button id="pwa-install-btn" style="padding:8px 14px;border-radius:10px;background:#f2ca50;border:none;
     font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:12px;color:#1a1000;cursor:pointer;flex-shrink:0">Install</button>
-  <button onclick="document.getElementById('pwa-banner').style.display='none';localStorage.setItem('pwa_dismissed','1')" 
+  <button onclick="document.getElementById('pwa-banner').style.display='none';localStorage.setItem('pwa_dismissed','1');localStorage.setItem('pwa_dismissed_time',Date.now())" 
     style="background:none;border:none;padding:4px;cursor:pointer;flex-shrink:0">
     <span style="font-family:'Material Symbols Outlined';font-size:18px;color:rgba(229,226,225,0.4)">close</span>
   </button>
+</div>
+<!-- Manual install tip (shown when native prompt unavailable) -->
+<div id="pwa-manual-tip" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 40px);max-width:390px;z-index:8998;
+  background:#1c1b1b;border:1px solid rgba(255,255,255,0.1);border-radius:16px;
+  padding:16px 18px;box-shadow:0 8px 32px rgba(0,0,0,0.5)">
+  <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:13px;color:#e5e2e1;margin-bottom:8px">Install manually</p>
+  <p style="font-family:Inter,sans-serif;font-size:12px;color:rgba(229,226,225,0.6);line-height:1.5">
+    <strong style="color:#f2ca50">Android Chrome:</strong> tap ⋮ menu → <em>Add to Home screen</em><br/>
+    <strong style="color:#f2ca50">iPhone Safari:</strong> tap Share ⎋ → <em>Add to Home Screen</em>
+  </p>
+  <button onclick="document.getElementById('pwa-manual-tip').style.display='none'"
+    style="margin-top:10px;padding:8px 16px;border-radius:10px;background:rgba(255,255,255,0.08);border:none;
+    font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:12px;color:#e5e2e1;cursor:pointer">Got it</button>
 </div>
 
 <script>
@@ -699,18 +713,32 @@ window.addEventListener("beforeinstallprompt", function(e) {
 });
 var installBtn = document.getElementById("pwa-install-btn");
 if (installBtn) installBtn.addEventListener("click", function() {
-  if (!_deferredPrompt) return;
-  _deferredPrompt.prompt();
-  _deferredPrompt.userChoice.then(function(r) {
-    if (r.outcome === "accepted") localStorage.setItem("pwa_installed", "1");
-    document.getElementById("pwa-banner").style.display = "none";
-    _deferredPrompt = null;
-  });
+  if (_deferredPrompt) {
+    // Native prompt available — use it
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(function(r) {
+      if (r.outcome === "accepted") localStorage.setItem("pwa_installed", "1");
+      document.getElementById("pwa-banner").style.display = "none";
+      _deferredPrompt = null;
+    });
+  } else {
+    // No prompt available (iOS or Chrome cooldown) — show manual instructions
+    var tip = document.getElementById("pwa-manual-tip");
+    if (tip) tip.style.display = tip.style.display === "none" ? "block" : "none";
+  }
 });
 window.addEventListener("appinstalled", function() {
   localStorage.setItem("pwa_installed", "1");
   var b = document.getElementById("pwa-banner"); if (b) b.style.display = "none";
 });
+// Show banner manually if dismissed flag was set ages ago (reset after 30 days)
+(function() {
+  var dismissed = localStorage.getItem("pwa_dismissed_time");
+  if (dismissed && (Date.now() - parseInt(dismissed)) > 30 * 864e5) {
+    localStorage.removeItem("pwa_dismissed");
+    localStorage.removeItem("pwa_dismissed_time");
+  }
+})();
 </script>
 
 <!-- ── EmailJS ─────────────────────────────────── -->
