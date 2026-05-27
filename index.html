@@ -211,6 +211,12 @@ tailwind.config = {
         Continue with Google
       </button>
 
+      <button onclick="JHOnboarding.nextStep()"
+        class="font-jakarta font-bold"
+        style="width:100%;padding:12px;border-radius:14px;background:none;color:rgba(229,226,225,0.4);font-size:13px;border:none;cursor:pointer;letter-spacing:0.02em;margin-bottom:8px">
+        Continue without account →
+      </button>
+
       <p style="text-align:center;font-size:12px;color:rgba(229,226,225,0.3)">By continuing you agree to our Terms &amp; Privacy Policy</p>
     </div>
   </div>
@@ -731,6 +737,18 @@ window.addEventListener("appinstalled", function() {
   localStorage.setItem("pwa_installed", "1");
   var b = document.getElementById("pwa-banner"); if (b) b.style.display = "none";
 });
+// ── Offline / online detection ─────────────────
+function _updateVideoOfflineState() {
+  var offline = !navigator.onLine;
+  document.querySelectorAll('.jh-video-offline').forEach(function(el) {
+    el.style.display = offline ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.jh-video-iframe').forEach(function(el) {
+    el.style.visibility = offline ? 'hidden' : 'visible';
+  });
+}
+window.addEventListener('online',  _updateVideoOfflineState);
+window.addEventListener('offline', _updateVideoOfflineState);
 // Show banner manually if dismissed flag was set ages ago (reset after 30 days)
 (function() {
   var dismissed = localStorage.getItem("pwa_dismissed_time");

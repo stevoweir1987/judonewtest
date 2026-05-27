@@ -181,9 +181,13 @@ const JHHub = (() => {
           '<button onclick="JHRouter.back()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.65);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)">' +
             '<span class="ms" style="font-size:18px;color:#fff">arrow_back</span>' +
           '</button>' +
-          '<iframe style="display:block;width:100%;aspect-ratio:16/9;border:0"' +
-            ' src="https://www.youtube.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1"' +
+          '<iframe class="jh-video-iframe" style="display:block;width:100%;aspect-ratio:16/9;border:0"' +
+            ' src="https://www.youtube-nocookie.com/embed/' + vid + '?rel=0&modestbranding=1&playsinline=1"' +
             ' allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>' +
+          '<div class="jh-video-offline" style="display:' + (navigator.onLine ? 'none' : 'flex') + ';position:absolute;inset:0;background:#111;flex-direction:column;align-items:center;justify-content:center;gap:10px">' +
+            '<span class="ms" style="font-size:36px;color:rgba(229,226,225,0.3)">wifi_off</span>' +
+            '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;color:rgba(229,226,225,0.5);text-align:center;padding:0 24px">Video needs a connection<br/><span style="font-weight:400;font-size:12px">Technique cards and checklists work offline</span></p>' +
+          '</div>' +
         '</div>';
     } else {
       var yt = _imgSrc(_tech);
