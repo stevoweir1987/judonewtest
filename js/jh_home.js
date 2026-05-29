@@ -63,7 +63,7 @@ const JHHome = (() => {
         '<div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(19,19,19,0.92) 0%,rgba(19,19,19,0.65) 40%,rgba(19,19,19,0.2) 70%,rgba(19,19,19,0.5) 100%)"></div>' +
         '<div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to bottom,transparent,#131313)"></div>' +
         // Content - left side
-        '<div style="position:relative;padding:18px 16px 16px;max-width:64%">' +
+        '<div style="position:relative;padding:18px 22px 16px;max-width:64%">' +
           '<h1 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:24px;font-weight:800;line-height:1.15;color:#e5e2e1;margin-bottom:5px">' +
             greet + ', <span style="color:' + col + '">' + name + '.</span>' +
           '</h1>' +
@@ -256,10 +256,10 @@ const JHHome = (() => {
               '<span style="font-size:9px;font-weight:700;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.1);color:rgba(229,226,225,0.7);letter-spacing:0.08em;font-family:\'Plus Jakarta Sans\',sans-serif">' + info.toKyu + '</span>' +
             '</div>' +
             '<h2 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:800;color:#e5e2e1;line-height:1.1;margin-bottom:' + (showEn ? '4px' : '16px') + '">' + nextTech.id + '</h2>' +
-            (showEn ? '<p style="font-size:13px;color:rgba(229,226,225,0.5);margin-bottom:18px;font-family:Inter,sans-serif">' + en + '</p>' : '') +
+            (en ? '<p style="font-size:12px;color:rgba(229,226,225,0.5);margin-bottom:18px;font-family:Inter,sans-serif;font-style:italic">' + en + '</p>' : '<p style="margin-bottom:18px"></p>') +
             '<div style="display:flex;gap:10px">' +
               '<button onclick="JHHome.startSession()" class="active-scale font-jakarta font-extrabold flex items-center gap-2"' +
-                ' style="flex:1;padding:13px 16px;border-radius:12px;background:' + col + ';color:#0e0c0b;border:none;cursor:pointer;font-size:13px;justify-content:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800">' +
+                ' style="flex:1;padding:13px 16px;border-radius:12px;background:' + col + ';color:#0e0c0b;border:none;cursor:pointer;font-size:14px;justify-content:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:900;letter-spacing:0.01em">' +
                 '<span class="ms" style="font-size:16px">play_circle</span>Study This Technique' +
               '</button>' +
               '<button onclick="JHHub.open(\'' + safe + '\',\'' + nextTech.beltId + '\')" class="active-scale"' +
@@ -358,7 +358,7 @@ const JHHome = (() => {
     var display = total !== null ? val + '<span style="color:rgba(229,226,225,0.3);font-size:11px"> / ' + total + '</span>' : val;
     return '<div style="background:#131212;border-radius:10px;padding:10px 12px">' +
       '<p style="font-size:16px;font-weight:800;color:#e5e2e1;font-family:\'Plus Jakarta Sans\',sans-serif;line-height:1">' + display + '</p>' +
-      '<p style="font-size:9px;color:rgba(229,226,225,0.35);font-weight:700;letter-spacing:0.06em;margin-top:3px;font-family:\'Plus Jakarta Sans\',sans-serif">' + label + '</p>' +
+      '<p style="font-size:9px;color:rgba(229,226,225,0.6);font-weight:700;letter-spacing:0.06em;margin-top:3px;font-family:\'Plus Jakarta Sans\',sans-serif">' + label + '</p>' +
     '</div>';
   }
 
