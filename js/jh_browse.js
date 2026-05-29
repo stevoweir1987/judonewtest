@@ -110,13 +110,20 @@ const JHBrowse = (() => {
 
     const label = _query ? (items.length + ' result' + (items.length !== 1 ? 's' : '')) : LABEL_MAP[_filter];
 
+    const useGrid = !_query && _filter !== 'mybelt' && _filter !== 'all';
+
     el.innerHTML =
       '<p style="font-size:11px;color:rgba(229,226,225,0.35);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px">' +
         label + ' · ' + items.length +
       '</p>' +
-      '<div style="display:flex;flex-direction:column;gap:8px">' +
-        items.map(t => _tile(t)).join('') +
-      '</div>';
+      (useGrid
+        ? '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+            items.map(t => _miniCard(t)).join('') +
+          '</div>'
+        : '<div style="display:flex;flex-direction:column;gap:8px">' +
+            items.map(t => _tile(t)).join('') +
+          '</div>'
+      );
   }
 
   function _tile(t) {
@@ -160,6 +167,44 @@ const JHBrowse = (() => {
       '</div>' +
       badge +
       '</div>';
+  }
+
+
+  function _miniCard(t) {
+    const thumb    = JHState.getThumbUrl(t.id);
+    const col      = JHState.getBeltColor(t.beltId);
+    const done     = JHState.isDone(t.beltId + '::' + t.id);
+    const safeName = t.id.replace(/'/g, "\\'");
+    const { isCombo, isCounter } = _classify(t.group);
+    const heroIcon = isCombo ? 'link' : isCounter ? 'swap_horiz' : 'sports_martial_arts';
+
+    const imgArea = thumb
+      ? '<img src="' + thumb + '" alt="' + t.id + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.style.display=\'none\'"/>'
+      : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,' + col + '20,' + col + '06)">' +
+          '<span class="ms" style="font-size:32px;color:' + col + '45">' + heroIcon + '</span>' +
+        '</div>';
+
+    const doneBadge = done
+      ? '<div style="position:absolute;top:7px;right:7px;width:20px;height:20px;border-radius:50%;background:' + col + ';display:flex;align-items:center;justify-content:center">' +
+          '<span class="ms ms-fill" style="font-size:12px;color:#fff">check</span></div>'
+      : '';
+
+    return '<div onclick="JHHub.open(\'' + safeName + '\',\'' + t.beltId + '\')" class="active-scale"' +
+      ' style="cursor:pointer;border-radius:12px;overflow:hidden;background:#1c1b1b;border:1px solid ' + (done ? col + '40' : 'rgba(255,255,255,0.06)') + '">' +
+      '<div style="position:relative;width:100%;padding-top:70%;overflow:hidden">' +
+        imgArea +
+        '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(19,19,19,0.75) 0%,transparent 55%)"></div>' +
+        doneBadge +
+      '</div>' +
+      '<div style="padding:8px 10px 10px">' +
+        '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:12px;color:#e5e2e1;' +
+           'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2">' + t.id + '</p>' +
+        '<div style="display:flex;align-items:center;gap:5px;margin-top:4px">' +
+          '<img src="' + JHState.getBeltIcon(t.beltId) + '" style="height:9px;width:auto;object-fit:contain" alt=""/>' +
+          '<p style="font-size:9px;color:' + col + ';font-weight:700;font-family:\'Plus Jakarta Sans\',sans-serif">' + JHState.getBeltLabel(t.beltId) + '</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }
 
   function setFilter(id) {

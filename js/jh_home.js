@@ -230,7 +230,8 @@ const JHHome = (() => {
     var en    = JHState.getEnglish(nextTech.id);
     var showEn = en && en.toLowerCase() !== nextTech.id.toLowerCase();
     var safe  = nextTech.id.replace(/'/g, "\\'");
-    var photo = 'images/judo-hero2.png';
+    var thumb2 = JHState.getThumbUrl(nextTech.id);
+    var photo = thumb2 || JUDO_PHOTOS[(_dayIndex() + 1) % JUDO_PHOTOS.length];
     var catLabel = /osaekomi|shime|kansetsu/i.test(nextGroup)
       ? 'KATAME-WAZA' : /waza/i.test(nextGroup) ? 'NAGE-WAZA' : 'TECHNIQUE';
 
@@ -366,7 +367,29 @@ const JHHome = (() => {
     var el = _el('home-recent');
     if (!el) return;
     var recent = JHState.getRecent(10);
-    if (!recent.length) { el.innerHTML = ''; return; }
+    if (!recent.length) {
+      var p2   = JHState.getProfile();
+      var col2 = JHState.getBeltColor(p2.belt || 'toRed');
+      el.innerHTML =
+        '<div style="background:#1a1919;border:1px solid ' + col2 + '30;border-radius:18px;padding:20px">' +
+          '<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">' +
+            '<span class="ms ms-fill" style="font-size:28px;color:' + col2 + ';flex-shrink:0">sports_martial_arts</span>' +
+            '<div>' +
+              '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:14px;font-weight:800;color:#e5e2e1;margin-bottom:4px">Your journey starts here.</p>' +
+              '<p style="font-size:13px;color:rgba(229,226,225,0.5);line-height:1.55">Pick a technique, start a session, or check your belt requirements.</p>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:10px">' +
+            '<button onclick="JHRouter.go(\'browse\')" class="active-scale" style="flex:1;padding:11px 12px;border-radius:12px;background:' + col2 + ';color:#0e0c0b;border:none;cursor:pointer;font-size:12px;font-weight:800;font-family:\'Plus Jakarta Sans\',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px">' +
+              '<span class="ms" style="font-size:15px">school</span>Browse Techniques' +
+            '</button>' +
+            '<button onclick="JHRouter.go(\'grade\')" class="active-scale" style="flex:1;padding:11px 12px;border-radius:12px;background:rgba(255,255,255,0.07);color:#e5e2e1;border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-size:12px;font-weight:800;font-family:\'Plus Jakarta Sans\',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px">' +
+              '<span class="ms" style="font-size:15px">checklist</span>My Grade' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      return;
+    }
 
     var photoIdx = 1;
     var cards = recent.map(function(r) {

@@ -88,6 +88,149 @@ const JHHub = (() => {
       errors: ['Gap between your hips and their arm — no lever effect', 'Pulling the arm instead of bridging — risk of injury', 'Knees apart — uke can pull arm free'],
       drill: { label: 'Sit-back entry reps', text: 'Partner kneels. Practice the sit-back entry from standing — grip sleeve, sit to the side, swing legs over. 10 slow reps each side.', time: '6 min' }
     },
+    // ── Red Belt Techniques ──────────────────────────────────────────────────
+    'Ushiro Ukemi': {
+      principle: 'A controlled backward fall that spreads impact across the entire back. The arm slap absorbs force before the head can hit the mat.',
+      steps: [
+        { label: 'Chin tuck', text: 'Tuck chin firmly to chest throughout. Non-negotiable — this protects the head from impact.' },
+        { label: 'Sit and roll', text: 'Bend knees, sit back into a squat, then roll backward in a smooth curve — not a flat drop.' },
+        { label: 'Slap', text: 'As upper back contacts mat, slap both arms down at 45 degrees simultaneously, palms down. Arms straight.' }
+      ],
+      errors: ['Head hitting the mat — chin must be tucked at all times', 'Slapping too early or late — timing must sync with back contact', 'Arms bent on impact — reduces slap area and force absorption'],
+      drill: { label: 'Seated slap drill', text: 'Sit on mat. Roll back from seated and slap — focus purely on arm timing. 15 reps. Build confidence before standing falls.', time: '3 min' }
+    },
+    'Yoko Ukemi': {
+      principle: 'A side breakfall redirecting falling energy through arm and leg into the mat. Body acts as one connected unit to absorb impact.',
+      steps: [
+        { label: 'Turn into it', text: 'As you fall sideways, rotate so the flat side of your body — not the hip corner — contacts the mat.' },
+        { label: 'Arm slap', text: 'Slap the arm on the falling side down hard at 45 degrees from the body. Keep it straight.' },
+        { label: 'Leg contact', text: 'Upper leg slaps the mat to create a second contact point and distribute the landing force.' }
+      ],
+      errors: ['Landing on hip corner — rotate more to contact the flat of the side', 'Arm too close to body — 45 degrees gives maximum surface area', 'Stiffening up — stay relaxed until the moment of impact'],
+      drill: { label: 'Step and fall', text: 'Stand, step to one side, lower to one knee and fall into Yoko Ukemi. Slow controlled reps. 10 each side.', time: '4 min' }
+    },
+    'Mae Mawari Ukemi (3 Versions)': {
+      principle: 'Forward rolling breakfall. Body becomes a wheel — no flat surface hits the mat. Energy travels diagonally from hand to opposite hip.',
+      steps: [
+        { label: 'Entry', text: 'Place leading hand on mat, arm curved like an arch. Hand, arm and shoulder form the rolling wheel.' },
+        { label: 'Roll diagonal', text: 'Roll diagonally: hand to forearm to shoulder to upper back to opposite hip. Never roll over the spine.' },
+        { label: 'Exit', text: 'Come to standing or Yoko Ukemi position. The 3 versions: from standing, from kneeling, and from being thrown.' }
+      ],
+      errors: ['Straight arm — causes shoulder impact; arm must be curved', 'Rolling over spine — diagonal path is hand to opposite hip', 'No momentum — maintain flow through the roll to protect the body'],
+      drill: { label: 'Kneeling roll drill', text: 'Start kneeling. Roll slowly — feel each contact point on the mat in sequence. 10 reps each side before standing.', time: '5 min' }
+    },
+    'Osoto-otoshi': {
+      principle: 'Drive uke directly over their rear-supporting leg by pushing backward while dropping your leg behind theirs. More of a direct drop than the sweeping O-soto-gari.',
+      steps: [
+        { label: 'Kuzushi', text: 'Push uke backward onto their right heel, loading that leg as the sole support.' },
+        { label: 'Tsukuri', text: 'Step left foot alongside uke, make chest contact, your weight leaning forward into them.' },
+        { label: 'Kake', text: 'Drive your right leg behind and into the back of their right leg — drop them over it with your arm drive.' }
+      ],
+      errors: ['Pushing sideways not backward — kuzushi must be directly rearward', 'No chest contact — body connection is needed to drive them over', 'Leg contact too low at the ankle — contact at thigh or calf is stronger'],
+      drill: { label: 'Backward push drill', text: 'Partner stands still. Push them backward onto their heels and feel the weight shift. No throw. 15 reps each side.', time: '4 min' }
+    },
+    'Deashi-barai': {
+      principle: 'Sweep uke\'s advancing foot exactly as it bears minimal weight during a step. Timing is everything — the sweep happens as the foot lifts.',
+      steps: [
+        { label: 'Create rhythm', text: 'Move uke in a circle or diagonal, watching for their weight shift as one foot lifts.' },
+        { label: 'Timing', text: 'As the target foot advances with no weight on it, sweep it with a sharp flat brushing action.' },
+        { label: 'Kake', text: 'Sweeping foot brushes the mat surface — not a kick upward. Pull-push with arms at the same moment.' }
+      ],
+      errors: ['Sweeping too late — foot already loaded and planted', 'Lifting the sweeping foot too high — must stay low to the mat surface', 'Forgetting arm action — sweep and pull-push must happen simultaneously'],
+      drill: { label: 'Mirror timing drill', text: 'Walk in a circle with a partner. Without throwing, touch their advancing foot with yours at the right moment. 2 min of pure timing.', time: '3 min' }
+    },
+    'Uki-goshi': {
+      principle: 'A floating hip throw. Uke is lifted and rotated over the hip without deep penetration. Your arm wraps their waist — your hip is the pivot.',
+      steps: [
+        { label: 'Kuzushi', text: 'Pull uke forward and upward onto their toes, transferring their weight onto you.' },
+        { label: 'Tsukuri', text: 'Step across with leading foot, turn hips in — your hip touches their hip (shallower than O-goshi).' },
+        { label: 'Kake', text: 'Wrap arm tight around their waist, pull with sleeve arm, rotate uke over your hip in a smooth arc.' }
+      ],
+      errors: ['No hip contact — you must feel their hip against yours', 'Pulling down instead of across and around the hip', 'Releasing the waist grip before the throw completes'],
+      drill: { label: 'Hip contact drill', text: 'Step in and turn — focus only on achieving hip-to-hip contact. Partner static. 15 reps each side. No throw needed.', time: '4 min' }
+    },
+    'Kesa-gatame': {
+      principle: 'Scarf hold — control uke by locking their head and arm, weight distributed low across their chest. Stability comes from posture, not muscle.',
+      steps: [
+        { label: 'Position', text: 'Sit at side, hips low and close. Wrap one arm around the head or neck, control near arm under other armpit.' },
+        { label: 'Weight', text: 'Lean weight into them — head down, hips on mat, legs spread wide for base. Do not sit up.' },
+        { label: 'React', text: 'When uke bridges or rolls, move with them. Rotate your body to maintain the hold rather than resist statically.' }
+      ],
+      errors: ['Sitting upright — raises centre of gravity, easy to roll', 'Loose arm grip — uke can free it and start escaping', 'Rigid resistance — flow and adjust rather than muscle the hold'],
+      drill: { label: 'Resistance maintenance', text: 'Partner attempts slow escapes for 30 seconds. Adjust to maintain. 3 rounds each role. Focus on posture staying low.', time: '5 min' }
+    },
+    'Mune-gatame': {
+      principle: 'Chest hold — straddle chest with your hips, controlling both shoulders. Weight presses downward through your chest into theirs.',
+      steps: [
+        { label: 'Entry', text: 'Move from ne-waza or after a throw. Position across chest, hips over their stomach area.' },
+        { label: 'Control', text: 'Wrap arms underneath the armpits or over upper arms. Head low, chest to chest.' },
+        { label: 'Base', text: 'Spread legs wide, toes on mat. Keep hips heavy. Move with uke when they attempt to escape.' }
+      ],
+      errors: ['Hips too high — uke can bridge and roll you over', 'Arms not controlling shoulders — uke can work arms free', 'Staying stiff — when uke moves, flow with them to maintain position'],
+      drill: { label: 'Hip pressure drill', text: 'Apply Mune-gatame. Partner attempts bridge and roll. Adjust and maintain for 30 seconds. 3 rounds each role.', time: '5 min' }
+    },
+    'Kuzure-kesa-gatame': {
+      principle: 'Broken scarf hold — a Kesa-gatame variation controlling the head differently, trapping the arm against your side rather than under your armpit.',
+      steps: [
+        { label: 'Position', text: 'Sit beside uke as in Kesa, but wrap arm under head and reach to grip far collar or shoulder.' },
+        { label: 'Arm trap', text: 'Trap near arm tightly between your torso and upper arm. They cannot bridge effectively if this arm is locked.' },
+        { label: 'Weight', text: 'Hips low, lean into them, legs spread. Often stronger against bridging than standard Kesa-gatame.' }
+      ],
+      errors: ['Not securing the near arm — this is the key lock in this variation', 'Sitting too high on chest — you lose control of the trapped arm', 'Hip leaving the mat — your hip must stay grounded throughout'],
+      drill: { label: 'Arm trap drill', text: 'From Kuzure-kesa, partner tries to free near arm. Keep it locked with body weight. 3 rounds of 30 seconds each role.', time: '5 min' }
+    },
+    // ── Yellow Belt Techniques ───────────────────────────────────────────────
+    'Mae-ukemi': {
+      principle: 'Forward breakfall — land on forearms and palms simultaneously. Never on elbows or chest alone. Body stays rigid like a plank to spread the impact.',
+      steps: [
+        { label: 'Arms up', text: 'As you fall forward, bring both arms up in front at about 45 degrees, fingers spread wide.' },
+        { label: 'Forearm contact', text: 'Forearms and palms hit mat simultaneously — from wrist to elbow all at once, not hands first.' },
+        { label: 'Body rigid', text: 'Keep torso elevated by your arms. Chin neutral, toes contact mat. Chest and knees must not hit.' }
+      ],
+      errors: ['Hands only — must be full forearm contact or elbows take all the impact', 'Arms flaring out — keep arms roughly parallel', 'Head dropping toward mat — keep chin neutral'],
+      drill: { label: 'Kneeling fall drill', text: 'From kneeling, fall forward into Mae-ukemi. Build arm confidence slowly before attempting from standing. 10 reps.', time: '3 min' }
+    },
+    'Ouchi-gari': {
+      principle: 'Major inner reaping throw — reap the inner leg from between them while pushing backward over it. A core attack that sets up dozens of combinations.',
+      steps: [
+        { label: 'Kuzushi', text: 'Push uke backward to their right rear corner, loading their right leg as the support.' },
+        { label: 'Tsukuri', text: 'Step left foot alongside their left foot, make chest contact. Load your reaping leg ready.' },
+        { label: 'Kake', text: 'Drive right leg between their legs, reap the inner right leg upward and forward. Arms push backward simultaneously.' }
+      ],
+      errors: ['Reaping too low at ankle — inner calf or thigh contact is stronger', 'Forgetting the arm drive — push and reap must happen at the same time', 'Stepping too far past — left foot should be beside, not beyond, their left foot'],
+      drill: { label: 'Reap and push drill', text: 'Partner static. Step in and feel reaping leg make inner thigh contact. Focus on the push-reap coordination. 15 reps each side.', time: '4 min' }
+    },
+    'Yoko-shiho-gatame': {
+      principle: 'Side four quarters hold — control from the side, trapping near arm and head. One of the most stable holddowns due to the width of your base.',
+      steps: [
+        { label: 'Position', text: 'Lie at side at 90 degrees to uke, chest against their ribs. Get hips close and low.' },
+        { label: 'Grips', text: 'One arm under head gripping far collar. Other arm goes between legs gripping belt or trousers.' },
+        { label: 'Weight', text: 'Hips low and close, legs spread for wide base. Head down. Squeeze inward toward uke at all times.' }
+      ],
+      errors: ['Gap between chest and side — any space lets uke create an escape', 'Hips too high — easy to roll over', 'Near arm not trapped — use torso to pin it down'],
+      drill: { label: 'Side squeeze drill', text: 'Apply Yoko-shiho-gatame. Partner attempts bridge and roll. Shift hips to maintain. 3 rounds of 30 seconds.', time: '5 min' }
+    },
+    'Tate-shiho-gatame': {
+      principle: 'Lengthwise four quarters — mount position, straddling uke with legs hooking theirs. Control both arms and maintain forward pressure to prevent the bridge.',
+      steps: [
+        { label: 'Mount', text: 'Straddle uke at waist, knees on mat beside hips. Hook legs under their thighs.' },
+        { label: 'Arms', text: 'Control uke\'s arms — grip collar near their ears and press chest to chest.' },
+        { label: 'Pressure', text: 'Drive weight forward and downward. Hooks under thighs prevent bridging. Keep head low.' }
+      ],
+      errors: ['Hooks not under thighs — uke can bridge and roll without this lock', 'Sitting upright — lean forward to prevent reversal', 'Arms uncontrolled — uke can push up or slip out'],
+      drill: { label: 'Mount pressure drill', text: 'Apply Tate-shiho-gatame. Partner attempts escape. Maintain by adjusting weight and hooks. 3 rounds of 30 seconds.', time: '5 min' }
+    },
+    'Kami-shiho-gatame': {
+      principle: 'Upper four quarters — control from above the head, arms under shoulders. Deadweight from above makes this one of the hardest holds to escape.',
+      steps: [
+        { label: 'Position', text: 'Lie above head, chest on face or chest, arms going under armpits gripping belt on each side.' },
+        { label: 'Weight', text: 'Bring full body weight downward. Legs spread, toes on mat. Hips as low as possible.' },
+        { label: 'Elbows in', text: 'Keep elbows tight to sides — this traps the arms. Move with any bridge attempt by shifting weight.' }
+      ],
+      errors: ['Elbows flaring out — uke can push up and escape through the gap', 'Hips too high — creates a fulcrum uke can use to roll', 'Head lifting — keep head and chest pressed downward'],
+      drill: { label: 'Upper hold drill', text: 'Apply Kami-shiho-gatame. Partner attempts sit-up and bridge escapes. Adjust weight and elbows to maintain. 3 rounds of 30s.', time: '5 min' }
+    },
+
   };
 
   function _getContent(id, groupTitle) {
