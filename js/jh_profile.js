@@ -218,6 +218,9 @@ const JHProfile = (() => {
         `}
       </div>
 
+      <!-- ── Me: Sessions log (filled after innerHTML) ── -->
+      <div id="me-sessions-log"></div>
+
       <!-- ── Settings ── -->
       <div>
         <h3 class="font-jakarta font-bold mb-3" style="font-size:16px">Settings</h3>
@@ -235,6 +238,36 @@ const JHProfile = (() => {
             </button>`).join('')}
         </div>
       </div>`;
+    _renderMeSessions();
+  }
+
+  function _renderMeSessions() {
+    var el = document.getElementById('me-sessions-log');
+    if (!el) return;
+    var fullLog = [];
+    try { fullLog = JSON.parse(localStorage.getItem('jh_log') || '[]'); } catch(e) {}
+    var recent = fullLog.slice().sort(function(a, b) { return b.date.localeCompare(a.date); }).slice(0, 5);
+    if (!recent.length) { el.innerHTML = ''; return; }
+    var prof = JHState.getProfile();
+    var col  = JHState.getBeltColor(prof.belt || 'toRed');
+    var rows = recent.map(function(e) {
+      var d      = new Date(e.date + 'T12:00:00');
+      var ds     = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      var cnt    = e.count || 0;
+      return '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05)">' +
+        '<span class="ms ms-fill" style="font-size:18px;color:' + col + ';flex-shrink:0">fitness_center</span>' +
+        '<div style="flex:1">' +
+          '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;color:#e5e2e1">' + cnt + ' technique' + (cnt !== 1 ? 's' : '') + ' studied</p>' +
+          '<p style="font-size:11px;color:rgba(229,226,225,0.35);margin-top:2px">' + ds + '</p>' +
+        '</div>' +
+        '<span class="ms ms-fill" style="font-size:16px;color:rgba(229,226,225,0.2)">check_circle</span>' +
+      '</div>';
+    }).join('');
+    el.innerHTML =
+      '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:14px;color:#e5e2e1;margin-bottom:10px;letter-spacing:0.01em">Recent Sessions</h3>' +
+      '<div style="background:#1c1b1b;border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden">' +
+        rows +
+      '</div>';
   }
 
   // ── Edit profile inline form ───────────────────────────────────────────────

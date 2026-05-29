@@ -106,6 +106,7 @@ tailwind.config = {
   .belt-black  { background:#111; color:#fff; border:1px solid #555; }
   /* Spinner */
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse-node { 0%,100% { box-shadow: 0 0 0 3px var(--pulse-col,rgba(255,255,255,0.2)), 0 0 20px var(--pulse-col,rgba(255,255,255,0.2)); } 50% { box-shadow: 0 0 0 6px var(--pulse-col,rgba(255,255,255,0.1)), 0 0 32px var(--pulse-col,rgba(255,255,255,0.1)); } }
   @keyframes fadeout { 0%,80%{opacity:1;pointer-events:auto} 100%{opacity:0;pointer-events:none} }
   #app-loading { animation: fadeout 0.4s ease 4s forwards; }
   /* Nav */
@@ -127,8 +128,8 @@ tailwind.config = {
   .h-scroll.dragging { cursor:grabbing; }
   .search-input:focus { border-color: rgba(242,202,80,0.4); }
   /* Horizontal scroll rows */
-  #browse-filters, #grade-belt-picker { overflow-x: scroll !important; -webkit-overflow-scrolling: touch; touch-action: pan-x; overscroll-behavior-x: contain; scrollbar-width: none; }
-  #browse-filters::-webkit-scrollbar, #grade-belt-picker::-webkit-scrollbar { display: none; }
+  #browse-filters { overflow-x: scroll !important; -webkit-overflow-scrolling: touch; touch-action: pan-x; overscroll-behavior-x: contain; scrollbar-width: none; }
+  #browse-filters::-webkit-scrollbar { display: none; }
 
   /* Hub screen flex layout for sticky bottom bar */
   #screen-hub { overflow:hidden; }
@@ -209,6 +210,12 @@ tailwind.config = {
           <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
         </svg>
         Continue with Google
+      </button>
+
+      <button onclick="JHOnboarding.nextStep()"
+        class="font-jakarta font-bold"
+        style="width:100%;padding:12px;border-radius:14px;background:none;color:rgba(229,226,225,0.4);font-size:13px;border:none;cursor:pointer;letter-spacing:0.02em;margin-bottom:8px">
+        Continue without account →
       </button>
 
       <button onclick="JHOnboarding.nextStep()"
@@ -314,7 +321,6 @@ tailwind.config = {
       <p class="font-jakarta font-extrabold mb-1" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">BJA SYLLABUS</p>
       <h2 class="font-jakarta font-bold" style="font-size:18px">Grading Progress</h2>
     </div>
-    <div id="grade-belt-picker" style="margin-bottom:4px"></div>
     <div id="grade-content" class="space-y-3"></div>
   </main>
 </div>
@@ -364,7 +370,7 @@ tailwind.config = {
 <script src="js/jh_browse.js?v=6"></script>
 <script src="js/jh_hub.js?v=5"></script>
 <script src="js/jh_grade.js?v=7"></script>
-<script src="js/jh_profile.js?v=7"></script>
+<script src="js/jh_profile.js?v=8"></script>
 
 <script>
 // ══════════════════════════════════════════════
@@ -677,7 +683,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   </div>
   <button id="pwa-install-btn" style="padding:8px 14px;border-radius:10px;background:#f2ca50;border:none;
     font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:12px;color:#1a1000;cursor:pointer;flex-shrink:0">Install</button>
-  <button onclick="document.getElementById('pwa-banner').style.display='none';localStorage.setItem('pwa_dismissed','1');localStorage.setItem('pwa_dismissed_time',Date.now())" 
+  <button onclick="document.getElementById('pwa-banner').style.display='none';localStorage.setItem('pwa_dismissed','1');localStorage.setItem('pwa_dismissed_time',Date.now());localStorage.setItem('pwa_dismissed_time',Date.now())" 
     style="background:none;border:none;padding:4px;cursor:pointer;flex-shrink:0">
     <span style="font-family:'Material Symbols Outlined';font-size:18px;color:rgba(229,226,225,0.4)">close</span>
   </button>
@@ -737,6 +743,18 @@ window.addEventListener("appinstalled", function() {
   localStorage.setItem("pwa_installed", "1");
   var b = document.getElementById("pwa-banner"); if (b) b.style.display = "none";
 });
+// ── Offline / online detection ─────────────────
+function _updateVideoOfflineState() {
+  var offline = !navigator.onLine;
+  document.querySelectorAll('.jh-video-offline').forEach(function(el) {
+    el.style.display = offline ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.jh-video-iframe').forEach(function(el) {
+    el.style.visibility = offline ? 'hidden' : 'visible';
+  });
+}
+window.addEventListener('online',  _updateVideoOfflineState);
+window.addEventListener('offline', _updateVideoOfflineState);
 // ── Offline / online detection ─────────────────
 function _updateVideoOfflineState() {
   var offline = !navigator.onLine;
