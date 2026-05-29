@@ -153,35 +153,8 @@ const JHProfile = (() => {
       </div>` : ''}
 
 
-      <!-- ── Training Log ── -->
-      ${(() => {
-        const weekLog   = typeof JHState !== 'undefined' ? JHState.getWeekLog() : [];
-        const weekTotal = weekLog.reduce((s, d) => s + d.count, 0);
-        const maxCount  = Math.max(1, ...weekLog.map(d => d.count));
-        const dayLabels = ['M','T','W','T','F','S','S'];
-        const bars = weekLog.map((d, i) => {
-          const h   = d.count > 0 ? Math.max(20, Math.round(d.count / maxCount * 48)) : 4;
-          const active = d.count > 0;
-          return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">
-            <div style="width:100%;height:48px;display:flex;align-items:flex-end;justify-content:center">
-              <div style="width:100%;max-width:20px;height:${h}px;border-radius:4px 4px 2px 2px;background:${active ? col : 'rgba(255,255,255,0.07)'};"></div>
-            </div>
-            <span style="font-size:9px;font-weight:700;font-family:Plus Jakarta Sans,sans-serif;color:${active ? 'rgba(229,226,225,0.5)' : 'rgba(229,226,225,0.2)'}">${dayLabels[i]}</span>
-          </div>`;
-        }).join('');
-        return `
-        <div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <p class="font-jakarta font-extrabold" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">THIS WEEK</p>
-              <p class="font-jakarta font-extrabold" style="font-size:20px;color:#e5e2e1;margin-top:2px">${weekTotal} technique${weekTotal !== 1 ? 's' : ''} drilled</p>
-            </div>
-            <span class="ms ms-fill" style="font-size:28px;color:${weekTotal > 0 ? col : 'rgba(229,226,225,0.15)'}">trending_up</span>
-          </div>
-          <div style="display:flex;gap:4px;align-items:flex-end">${bars}</div>
-          ${weekTotal === 0 ? '<p style="font-size:12px;color:rgba(229,226,225,0.3);margin-top:12px;text-align:center">Complete a session to start tracking</p>' : ''}
-        </div>`;
-      })()}
+      <!-- ── Training Log (filled after innerHTML) ── -->
+      <div id="me-week-log"></div>
 
       <!-- ── Cloud Sync ── -->
       <div>
@@ -238,7 +211,41 @@ const JHProfile = (() => {
             </button>`).join('')}
         </div>
       </div>`;
+    _renderMeWeekLog();
     _renderMeSessions();
+  }
+
+  function _renderMeWeekLog() {
+    var el = document.getElementById('me-week-log');
+    if (!el) return;
+    var prof    = JHState.getProfile();
+    var col     = JHState.getBeltColor(prof.belt || 'toRed');
+    var weekLog = JHState.getWeekLog ? JHState.getWeekLog() : [];
+    var weekTotal = weekLog.reduce(function(s, d) { return s + d.count; }, 0);
+    var maxCount  = Math.max.apply(null, [1].concat(weekLog.map(function(d) { return d.count; })));
+    var dayLabels = ['M','T','W','T','F','S','S'];
+    var bars = weekLog.map(function(d, i) {
+      var h      = d.count > 0 ? Math.max(20, Math.round(d.count / maxCount * 48)) : 4;
+      var active = d.count > 0;
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">' +
+        '<div style="width:100%;height:48px;display:flex;align-items:flex-end;justify-content:center">' +
+          '<div style="width:100%;max-width:20px;height:' + h + 'px;border-radius:4px 4px 2px 2px;background:' + (active ? col : 'rgba(255,255,255,0.07)') + '"></div>' +
+        '</div>' +
+        '<span style="font-size:9px;font-weight:700;font-family:Plus Jakarta Sans,sans-serif;color:' + (active ? 'rgba(229,226,225,0.5)' : 'rgba(229,226,225,0.2)') + '">' + dayLabels[i] + '</span>' +
+      '</div>';
+    }).join('');
+    el.innerHTML =
+      '<div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">' +
+        '<div class="flex items-center justify-between mb-4">' +
+          '<div>' +
+            '<p class="font-jakarta font-extrabold" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">THIS WEEK</p>' +
+            '<p class="font-jakarta font-extrabold" style="font-size:20px;color:#e5e2e1;margin-top:2px">' + weekTotal + ' technique' + (weekTotal !== 1 ? 's' : '') + ' drilled</p>' +
+          '</div>' +
+          '<span class="ms ms-fill" style="font-size:28px;color:' + (weekTotal > 0 ? col : 'rgba(229,226,225,0.15)') + '">trending_up</span>' +
+        '</div>' +
+        '<div style="display:flex;gap:4px;align-items:flex-end">' + bars + '</div>' +
+        (weekTotal === 0 ? '<p style="font-size:12px;color:rgba(229,226,225,0.3);margin-top:12px;text-align:center">Complete a session to start tracking</p>' : '') +
+      '</div>';
   }
 
   function _renderMeSessions() {
@@ -373,7 +380,7 @@ const JHProfile = (() => {
     try {
       if (typeof FirebaseSync === 'undefined') throw new Error('Firebase not loaded');
       await FirebaseSync.signInWithGoogle();
-      // Page will redirect to Google — no further action needed here
+      // Page will redirect to Google -- no further action needed here
     } catch(e) {
       console.warn('[JHProfile] Google sign-in error:', e.message);
       if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = 'Try again'; }
