@@ -9,180 +9,193 @@ const JHProfile = (() => {
   }
 
   function _renderMain(el) {
-    const p       = JHState.getProfile();
-    const streak  = JHState.getStreak();
-    const sessions= JHState.getSessions();
-    const col     = JHState.getBeltColor(p.belt || 'toRed');
-    const beltPct = JHState.beltProgress(p.belt || 'toRed');
-    const label   = JHState.getBeltLabel(p.belt || 'toRed') || 'Red';
-    const favs    = JHState.getFavs();
-    const pinned  = JHState.getPinned();
+    try {
+      var p       = JHState.getProfile();
+      var streak  = JHState.getStreak();
+      var col     = JHState.getBeltColor(p.belt || 'toRed');
+      var beltPct = JHState.beltProgress(p.belt || 'toRed');
+      var label   = JHState.getBeltLabel(p.belt || 'toRed') || 'Red';
+      var favs    = JHState.getFavs();
+      var pinned  = JHState.getPinned();
 
-    // Count mastered techniques for current belt
-    let mastered = 0;
-    if (typeof BELT_DATA !== 'undefined') {
-      const bd = BELT_DATA.find(b => b.id === (p.belt || 'toRed'));
-      if (bd) mastered = bd.groups.flatMap(g => g.items).filter(item => JHState.isDone(bd.id + '::' + item)).length;
+      var mastered = 0;
+      if (typeof BELT_DATA !== 'undefined') {
+        var bd = BELT_DATA.find(function(b) { return b.id === (p.belt || 'toRed'); });
+        if (bd) mastered = bd.groups.reduce(function(acc, g) {
+          return acc + g.items.filter(function(item) { return JHState.isDone(bd.id + '::' + item); }).length;
+        }, 0);
+      }
+
+      var html = '';
+
+      // ── Header ──
+      html += '<div style="display:flex;align-items:center;gap:16px;margin-bottom:4px">';
+      html +=   '<div style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:24px;flex-shrink:0;background:' + col + '22;border:2px solid ' + col + ';color:' + col + '">';
+      html +=     (p.name || 'J')[0].toUpperCase();
+      html +=   '</div>';
+      html +=   '<div style="flex:1;min-width:0">';
+      html +=     '<h2 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (p.name || 'Judoka') + '</h2>';
+      html +=     '<div style="display:flex;align-items:center;gap:8px;margin-top:4px">';
+      html +=       '<img src="' + JHState.getBeltIcon(p.belt || 'toRed') + '" style="height:14px;width:auto;object-fit:contain" alt=""/>';
+      html +=       '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:11px;color:' + col + '">' + label + ' Belt</span>';
+      html +=       '<span style="font-size:11px;color:rgba(229,226,225,0.3)">&bull; ' + beltPct + '% complete</span>';
+      html +=     '</div>';
+      html +=   '</div>';
+      html +=   '<button onclick="JHProfile.startEdit()" style="width:36px;height:36px;border-radius:50%;background:#1c1b1b;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">';
+      html +=     '<span class="ms" style="font-size:18px;color:#f2ca50">edit</span>';
+      html +=   '</button>';
+      html += '</div>';
+
+      // ── Stats row ──
+      var stats = [
+        { label:'Day Streak', value: streak,       icon:'local_fire_department', c:'#f59e0b' },
+        { label:'Mastered',   value: mastered,      icon:'military_tech',         c: col      },
+        { label:'Saved',      value: favs.length,   icon:'favorite',              c:'#ef4444' }
+      ];
+      html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">';
+      for (var si = 0; si < stats.length; si++) {
+        var s = stats[si];
+        html += '<div class="glass rounded-2xl p-4 text-center" style="border:1px solid rgba(255,255,255,0.06)">';
+        html +=   '<span class="ms ms-fill" style="font-size:20px;color:' + s.c + '">' + s.icon + '</span>';
+        html +=   '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:22px;color:#e5e2e1;margin-top:4px">' + s.value + '</p>';
+        html +=   '<p style="font-size:10px;color:rgba(229,226,225,0.4);letter-spacing:0.02em">' + s.label + '</p>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // ── Cold-start nudge ──
+      if (mastered === 0 && streak === 0) {
+        html += '<div style="background:linear-gradient(135deg,' + col + '14,' + col + '06);border:1px solid ' + col + '25;border-radius:16px;padding:18px;display:flex;gap:14px;align-items:flex-start;cursor:pointer" onclick="JHRouter.go(\'home\')">';
+        html +=   '<span class="ms ms-fill" style="font-size:28px;color:' + col + ';flex-shrink:0;margin-top:2px">sports_martial_arts</span>';
+        html +=   '<div>';
+        html +=     '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:14px;color:#e5e2e1;margin-bottom:4px">Ready to start training?</p>';
+        html +=     '<p style="font-size:13px;color:rgba(229,226,225,0.5);line-height:1.5">Mark your first technique as mastered to start your streak. Tap HOME and hit Start Training.</p>';
+        html +=   '</div>';
+        html += '</div>';
+      }
+
+      // ── Belt progress ──
+      html += '<div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">';
+      html +=   '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+      html +=     '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:10px;color:#f2ca50;letter-spacing:0.12em">CURRENT GRADE</p>';
+      html +=     '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:12px;color:' + col + '">' + beltPct + '%</span>';
+      html +=   '</div>';
+      html +=   '<div style="width:100%;border-radius:999px;height:8px;background:#2a2a2a;margin-bottom:12px">';
+      html +=     '<div style="height:8px;border-radius:999px;width:' + beltPct + '%;background:' + col + ';transition:width 0.4s"></div>';
+      html +=   '</div>';
+      html +=   '<button onclick="JHRouter.go(\'grade\')" class="w-full py-3 rounded-xl font-jakarta font-bold active-scale" style="background:' + col + '14;border:1px solid ' + col + '30;color:' + col + ';font-size:13px">View Grading Checklist</button>';
+      html += '</div>';
+
+      // ── Pinned ──
+      if (pinned.length) {
+        html += '<div>';
+        html +=   '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
+        html +=     '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:16px">Pinned</h3>';
+        html +=     '<span style="font-size:12px;color:rgba(229,226,225,0.35)">' + pinned.length + ' pinned</span>';
+        html +=   '</div>';
+        html +=   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+        for (var pi = 0; pi < pinned.length; pi++) {
+          var pid   = pinned[pi];
+          var pinfo = JHState.findTechnique(pid);
+          var pbelt = pinfo ? pinfo.beltId : 'toRed';
+          var pen   = JHState.getEnglish(pid);
+          var pc    = JHState.getBeltColor(pbelt);
+          var pthumb = JHState.getThumbUrl(pid);
+          var psafe = pid.replace(/'/g, "\\'");
+          html += '<div onclick="JHHub.open(\'' + psafe + '\',\'' + pbelt + '\')" class="active-scale" style="border-radius:14px;overflow:hidden;cursor:pointer;background:#1c1b1b;border:1px solid rgba(255,255,255,0.06)">';
+          html +=   '<div style="position:relative;aspect-ratio:16/9;background:#111">';
+          if (pthumb) {
+            html += '<img src="' + pthumb + '" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.75"/>';
+          } else {
+            html += '<div style="position:absolute;inset:0;background:linear-gradient(135deg,' + pc + '25,' + pc + '06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:28px;color:' + pc + '40">sports_martial_arts</span></div>';
+          }
+          html +=     '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,0.8) 100%)"></div>';
+          html +=     '<span class="ms ms-fill" style="position:absolute;top:6px;right:6px;font-size:14px;color:#f2ca50">push_pin</span>';
+          html +=   '</div>';
+          html +=   '<div style="padding:8px 10px 10px">';
+          html +=     '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + pid + '</p>';
+          html +=     '<p style="font-size:10px;color:rgba(229,226,225,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + pen + '</p>';
+          html +=   '</div>';
+          html += '</div>';
+        }
+        html +=   '</div>';
+        html += '</div>';
+      }
+
+      // ── Favourites ──
+      if (favs.length) {
+        html += '<div>';
+        html +=   '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
+        html +=     '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:16px">Favourites</h3>';
+        html +=     '<span style="font-size:12px;color:rgba(229,226,225,0.35)">' + favs.length + ' saved</span>';
+        html +=   '</div>';
+        html +=   '<div style="display:flex;flex-direction:column;gap:8px">';
+        for (var fi = 0; fi < favs.length; fi++) {
+          var fid    = favs[fi];
+          var finfo  = JHState.findTechnique(fid);
+          var fbelt  = finfo ? finfo.beltId : 'toRed';
+          var fen    = JHState.getEnglish(fid);
+          var fc     = JHState.getBeltColor(fbelt);
+          var fthumb = JHState.getThumbUrl(fid);
+          var fdone  = JHState.isDone(fbelt + '::' + fid);
+          var fsafe  = fid.replace(/'/g, "\\'");
+          html += '<div onclick="JHHub.open(\'' + fsafe + '\',\'' + fbelt + '\')" class="active-scale" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.05);cursor:pointer">';
+          if (fthumb) {
+            html += '<img src="' + fthumb + '" alt="" style="width:56px;height:42px;object-fit:cover;border-radius:10px;flex-shrink:0"/>';
+          } else {
+            html += '<div style="width:56px;height:42px;border-radius:10px;background:' + fc + '18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="font-size:18px;color:' + fc + '50">sports_martial_arts</span></div>';
+          }
+          html +=   '<div style="flex:1;min-width:0">';
+          html +=     '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + fid + '</p>';
+          html +=     '<p style="font-size:11px;color:rgba(229,226,225,0.4)">' + fen + '</p>';
+          html +=   '</div>';
+          html +=   (fdone ? '<span class="ms ms-fill" style="font-size:18px;color:#f2ca50;flex-shrink:0">check_circle</span>' : '<span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2);flex-shrink:0">chevron_right</span>');
+          html += '</div>';
+        }
+        html +=   '</div>';
+        html += '</div>';
+      }
+
+      // ── Placeholders for post-render fills ──
+      html += '<div id="me-week-log"></div>';
+      html += '<div id="me-sync-card"></div>';
+      html += '<div id="me-sessions-log"></div>';
+
+      // ── Settings ──
+      var settingsList = [
+        { icon:'edit',           label:'Edit Profile',   fn:'JHProfile.startEdit()'    },
+        { icon:'military_tech',  label:'Change Belt',    fn:'JHProfile.changeBelt()'   },
+        { icon:'delete_outline', label:'Reset Progress', fn:'JHProfile.resetProgress()'}
+      ];
+      html += '<div>';
+      html +=   '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:16px;margin-bottom:12px">Settings</h3>';
+      html +=   '<div class="glass rounded-2xl overflow-hidden" style="border:1px solid rgba(255,255,255,0.06)">';
+      for (var sti = 0; sti < settingsList.length; sti++) {
+        var st = settingsList[sti];
+        var isLast = sti === settingsList.length - 1;
+        var isDel  = st.icon === 'delete_outline';
+        html += '<button onclick="' + st.fn + '" class="w-full flex items-center gap-4 px-5 py-4 active-scale text-left"' + (isLast ? '' : ' style="border-bottom:1px solid rgba(255,255,255,0.05)"') + '>';
+        html +=   '<span class="ms" style="font-size:20px;color:' + (isDel ? '#ef4444' : '#f2ca50') + '">' + st.icon + '</span>';
+        html +=   '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:14px;flex:1;color:' + (isDel ? '#ef4444' : '#e5e2e1') + '">' + st.label + '</span>';
+        html +=   '<span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2)">chevron_right</span>';
+        html += '</button>';
+      }
+      html +=   '</div>';
+      html += '</div>';
+
+      el.innerHTML = html;
+      _renderMeWeekLog();
+      _renderMeSync();
+      _renderMeSessions();
+
+    } catch(err) {
+      console.error('[JHProfile] _renderMain crashed:', err);
+      el.innerHTML = '<div style="padding:24px;text-align:center">' +
+        '<span class="ms" style="font-size:40px;color:#ef4444">error</span>' +
+        '<p style="font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:14px;color:#e5e2e1;margin-top:12px">Me tab error</p>' +
+        '<p style="font-size:12px;color:rgba(229,226,225,0.4);margin-top:6px;word-break:break-all">' + (err && err.message ? err.message : String(err)) + '</p>' +
+        '</div>';
     }
-
-    el.innerHTML = `
-      <!-- ── Header ── -->
-      <div class="flex items-center gap-4 mb-1">
-        <div class="w-16 h-16 rounded-full flex items-center justify-center font-jakarta font-extrabold shrink-0"
-          style="background:${col}22;border:2px solid ${col};font-size:24px;color:${col}">
-          ${(p.name || 'J')[0].toUpperCase()}
-        </div>
-        <div class="flex-1 min-w-0">
-          <h2 class="font-jakarta font-bold" style="font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name || 'Judoka'}</h2>
-          <div class="flex items-center gap-2 mt-1">
-            <img src="${JHState.getBeltIcon(p.belt || 'toRed')}" style="height:14px;width:auto;object-fit:contain" alt=""/>
-            <span class="font-jakarta font-bold" style="font-size:11px;color:${col}">${label} Belt</span>
-            <span style="font-size:11px;color:rgba(229,226,225,0.3)">&bull; ${beltPct}% complete</span>
-          </div>
-        </div>
-        <button onclick="JHProfile.startEdit()"
-          style="width:36px;height:36px;border-radius:50%;background:#1c1b1b;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
-          <span class="ms" style="font-size:18px;color:#f2ca50">edit</span>
-        </button>
-      </div>
-
-      <!-- ── Stats row ── -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-        ${[
-          { label:'Day Streak',  value: streak,    icon:'local_fire_department', col:'#f59e0b' },
-          { label:'Mastered',    value: mastered,  icon:'military_tech',         col:col       },
-          { label:'Saved',       value: favs.length, icon:'favorite',            col:'#ef4444' },
-        ].map(s => `
-          <div class="glass rounded-2xl p-4 text-center" style="border:1px solid rgba(255,255,255,0.06)">
-            <span class="ms ms-fill" style="font-size:20px;color:${s.col}">${s.icon}</span>
-            <p class="font-jakarta font-extrabold mt-1" style="font-size:22px;color:#e5e2e1">${s.value}</p>
-            <p style="font-size:10px;color:rgba(229,226,225,0.4);letter-spacing:0.02em">${s.label}</p>
-          </div>`).join('')}
-      </div>
-
-      <!-- ── Cold-start nudge (only when nothing mastered yet) ── -->
-      ${mastered === 0 && streak === 0 ? `
-      <div style="background:linear-gradient(135deg,${col}14,${col}06);border:1px solid ${col}25;border-radius:16px;padding:18px 18px 18px;display:flex;gap:14px;align-items:flex-start;cursor:pointer" onclick="JHHome.startSession ? JHRouter.go('home') : JHRouter.go('browse')">
-        <span class="ms ms-fill" style="font-size:28px;color:${col};flex-shrink:0;margin-top:2px">sports_martial_arts</span>
-        <div>
-          <p class="font-jakarta font-extrabold" style="font-size:14px;color:#e5e2e1;margin-bottom:4px">Ready to start training?</p>
-          <p style="font-size:13px;color:rgba(229,226,225,0.5);line-height:1.5">Mark your first technique as mastered to start your streak. Tap <strong style="color:${col}">HOME</strong> and hit Start Training.</p>
-        </div>
-      </div>` : ''}
-
-      <!-- ── Belt progress ── -->
-      <div class="glass rounded-2xl p-5" style="border:1px solid rgba(255,255,255,0.06)">
-        <div class="flex items-center justify-between mb-2">
-          <p class="font-jakarta font-extrabold" style="font-size:10px;color:#f2ca50;letter-spacing:0.12em">CURRENT GRADE</p>
-          <span class="font-jakarta font-bold" style="font-size:12px;color:${col}">${beltPct}%</span>
-        </div>
-        <div class="w-full rounded-full h-2 mb-3" style="background:#2a2a2a">
-          <div class="h-2 rounded-full" style="width:${beltPct}%;background:${col};transition:width 0.4s"></div>
-        </div>
-        <button onclick="JHRouter.go('grade')" class="w-full py-3 rounded-xl font-jakarta font-bold active-scale"
-          style="background:${col}14;border:1px solid ${col}30;color:${col};font-size:13px">
-          View Grading Checklist →
-        </button>
-      </div>
-
-      <!-- ── Pinned techniques ── -->
-      ${pinned.length ? `
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="font-jakarta font-bold" style="font-size:16px">📌 Pinned</h3>
-          <span style="font-size:12px;color:rgba(229,226,225,0.35)">${pinned.length} pinned</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">` +
-        pinned.map(id => {
-          const info   = JHState.findTechnique(id);
-          const beltId = info ? info.beltId : 'toRed';
-          const en     = JHState.getEnglish(id);
-          const c      = JHState.getBeltColor(beltId);
-          const thumb  = JHState.getThumbUrl(id);
-          const safe   = id.replace(/'/g, "\\'");
-          return `<div onclick="JHHub.open('${safe}','${beltId}')"
-            class="active-scale"
-            style="border-radius:14px;overflow:hidden;cursor:pointer;background:#1c1b1b;border:1px solid rgba(255,255,255,0.06)">
-            <div style="position:relative;aspect-ratio:16/9;background:#111">
-              ${thumb
-                ? `<img src="${thumb}" alt="${id}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.75"/>`
-                : `<div style="position:absolute;inset:0;background:linear-gradient(135deg,${c}25,${c}06);display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:28px;color:${c}40">sports_martial_arts</span></div>`}
-              <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,0.8) 100%)"></div>
-              <span class="ms ms-fill" style="position:absolute;top:6px;right:6px;font-size:14px;color:#f2ca50">push_pin</span>
-            </div>
-            <div style="padding:8px 10px 10px">
-              <p class="font-jakarta font-bold" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${id}</p>
-              <p style="font-size:10px;color:rgba(229,226,225,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${en}</p>
-            </div>
-          </div>`;
-        }).join('') +
-        `</div>
-      </div>` : ''}
-
-      <!-- ── Favourites ── -->
-      ${favs.length ? `
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="font-jakarta font-bold" style="font-size:16px">❤️ Favourites</h3>
-          <span style="font-size:12px;color:rgba(229,226,225,0.35)">${favs.length} saved</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px">` +
-        favs.map(id => {
-          const info   = JHState.findTechnique(id);
-          const beltId = info ? info.beltId : 'toRed';
-          const en     = JHState.getEnglish(id);
-          const c      = JHState.getBeltColor(beltId);
-          const thumb  = JHState.getThumbUrl(id);
-          const done   = JHState.isDone(beltId + '::' + id);
-          const safe   = id.replace(/'/g, "\\'");
-          const thumbEl = thumb
-            ? `<img src="${thumb}" alt="${id}" style="width:56px;height:42px;object-fit:cover;border-radius:10px;flex-shrink:0"/>`
-            : `<div style="width:56px;height:42px;border-radius:10px;background:${c}18;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="font-size:18px;color:${c}50">sports_martial_arts</span></div>`;
-          return `<div onclick="JHHub.open('${safe}','${beltId}')"
-            class="active-scale"
-            style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;background:#1c1b1b;border:1px solid rgba(255,255,255,0.05);cursor:pointer">
-            ${thumbEl}
-            <div class="flex-1 min-w-0">
-              <p class="font-jakarta font-bold" style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${id}</p>
-              <p style="font-size:11px;color:rgba(229,226,225,0.4)">${en}</p>
-            </div>
-            ${done ? '<span class="ms ms-fill" style="font-size:18px;color:#f2ca50;flex-shrink:0">check_circle</span>' : '<span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2);flex-shrink:0">chevron_right</span>'}
-          </div>`;
-        }).join('') +
-        `</div>
-      </div>` : ''}
-
-
-      <!-- ── Training Log (filled after innerHTML) ── -->
-      <div id="me-week-log"></div>
-
-      <!-- ── Cloud Sync (filled after innerHTML) ── -->
-      <div id="me-sync-card"></div>
-
-
-      <!-- ── Me: Sessions log (filled after innerHTML) ── -->
-      <div id="me-sessions-log"></div>
-
-      <!-- ── Settings ── -->
-      <div>
-        <h3 class="font-jakarta font-bold mb-3" style="font-size:16px">Settings</h3>
-        <div class="glass rounded-2xl overflow-hidden" style="border:1px solid rgba(255,255,255,0.06)">
-          ${[
-            { icon:'edit',           label:'Edit Profile',    fn:'JHProfile.startEdit()' },
-            { icon:'military_tech',  label:'Change Belt',     fn:'JHProfile.changeBelt()' },
-            { icon:'delete_outline', label:'Reset Progress',  fn:'JHProfile.resetProgress()' },
-          ].map((s, i, arr) => `
-            <button onclick="${s.fn}" class="w-full flex items-center gap-4 px-5 py-4 active-scale text-left"
-              style="${i < arr.length-1 ? 'border-bottom:1px solid rgba(255,255,255,0.05)' : ''}">
-              <span class="ms" style="font-size:20px;color:${s.icon === 'delete_outline' ? '#ef4444' : '#f2ca50'}">${s.icon}</span>
-              <span class="font-jakarta font-bold flex-1" style="font-size:14px;color:${s.icon === 'delete_outline' ? '#ef4444' : '#e5e2e1'}">${s.label}</span>
-              <span class="ms" style="font-size:16px;color:rgba(229,226,225,0.2)">chevron_right</span>
-            </button>`).join('')}
-        </div>
-      </div>`;
-    _renderMeWeekLog();
-    _renderMeSync();
-    _renderMeSessions();
   }
 
   function _renderMeWeekLog() {

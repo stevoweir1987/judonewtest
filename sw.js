@@ -6,7 +6,7 @@
 //    YouTube/CDN   → Network only (no caching external)
 // ═══════════════════════════════════════════════════
 
-const CACHE  = 'obiapp-v3';
+const CACHE  = 'obiapp-v4';
 const STATIC = [
   './',
   './index.html',
@@ -72,7 +72,10 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => {
       if (cached) return cached;
       return fetch(e.request).then(res => {
-        if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        if (res.ok) {
+          const clone = res.clone(); // clone synchronously before body is consumed
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
         return res;
       }).catch(() => cached);
     })

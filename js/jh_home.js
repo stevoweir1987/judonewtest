@@ -167,7 +167,7 @@ const JHHome = (() => {
       { icon:'school',            label:'Study',   action:"JHRouter.go('browse')",   col:'#3b82f6' },
       { icon:'sports_martial_arts',label:'Random',  action:'JHHome.openRandom()',      col:'#f97316' },
       { icon:'checklist',         label:'Grade',   action:"JHRouter.go('grade')",    col:'#22c55e' },
-      { icon:'person',            label:'Profile', action:"JHRouter.go('me')",       col:'#8b5cf6' },
+      { icon:'person',            label:'Profile', action:"JHRouter.go('profile')",       col:'#8b5cf6' },
     ];
 
     var toolsHtml = tools.map(function(t) {
