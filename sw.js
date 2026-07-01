@@ -1,12 +1,12 @@
 // ═══════════════════════════════════════════════════
-//  ObiApp Service Worker
+//  Judo GradeUp Service Worker
 //  Strategy:
 //    JS/CSS/images → Cache-first (versioned cache)
 //    HTML          → Network-first with cache fallback
 //    YouTube/CDN   → Network only (no caching external)
 // ═══════════════════════════════════════════════════
 
-const CACHE  = 'obiapp-v4';
+const CACHE  = 'judogradeup-v1';
 const STATIC = [
   './',
   './index.html',
